@@ -9,6 +9,7 @@ export interface HistoryDocument {
 	actualAmount: number;
 	date: Date;
 	type: Type;
+	typeId: Types.ObjectId;
 	forecastedBalance: number;
 	actualBalance: number;
 	createdAt: Date;
@@ -18,11 +19,12 @@ export interface HistoryDocument {
 const HistorySchema = new Schema<HistoryDocument>(
 	{
 		userId: { type: Schema.Types.ObjectId, required: true },
-		name: { type: String },
+		name: String,
 		forecastedAmount: Number,
 		actualAmount: Number,
 		date: Date,
 		type: String,
+		typeId: Schema.Types.ObjectId,
 		forecastedBalance: Number,
 		actualBalance: Number,
 	},

@@ -1,5 +1,7 @@
 import { authOptions } from "@/lib/auth";
-import { SessionType } from "@/lib/types";
+import { NewHistory, SessionType } from "@/lib/types";
+import History from "@/models/History";
+import Transaction from "@/models/Transaction";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
@@ -10,10 +12,18 @@ export async function PUT(request: NextRequest) {
 		return new Response("unauthorized");
 	}
 
-	const userId = session.user.id;
+	interface Body {
+		transactionId: string;
+		newHistory: NewHistory;
+	}
 
-  const body = await request.json();
-  
-  // actual amount
-  // actual due date
+	const body: Body = await request.json();
+
+	const newHistory: NewHistory = body.newHistory;
+
+	await History.create(newHistory);
+
+	await Transaction.findByIdAndDelete(body.transactionId);
+
+	return new Response("success");
 }

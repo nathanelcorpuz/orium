@@ -95,6 +95,18 @@ export interface History {
 	actualAmount: number;
 	date: Date;
 	type: Type;
+	typeId: string;
+	forecastedBalance: number;
+	actualBalance: number;
+}
+
+export interface NewHistory {
+	name: string;
+	forecastedAmount: number;
+	actualAmount: number;
+	date: Date;
+	type: Type;
+	typeId: string;
 	forecastedBalance: number;
 	actualBalance: number;
 }

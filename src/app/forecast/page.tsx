@@ -2,13 +2,16 @@
 
 import { useQuery } from "@tanstack/react-query";
 import TransactionItem from "./_components/TransactionItem";
-import { Transaction } from "@/lib/types";
-
-interface TransactionWithBalance extends Transaction {
-	forecastedBalance: number;
-}
+import { TransactionWithBalance } from "@/lib/types";
+import { useState } from "react";
+import Modal from "./_components/Modal";
 
 export default function Forecast() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedTransaction, setSelectedTransaction] = useState(
+		{} as TransactionWithBalance
+	);
+
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["transactions"],
 		queryFn: () =>
@@ -54,15 +57,26 @@ export default function Forecast() {
 						<p>Balance</p>
 					</div>
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col h-[80vh] overflow-auto">
 					{transactionsWithBalance.map(
 						(transaction: TransactionWithBalance) => (
 							<TransactionItem
 								key={transaction._id}
+								isModalOpen={isModalOpen}
+								setIsModalOpen={setIsModalOpen}
+								setSelectedTransaction={setSelectedTransaction}
 								transaction={transaction}
 							/>
 						)
 					)}
+					{isModalOpen ? (
+						<Modal
+							isModalOpen={isModalOpen}
+							setIsModalOpen={setIsModalOpen}
+							setSelectedTransaction={setSelectedTransaction}
+							selectedTransaction={selectedTransaction}
+						/>
+					) : null}
 				</div>
 			</div>
 		</div>

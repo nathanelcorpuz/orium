@@ -21,6 +21,8 @@ export async function PUT(request: NextRequest) {
 
 	const newHistory: NewHistory = body.newHistory;
 
+	newHistory.userId = session.user.id;
+
 	await History.create(newHistory);
 
 	await Transaction.findByIdAndDelete(body.transactionId);

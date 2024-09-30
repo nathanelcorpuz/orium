@@ -101,6 +101,7 @@ export interface History {
 }
 
 export interface NewHistory {
+	userId: string;
 	name: string;
 	forecastedAmount: number;
 	actualAmount: number;
@@ -138,6 +139,10 @@ export interface Transaction {
 	dueDate: Date;
 	type: Type;
 	typeId: string;
+}
+
+export interface TransactionWithBalance extends Transaction {
+	forecastedBalance: number;
 }
 
 export interface NewTransaction {

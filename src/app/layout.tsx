@@ -29,10 +29,10 @@ export default function RootLayout({
 		<html lang="en">
 			<Provider>
 				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`}
+					className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
 				>
 					<SideNav />
-					<div className="w-full h-full p-2">{children}</div>
+					<div className="w-full h-full p-2 z-[1]">{children}</div>
 				</body>
 			</Provider>
 		</html>

@@ -1,11 +1,11 @@
-interface Transaction {
-	name: string;
-	amount: number;
+import { Transaction } from "@/lib/types";
+
+interface TransactionWithBalance extends Transaction {
 	forecastedBalance: number;
 }
 
 interface TransactionType {
-	transaction: Transaction;
+	transaction: TransactionWithBalance;
 }
 
 export default function TransactionItem({ transaction }: TransactionType) {

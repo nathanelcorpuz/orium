@@ -1,29 +1,34 @@
-import TransactionItem from "./_components/TransactionItem";
+"use client";
 
-const transactions = [
-	{
-		name: "t1",
-		amount: -5000,
-	},
-	{
-		name: "t2",
-		amount: 11000,
-	},
-	{
-		name: "t3",
-		amount: -300,
-	},
-];
+import { useQuery } from "@tanstack/react-query";
+import TransactionItem from "./_components/TransactionItem";
+import { Transaction } from "@/lib/types";
+
+interface TransactionWithBalance extends Transaction {
+	forecastedBalance: number;
+}
 
 export default function Forecast() {
-	let currentBalance = 23000;
-	const transactionsWithBalance = transactions.map((transaction) => {
-		currentBalance = currentBalance + transaction.amount;
-		return {
-			...transaction,
-			forecastedBalance: currentBalance,
-		};
+	const { isPending, isError, data, error } = useQuery({
+		queryKey: ["transactions"],
+		queryFn: () =>
+			fetch("http://localhost:3000/api/forecast").then((res) => res.json()),
 	});
+
+	if (isPending) return <div>Loading data</div>;
+	if (isError) return <div>Error: {error.message}</div>;
+
+	let currentBalance = 23000;
+
+	const transactionsWithBalance = data.map(
+		(transaction: TransactionWithBalance) => {
+			currentBalance = currentBalance + transaction.amount;
+			return {
+				...transaction,
+				forecastedBalance: currentBalance,
+			};
+		}
+	);
 
 	return (
 		<div className="flex flex-col gap-5">
@@ -50,9 +55,14 @@ export default function Forecast() {
 					</div>
 				</div>
 				<div className="flex flex-col gap-2">
-					{transactionsWithBalance.map((transaction) => (
-						<TransactionItem key={transaction.name} transaction={transaction} />
-					))}
+					{transactionsWithBalance.map(
+						(transaction: TransactionWithBalance) => (
+							<TransactionItem
+								key={transaction._id}
+								transaction={transaction}
+							/>
+						)
+					)}
 				</div>
 			</div>
 		</div>

@@ -15,7 +15,7 @@ export default function BillItem({
 	setSelectedBill,
 }: BillItem) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-b-black border-opacity-[0.1] relative">
+		<div className="flex py-2 px-4 bg-black bg-opacity-[0.05] relative rounded-full">
 			<div className="w-[20%]">
 				<p>{bill.name}</p>
 			</div>
@@ -28,7 +28,7 @@ export default function BillItem({
 			<div className="w-[20%]">
 				<p>{bill.comments}</p>
 			</div>
-			<div className="absolute right-[20%]">
+			<div className="absolute right-[20%] flex justify-center items-center top-0 bottom-0">
 				<div className="flex">
 					<button
 						className="p1 px-4 hover:underline"

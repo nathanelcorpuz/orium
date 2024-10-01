@@ -6,7 +6,7 @@ export interface IncomeDocument {
 	name: string;
 	amount: number;
 	frequency: "monthly" | "bi-weekly" | "weekly";
-	dayOfWeek: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun" | "none";
+	dayOfWeek: number;
 	day: Number;
 	comments: string;
 	transactionIds: [Types.ObjectId];

@@ -53,7 +53,7 @@ export default function Bills() {
 					<p>Comments</p>
 				</div>
 			</div>
-			<ul className="flex flex-col h-[80vh] overflow-auto">
+			<ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
 				{data.map((bill: Bill) => (
 					<BillItem
 						key={bill._id}

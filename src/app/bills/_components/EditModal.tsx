@@ -1,25 +1,24 @@
-"use client";
-
+import { Bill } from "@/lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
 
-interface NewModal {
+interface EditModal {
+	bill: Bill;
 	setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function NewModal({ setIsModalOpen }: NewModal) {
-	const queryClient = useQueryClient();
+export default function EditModal({ bill, setIsModalOpen }: EditModal) {
+	const [name, setName] = useState(bill.name);
+	const [amount, setAmount] = useState(String(bill.amount));
+	const [day, setDay] = useState(String(bill.day));
+	const [comments, setComments] = useState(bill.comments);
 
-	const [name, setName] = useState("");
-	const [amount, setAmount] = useState("");
-	const [day, setDay] = useState("");
-	const [months, setMonths] = useState("");
-	const [comments, setComments] = useState("");
+	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
 			fetch("http://localhost:3000/api/bills", {
-				method: "POST",
+				method: "PUT",
 				body: JSON.stringify(formData),
 			}),
 		onSuccess: () => {
@@ -28,16 +27,19 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 		},
 	});
 
-	const onClickClose = () => setIsModalOpen(false);
-	const onClickSubmit = () => {
+	const onClickClose = () => {
 		setIsModalOpen(false);
+	};
+
+	const onClickSubmit = () => {
 		mutation.mutate({
+			_id: bill._id,
 			name,
 			amount: Number(amount),
 			day: Number(day),
-			instances: Number(months),
-			comments,
+			comments: comments || "",
 		});
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -51,7 +53,11 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							e.preventDefault();
 						}}
 					>
-						<h1 className="text-2xl font-bold">New Bill</h1>
+						<h1 className="text-2xl font-bold">Edit Bill?</h1>
+						<p>
+							This will edit all related transactions, even the independently
+							edited ones.
+						</p>
 						<div className="flex flex-col">
 							<label htmlFor="name">Name</label>
 							<input
@@ -79,16 +85,6 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 								type="text"
 								value={day}
 								onChange={(e) => setDay(e.currentTarget.value)}
-							/>
-						</div>
-						<div className="flex flex-col">
-							<label htmlFor="months">Months</label>
-							<input
-								name="months"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
-								value={months}
-								onChange={(e) => setMonths(e.currentTarget.value)}
 							/>
 						</div>
 						<div className="flex flex-col">

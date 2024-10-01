@@ -1,34 +1,40 @@
 import { authOptions } from "@/lib/auth";
-import { NewBill, NewTransaction, SessionType } from "@/lib/types";
-import Bill, { BillDocument } from "@/models/Bill";
-import Transaction from "@/models/Transaction";
-import User from "@/models/User";
+import { Bill as BillType, SessionType } from "@/lib/types";
+import Bill from "@/models/Bill";
+import Transaction, { TransactionDocument } from "@/models/Transaction";
 import { addMonths, getMonth, getYear, isPast } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
 
-export async function post(request: NextRequest) {
+export async function put(request: NextRequest) {
 	const session: SessionType = await getServerSession(authOptions);
 
 	if (!session) {
 		return new Response("unauthorized");
 	}
 
-	const userId = session.user.id;
+	const newBill: BillType = await request.json();
 
-	const newBill: NewBill = await request.json();
-	const newBillDoc: HydratedDocument<BillDocument> = await Bill.create({
-		userId,
+	const result = await Bill.findByIdAndUpdate(newBill._id, {
 		name: newBill.name,
 		amount: newBill.amount,
 		day: newBill.day,
 		comments: newBill.comments || "",
 	});
 
-	await User.findByIdAndUpdate(userId, { $push: { billIds: newBillDoc._id } });
+	console.log(result);
 
-	const transactionIds = [];
+	await Transaction.updateMany(
+		{ typeId: newBill._id },
+		{ name: newBill.name, amount: newBill.amount }
+	);
+
+	const transactions: HydratedDocument<TransactionDocument>[] =
+		await Transaction.find({
+			typeId: newBill._id,
+		});
+
 	const currentYear = getYear(new Date());
 	const currentMonth = getMonth(new Date());
 	let startDate = new Date(currentYear, currentMonth, newBill.day);
@@ -39,19 +45,8 @@ export async function post(request: NextRequest) {
 
 	let currentDate = startDate;
 
-	for (let index = 0; index < newBill.instances; index++) {
-		const newTransaction: NewTransaction = {
-			userId,
-			name: newBill.name,
-			amount: newBill.amount,
-			dueDate: currentDate,
-			type: "bill",
-			typeId: newBillDoc._id,
-		};
-
-		const newTransactionDoc = await Transaction.create(newTransaction);
-
-		transactionIds.push(newTransactionDoc._id);
+	for (let index = 0; index < transactions.length; index++) {
+		await transactions[index].updateOne({ dueDate: currentDate });
 
 		const isFebOffsetNeeded = newBill.day > 28 && getMonth(currentDate) === 1;
 
@@ -61,10 +56,6 @@ export async function post(request: NextRequest) {
 			currentDate = addMonths(currentDate, 1);
 		}
 	}
-
-	await newBillDoc.updateOne({ $push: { transactionIds } });
-
-	await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 
 	return new Response("Success");
 }

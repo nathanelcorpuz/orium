@@ -14,7 +14,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [amount, setAmount] = useState("");
 	const [day, setDay] = useState("");
 	const [frequency, setFrequency] = useState("");
-	const [dayOfWeek, setDayOfWeek] = useState("");
+	const [startDate, setStartDate] = useState("");
 	const [instances, setInstances] = useState("");
 	const [comments, setComments] = useState("");
 
@@ -39,7 +39,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			day: Number(day),
 			instances: Number(instances),
 			frequency,
-			dayOfWeek: Number(dayOfWeek),
+			startDate,
 			comments,
 		});
 	};
@@ -77,34 +77,46 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 						</div>
 						<div className="flex flex-col">
 							<label htmlFor="frequency">Frequency</label>
-							<input
+							<select
 								name="frequency"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
+								id="frequency"
 								value={frequency}
 								onChange={(e) => setFrequency(e.currentTarget.value)}
-							/>
+								className="border border-opacity-[0.1] rounded-lg p-2"
+							>
+								<option value="">-Choose an option-</option>
+								<option value="monthly">Monthly</option>
+								<option value="weekly">Weekly</option>
+								<option value="bi-weekly">Bi-weekly</option>
+							</select>
 						</div>
-						<div className="flex flex-col">
-							<label htmlFor="dayOfWeek">Day Of Week</label>
-							<input
-								name="dayOfWeek"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
-								value={dayOfWeek}
-								onChange={(e) => setDayOfWeek(e.currentTarget.value)}
-							/>
-						</div>
-						<div className="flex flex-col">
-							<label htmlFor="day">Day</label>
-							<input
-								name="day"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
-								value={day}
-								onChange={(e) => setDay(e.currentTarget.value)}
-							/>
-						</div>
+
+						{frequency === "monthly" && (
+							<div className="flex flex-col">
+								<label htmlFor="day">Day (1-30)</label>
+								<input
+									name="day"
+									className="border-[1px] h-[35px] p-2 rounded-md"
+									type="text"
+									value={day}
+									onChange={(e) => setDay(e.currentTarget.value)}
+								/>
+							</div>
+						)}
+
+						{(frequency === "bi-weekly" || frequency === "weekly") && (
+							<div className="flex flex-col">
+								<label htmlFor="startDate">Start Date</label>
+								<input
+									name="startDate"
+									className="border-[1px] h-[35px] p-2 rounded-md"
+									type="date"
+									value={startDate}
+									onChange={(e) => setStartDate(e.currentTarget.value)}
+								/>
+							</div>
+						)}
+
 						<div className="flex flex-col">
 							<label htmlFor="instances">Instances</label>
 							<input

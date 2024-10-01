@@ -49,6 +49,7 @@ export interface NewIncome {
 	amount: number;
 	frequency: Frequency;
 	dayOfWeek: DayOfWeek;
+	startDate: Date;
 	day: number;
 	instances: number;
 	comments?: string;

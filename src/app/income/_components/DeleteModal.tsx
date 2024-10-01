@@ -8,6 +8,15 @@ interface DeleteModal {
 }
 
 export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
+	let formattedDayOfWeek;
+	if (income.dayOfWeek == 0) formattedDayOfWeek = "Sunday";
+	if (income.dayOfWeek == 1) formattedDayOfWeek = "Monday";
+	if (income.dayOfWeek == 2) formattedDayOfWeek = "Tuesday";
+	if (income.dayOfWeek == 3) formattedDayOfWeek = "Wednesday";
+	if (income.dayOfWeek == 4) formattedDayOfWeek = "Thursday";
+	if (income.dayOfWeek == 5) formattedDayOfWeek = "Friday";
+	if (income.dayOfWeek == 6) formattedDayOfWeek = "Saturday";
+
 	const queryClient = useQueryClient();
 
 	const mutation = useMutation({
@@ -49,8 +58,8 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 							<p className="font-bold">Frequency</p>
 							<p>
 								{income.frequency === "monthly"
-									? `${income.day} monthly`
-									: `${income.dayOfWeek} ${income.frequency.toUpperCase()}`}
+									? `${income.day} of every month`
+									: `${formattedDayOfWeek} ${income.frequency}`}
 							</p>
 						</div>
 						<div className="flex flex-col">

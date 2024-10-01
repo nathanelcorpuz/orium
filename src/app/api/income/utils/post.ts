@@ -6,10 +6,10 @@ import User from "@/models/User";
 import {
 	addMonths,
 	addWeeks,
+	getDay,
 	getMonth,
 	getYear,
 	isPast,
-	nextDay,
 } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { getServerSession } from "next-auth";
@@ -31,8 +31,7 @@ export async function post(request: NextRequest) {
 		name: newIncome.name,
 		amount: newIncome.amount,
 		frequency: newIncome.frequency,
-		dayOfWeek: newIncome.dayOfWeek,
-		day: newIncome.day,
+		day: newIncome.frequency !== "monthly" ? newIncome.day : null,
 		comments: newIncome.comments || "",
 	});
 
@@ -82,9 +81,7 @@ export async function post(request: NextRequest) {
 
 		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	} else {
-		const startDate = nextDay(new Date(), newIncome.dayOfWeek);
-
-		let currentDate = startDate;
+		let currentDate = newIncome.startDate;
 		for (let i = 0; i < newIncome.instances; i++) {
 			const newTransaction: NewTransaction = {
 				userId,
@@ -104,7 +101,10 @@ export async function post(request: NextRequest) {
 			);
 		}
 
-		await newIncomeDoc.updateOne({ $push: { transactionIds } });
+		await newIncomeDoc.updateOne({
+			$push: { transactionIds },
+			dayOfWeek: getDay(newIncome.startDate),
+		});
 
 		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	}

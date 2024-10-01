@@ -24,13 +24,13 @@ export default function IncomeItem({
 }: IncomeItem) {
 	let formattedDayOfWeek;
 
-	if (income.dayOfWeek === 0) formattedDayOfWeek = "Sunday";
-	if (income.dayOfWeek === 1) formattedDayOfWeek = "Monday";
-	if (income.dayOfWeek === 2) formattedDayOfWeek = "Tuesday";
-	if (income.dayOfWeek === 3) formattedDayOfWeek = "Wednesday";
-	if (income.dayOfWeek === 4) formattedDayOfWeek = "Thursday";
-	if (income.dayOfWeek === 5) formattedDayOfWeek = "Friday";
-	if (income.dayOfWeek === 6) formattedDayOfWeek = "Saturday";
+	if (income.dayOfWeek == 0) formattedDayOfWeek = "Sunday";
+	if (income.dayOfWeek == 1) formattedDayOfWeek = "Monday";
+	if (income.dayOfWeek == 2) formattedDayOfWeek = "Tuesday";
+	if (income.dayOfWeek == 3) formattedDayOfWeek = "Wednesday";
+	if (income.dayOfWeek == 4) formattedDayOfWeek = "Thursday";
+	if (income.dayOfWeek == 5) formattedDayOfWeek = "Friday";
+	if (income.dayOfWeek == 6) formattedDayOfWeek = "Saturday";
 
 	return (
 		<li className="flex py-2 px-4 bg-black bg-opacity-[0.05] relative rounded-full">
@@ -44,7 +44,7 @@ export default function IncomeItem({
 				<p>
 					{income.frequency === "monthly"
 						? `${income.day} of every month`
-						: `${income.dayOfWeek} ${income.frequency}`}
+						: `${formattedDayOfWeek} ${income.frequency}`}
 				</p>
 			</div>
 			<div className="w-[20%]">

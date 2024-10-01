@@ -7,7 +7,8 @@ export interface HistoryDocument {
 	name: string;
 	forecastedAmount: number;
 	actualAmount: number;
-	date: Date;
+	forecastedDate: Date;
+	actualDate: Date;
 	type: Type;
 	typeId: Types.ObjectId;
 	forecastedBalance: number;
@@ -22,7 +23,8 @@ const HistorySchema = new Schema<HistoryDocument>(
 		name: String,
 		forecastedAmount: Number,
 		actualAmount: Number,
-		date: Date,
+		forecastedDate: Date,
+		actualDate: Date,
 		type: String,
 		typeId: Schema.Types.ObjectId,
 		forecastedBalance: Number,

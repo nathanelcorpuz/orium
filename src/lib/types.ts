@@ -93,7 +93,8 @@ export interface History {
 	name: string;
 	forecastedAmount: number;
 	actualAmount: number;
-	date: Date;
+	forecastedDate: Date;
+	actualDate: Date;
 	type: Type;
 	typeId: string;
 	forecastedBalance: number;
@@ -105,11 +106,12 @@ export interface NewHistory {
 	name: string;
 	forecastedAmount: number;
 	actualAmount: number;
-	date: Date;
-	type: Type;
-	typeId: string;
+	forecastedDate: Date;
+	actualDate: Date;
 	forecastedBalance: number;
 	actualBalance: number;
+	type: Type;
+	typeId: string;
 }
 
 export interface Savings {

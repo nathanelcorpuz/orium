@@ -6,6 +6,7 @@ import User from "@/models/User";
 import {
 	addMonths,
 	differenceInCalendarMonths,
+	differenceInMonths,
 	getMonth,
 	getYear,
 	isPast,
@@ -39,7 +40,7 @@ export async function post(request: NextRequest) {
 		startDate = addMonths(startDate, 1);
 	}
 
-	const instances = differenceInCalendarMonths(endDate, startDate);
+	const instances = differenceInCalendarMonths(endDate, startDate) + 1;
 
 	const newDebtDoc: HydratedDocument<DebtDocument> = await Debt.create({
 		userId,

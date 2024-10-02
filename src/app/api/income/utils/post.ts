@@ -6,6 +6,7 @@ import User from "@/models/User";
 import {
 	addMonths,
 	addWeeks,
+	getDate,
 	getDay,
 	getMonth,
 	getYear,
@@ -80,7 +81,10 @@ export async function post(request: NextRequest) {
 		await newIncomeDoc.updateOne({ $push: { transactionIds } });
 
 		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
-	} else {
+	} else if (
+		newIncome.frequency === "bi-weekly" ||
+		newIncome.frequency === "weekly"
+	) {
 		let currentDate = newIncome.startDate;
 		for (let i = 0; i < newIncome.instances; i++) {
 			const newTransaction: NewTransaction = {
@@ -105,6 +109,44 @@ export async function post(request: NextRequest) {
 			$push: { transactionIds },
 			dayOfWeek: getDay(newIncome.startDate),
 		});
+
+		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
+	} else if (newIncome.frequency === "15-30") {
+		let currentDate = new Date(
+			getYear(newIncome.startDate),
+			getMonth(newIncome.startDate),
+			15
+		);
+
+		for (let index = 0; index < newIncome.instances; index++) {
+			const newTransaction: NewTransaction = {
+				userId,
+				name: newIncome.name,
+				amount: newIncome.amount,
+				dueDate: currentDate,
+				type: "income",
+				typeId: newIncomeDoc._id,
+			};
+
+			const newTransactionDoc = await Transaction.create(newTransaction);
+
+			transactionIds.push(newTransactionDoc._id);
+
+			//feb offset
+			if (getDate(currentDate) === 15 && getMonth(currentDate) !== 1) {
+				currentDate = new Date(getYear(currentDate), getMonth(currentDate), 30);
+			} else if (getDate(currentDate) === 30) {
+				currentDate = addMonths(currentDate, 1);
+				currentDate = new Date(getYear(currentDate), getMonth(currentDate), 15);
+			} else if (getDate(currentDate) === 15 && getMonth(currentDate) === 1) {
+				currentDate = new Date(getYear(currentDate), 1, 28);
+			} else if (getDate(currentDate) === 28 && getMonth(currentDate) === 1) {
+				currentDate = addMonths(currentDate, 1);
+				currentDate = new Date(getYear(currentDate), getMonth(currentDate), 15);
+			}
+		}
+
+		await newIncomeDoc.updateOne({ $push: { transactionIds } });
 
 		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	}

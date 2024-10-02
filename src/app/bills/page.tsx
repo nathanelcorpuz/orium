@@ -1,6 +1,6 @@
 "use client";
 
-import { Bill } from "@/lib/types";
+import { Bill, Income } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import NewModal from "./_components/NewModal";
@@ -23,12 +23,20 @@ export default function Bills() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
+	let totalIncome = 0;
+
+	const incomes: Income[] = data;
+
+	incomes.forEach((income) => {
+		totalIncome = totalIncome + income.amount;
+	});
+
 	return (
 		<div>
 			<div className="flex gap-[100px] items-center">
 				<div className="flex gap-2 text-xl">
 					<p>Total monthly bills</p>
-					<p>₱23,000</p>
+					<p>₱{totalIncome * -1}</p>
 				</div>
 				<div>
 					<button

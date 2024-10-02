@@ -1,6 +1,6 @@
 export type Type = "bill" | "income" | "debt" | "savings" | "extra";
 
-export type Frequency = "monthly" | "bi-weekly" | "weekly";
+export type Frequency = "monthly" | "bi-weekly" | "weekly" | "15-30";
 
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 

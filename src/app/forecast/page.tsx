@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import TransactionItem from "./_components/TransactionItem";
-import { TransactionWithBalance } from "@/lib/types";
+import { Balance, TransactionWithBalance } from "@/lib/types";
 import { useState } from "react";
 import Modal from "./_components/Modal";
 
@@ -12,32 +12,53 @@ export default function Forecast() {
 		{} as TransactionWithBalance
 	);
 
+	const {
+		isPending: balancePending,
+		isError: balanceIsError,
+		data: balanceData,
+		error: balanceError,
+	} = useQuery({
+		queryKey: ["balances"],
+		queryFn: () =>
+			fetch("http://localhost:3000/api/balances").then((res) => res.json()),
+	});
+
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["transactions"],
 		queryFn: () =>
 			fetch("http://localhost:3000/api/forecast").then((res) => res.json()),
 	});
 
-	if (isPending) return <div>Loading data</div>;
-	if (isError) return <div>Error: {error.message}</div>;
+	if (isPending || balancePending) return <div>Loading data</div>;
 
-	let currentBalance = 23000;
+	if (isError || balanceIsError)
+		return <div>Error: {error?.message || balanceError?.message}</div>;
+
+	const balances: Balance[] = balanceData;
+
+	let totalBalance = 0;
+
+	balances.forEach((balance) => {
+		totalBalance = totalBalance + balance.amount;
+	});
+
+	let currentBalance = totalBalance;
 
 	const transactionsWithBalance = data.map(
 		(transaction: TransactionWithBalance) => {
 			currentBalance = currentBalance + transaction.amount;
 			return {
 				...transaction,
-				forecastedBalance: currentBalance,
+				forecastedBalance: Math.round(currentBalance),
 			};
 		}
 	);
 
 	return (
-		<div className="flex flex-col gap-5">
-			<div className="flex gap-2">
+		<div className="flex flex-col">
+			<div className="flex gap-2 text-xl items-center py-2">
 				<p>Total balance</p>
-				<p>₱23,000</p>
+				<p>₱{totalBalance}</p>
 			</div>
 			<div>
 				<div className="flex font-bold py-2 px-4">

@@ -44,6 +44,8 @@ export default function IncomeItem({
 				<p>
 					{income.frequency === "monthly"
 						? `${income.day} of every month`
+						: income.frequency === "15-30"
+						? `15th & 30th`
 						: `${formattedDayOfWeek} ${income.frequency}`}
 				</p>
 			</div>

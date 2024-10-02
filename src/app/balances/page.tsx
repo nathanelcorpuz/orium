@@ -23,12 +23,20 @@ export default function Balances() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
+	const balances: Balance[] = data;
+
+	let totalBalance = 0;
+
+	balances.forEach((balance) => {
+		totalBalance = totalBalance + balance.amount;
+	});
+
 	return (
 		<div>
 			<div className="flex gap-[100px] items-center">
 				<div className="flex gap-2 text-xl">
 					<p>Total balance</p>
-					<p>₱23,000</p>
+					<p>₱{totalBalance}</p>
 				</div>
 				<div>
 					<button

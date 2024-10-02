@@ -59,7 +59,10 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 							<p>
 								{income.frequency === "monthly"
 									? `${income.day} of every month`
-									: `${formattedDayOfWeek} ${income.frequency}`}
+									: income.frequency === "weekly" ||
+									  income.frequency === "bi-weekly"
+									? `${formattedDayOfWeek} ${income.frequency}`
+									: `15th & 30th`}
 							</p>
 						</div>
 						<div className="flex flex-col">

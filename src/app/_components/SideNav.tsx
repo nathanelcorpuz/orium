@@ -56,7 +56,7 @@ export default function SideNav() {
 
 	return (
 		<div className="p-2 flex">
-			<div className="flex flex-col p-2 gap-2 bg-slate-200 rounded-xl">
+			<div className="flex flex-col p-2 gap-2 bg-black bg-opacity-[0.05] rounded-xl">
 				{links.map((link) => (
 					<Link
 						key={link.text}

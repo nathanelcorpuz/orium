@@ -52,11 +52,7 @@ export default function EditModal({ balance, setIsModalOpen }: EditModal) {
 							e.preventDefault();
 						}}
 					>
-						<h1 className="text-2xl font-bold">Edit Balance?</h1>
-						<p>
-							This will edit all related transactions, even the independently
-							edited ones.
-						</p>
+						<h1 className="text-2xl font-bold">Edit Balance</h1>
 						<div className="flex flex-col">
 							<label htmlFor="name">Name</label>
 							<input

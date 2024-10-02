@@ -86,6 +86,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							>
 								<option value="">-Choose an option-</option>
 								<option value="monthly">Monthly</option>
+								<option value="15-30">15-30</option>
 								<option value="weekly">Weekly</option>
 								<option value="bi-weekly">Bi-weekly</option>
 							</select>
@@ -113,6 +114,21 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 									type="date"
 									value={startDate}
 									onChange={(e) => setStartDate(e.currentTarget.value)}
+								/>
+							</div>
+						)}
+						{frequency === "15-30" && (
+							<div className="flex flex-col">
+								<label htmlFor="startDate">Start Date</label>
+								<input
+									name="startDate"
+									className="border-[1px] h-[35px] p-2 rounded-md"
+									type="month"
+									value={startDate}
+									onChange={(e) => {
+										console.log(e.currentTarget.value);
+										setStartDate(e.currentTarget.value);
+									}}
 								/>
 							</div>
 						)}

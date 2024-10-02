@@ -21,12 +21,28 @@ export default function IncomePage() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
+	const incomes: Income[] = data;
+
+	let totalMonthlyIncome = 0;
+
+	incomes.forEach((income) => {
+		if (income.frequency === "monthly") {
+			totalMonthlyIncome = totalMonthlyIncome + income.amount;
+		}
+		if (income.frequency === "bi-weekly" || income.frequency === "15-30") {
+			totalMonthlyIncome = totalMonthlyIncome + income.amount * 2;
+		}
+		if (income.frequency === "weekly") {
+			totalMonthlyIncome = totalMonthlyIncome + income.amount * 4;
+		}
+	});
+
 	return (
 		<div>
 			<div className="flex gap-[100px] items-center">
 				<div className="flex gap-2 text-xl">
 					<p>Total monthly income</p>
-					<p>₱123,000</p>
+					<p>₱{totalMonthlyIncome}</p>
 				</div>
 				<div>
 					<button

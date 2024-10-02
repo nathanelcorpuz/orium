@@ -26,10 +26,6 @@ export default function Extras() {
 	return (
 		<div>
 			<div className="flex gap-[100px] items-center">
-				<div className="flex gap-2 text-xl">
-					<p>Total monthly extras</p>
-					<p>₱23,000</p>
-				</div>
 				<div>
 					<button
 						className="px-8 py-2 border-[1px] border-black border-opacity-[0.1] rounded-lg hover:bg-black hover:text-white"

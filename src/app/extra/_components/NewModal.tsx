@@ -12,19 +12,17 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const [name, setName] = useState("");
 	const [amount, setAmount] = useState("");
-	const [day, setDay] = useState("");
-	const [startDate, setStartDate] = useState("");
-	const [endDate, setEndDate] = useState("");
+	const [date, setDate] = useState("");
 	const [comments, setComments] = useState("");
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/debts", {
+			fetch("http://localhost:3000/api/extras", {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["debts"] });
+			queryClient.invalidateQueries({ queryKey: ["extras"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 	});
@@ -35,9 +33,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 		mutation.mutate({
 			name,
 			amount: Number(amount),
-			day: Number(day),
-			startDate: String(startDate),
-			endDate: String(endDate),
+			date,
 			comments,
 		});
 	};
@@ -53,7 +49,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							e.preventDefault();
 						}}
 					>
-						<h1 className="text-2xl font-bold">New Debt</h1>
+						<h1 className="text-2xl font-bold">New Extra</h1>
 						<div className="flex flex-col">
 							<label htmlFor="name">Name</label>
 							<input
@@ -74,33 +70,13 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<label htmlFor="day">Day</label>
+							<label htmlFor="date">Date</label>
 							<input
-								name="day"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
-								value={day}
-								onChange={(e) => setDay(e.currentTarget.value)}
-							/>
-						</div>
-						<div className="flex flex-col">
-							<label htmlFor="startDate">Start Date</label>
-							<input
-								name="startDate"
+								name="date"
 								className="border-[1px] h-[35px] p-2 rounded-md"
 								type="date"
-								value={startDate}
-								onChange={(e) => setStartDate(e.currentTarget.value)}
-							/>
-						</div>
-						<div className="flex flex-col">
-							<label htmlFor="endDate">End Date</label>
-							<input
-								name="endDate"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="date"
-								value={endDate}
-								onChange={(e) => setEndDate(e.currentTarget.value)}
+								value={date}
+								onChange={(e) => setDate(e.currentTarget.value)}
 							/>
 						</div>
 						<div className="flex flex-col">

@@ -19,12 +19,12 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/debts", {
+			fetch("http://localhost:3000/api/savings", {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["debts"] });
+			queryClient.invalidateQueries({ queryKey: ["savings"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
 		},
 	});
@@ -53,7 +53,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							e.preventDefault();
 						}}
 					>
-						<h1 className="text-2xl font-bold">New Debt</h1>
+						<h1 className="text-2xl font-bold">New Savings</h1>
 						<div className="flex flex-col">
 							<label htmlFor="name">Name</label>
 							<input

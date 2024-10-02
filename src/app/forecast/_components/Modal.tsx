@@ -89,7 +89,7 @@ export default function Modal({
 	};
 
 	return (
-		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
+		<div className="z-[2] absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
 			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
 			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
 				<div>

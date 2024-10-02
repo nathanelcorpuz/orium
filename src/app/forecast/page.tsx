@@ -60,21 +60,21 @@ export default function Forecast() {
 				<p>Total balance</p>
 				<p>₱{totalBalance}</p>
 			</div>
-			<div>
+			<div className="p-5 bg-slate-50 rounded-lg max-w-[1000px]">
 				<div className="flex font-bold py-2 px-4">
-					<div className="w-[20%]">
+					<div className="w-[18%]">
 						<p>Name</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[18%]">
 						<p>Amount</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[18%]">
 						<p>Due Date</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[18%]">
 						<p>Type</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[18%]">
 						<p>Balance</p>
 					</div>
 				</div>

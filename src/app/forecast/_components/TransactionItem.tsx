@@ -40,7 +40,8 @@ export default function TransactionItem({
 	return (
 		<div
 			className={`
-				flex py-2 px-4 border-b-[1px] font-semibold
+				flex py-1 px-4 border-b-[1px] 
+				text-xs font-semibold
 				border-b-black border-opacity-[0.1]
 				hover:opacity-[0.8] hover:cursor-pointer
 				${balNegative && "bg-black text-white"}
@@ -57,19 +58,19 @@ export default function TransactionItem({
 				`}
 			onClick={onItemClick}
 		>
-			<div className="w-[20%]">
+			<div className="w-[19%]">
 				<p>{transaction.name}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[19%]">
 				<p>{transaction.amount}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[19%]">
 				<p>{format(transaction.dueDate.toString(), "MMM d, y")}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[19%]">
 				<p>{transaction.type}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[19%]">
 				<p>{transaction.forecastedBalance}</p>
 			</div>
 		</div>

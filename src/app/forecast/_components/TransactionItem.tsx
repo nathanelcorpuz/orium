@@ -27,7 +27,7 @@ export default function TransactionItem({
 	const balMed = bal >= 10000 && bal < 50000;
 	const balHigh = bal >= 50000 && bal < 100000;
 	const balHigher = bal >= 100000 && bal < 150000;
-	const balHighest = bal >= 150000;
+	const balHighest = bal >= 150000 && bal < 200000;
 	const balExtreme = bal >= 200000;
 
 	const incomeColor = "text-green-600";

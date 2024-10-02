@@ -40,7 +40,9 @@ export async function post(request: NextRequest) {
 		startDate = addMonths(startDate, 1);
 	}
 
-	const instances = differenceInCalendarMonths(endDate, startDate) + 1;
+	let instances = differenceInCalendarMonths(endDate, startDate) + 1;
+
+	if (startDate === endDate) instances = 1;
 
 	const newDebtDoc: HydratedDocument<DebtDocument> = await Debt.create({
 		userId,

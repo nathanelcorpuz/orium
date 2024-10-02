@@ -42,15 +42,22 @@ export async function post(request: NextRequest) {
 	});
 
 	const transactionIds = [];
-	const currentYear = getYear(new Date());
-	const currentMonth = getMonth(new Date());
-	let startDate = new Date(currentYear, currentMonth, newSavings.day);
+	const year = getYear(newSavings.startDate);
+	const month = getMonth(newSavings.startDate);
+	let startDate = new Date(year, month, newSavings.day);
+	const endDate = new Date(
+		getYear(newSavings.endDate),
+		getMonth(newSavings.endDate),
+		newSavings.day
+	);
 
 	if (isPast(startDate)) {
 		startDate = addMonths(startDate, 1);
 	}
 
-	const instances = differenceInCalendarMonths(newSavings.endDate, startDate);
+	let instances = differenceInCalendarMonths(endDate, startDate) + 1;
+
+	if (startDate === endDate) instances = 1;
 
 	let currentDate = startDate;
 

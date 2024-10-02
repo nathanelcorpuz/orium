@@ -1,6 +1,8 @@
 import { authOptions } from "@/lib/auth";
-import { SessionType } from "@/lib/types";
+import { SessionType, Transaction as TransactionType } from "@/lib/types";
+import Bill from "@/models/Bill";
 import Transaction, { TransactionDocument } from "@/models/Transaction";
+import { getDate } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -34,12 +36,13 @@ export async function PUT(request: NextRequest) {
 		newName: string;
 	}
 
-	const body: Body = await request.json();
+	const { transactionId, newDate, newName, newAmount }: Body =
+		await request.json();
 
-	await Transaction.findByIdAndUpdate(body.transactionId, {
-		dueDate: body.newDate,
-		name: body.newName,
-		amount: body.newAmount,
+	await Transaction.findByIdAndUpdate(transactionId, {
+		dueDate: newDate,
+		name: newName,
+		amount: newAmount,
 	});
 
 	return new Response("success");

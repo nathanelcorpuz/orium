@@ -58,19 +58,19 @@ export default function TransactionItem({
 				`}
 			onClick={onItemClick}
 		>
-			<div className="w-[19%]">
+			<div className="w-[38%]">
 				<p>{transaction.name}</p>
 			</div>
-			<div className="w-[19%]">
+			<div className="w-[20%]">
 				<p>{transaction.amount}</p>
 			</div>
-			<div className="w-[19%]">
+			<div className="w-[20%]">
 				<p>{format(transaction.dueDate.toString(), "MMM d, y")}</p>
 			</div>
-			<div className="w-[19%]">
+			<div className="w-[20%]">
 				<p>{transaction.type}</p>
 			</div>
-			<div className="w-[19%]">
+			<div className="w-[20%]">
 				<p>{transaction.forecastedBalance}</p>
 			</div>
 		</div>

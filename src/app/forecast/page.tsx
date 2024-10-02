@@ -62,7 +62,7 @@ export default function Forecast() {
 			</div>
 			<div className="p-5 bg-slate-50 rounded-lg max-w-[1000px]">
 				<div className="flex font-bold py-2 px-4">
-					<div className="w-[18%]">
+					<div className="w-[30%]">
 						<p>Name</p>
 					</div>
 					<div className="w-[18%]">

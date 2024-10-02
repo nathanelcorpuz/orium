@@ -21,6 +21,7 @@ export async function post(request: NextRequest) {
 			userId,
 			name: newBalance.name,
 			amount: newBalance.amount,
+			comments: newBalance.comments || "",
 		}
 	);
 

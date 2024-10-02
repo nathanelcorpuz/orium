@@ -5,6 +5,7 @@ export interface BalanceDocument {
 	userId: Types.ObjectId;
 	name: string;
 	amount: number;
+	comments: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -14,6 +15,7 @@ const BalanceSchema = new Schema<BalanceDocument>(
 		userId: { type: Schema.Types.ObjectId, required: true },
 		name: String,
 		amount: Number,
+		comments: String,
 	},
 	{
 		timestamps: true,

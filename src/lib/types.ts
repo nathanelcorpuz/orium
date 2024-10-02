@@ -161,9 +161,11 @@ export interface Balance {
 	_id: string;
 	name: string;
 	amount: number;
+	comments?: string;
 }
 
 export interface NewBalance {
 	name: string;
 	amount: number;
+	comments?: string;
 }

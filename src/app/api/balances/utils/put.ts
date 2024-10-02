@@ -20,6 +20,7 @@ export async function put(request: NextRequest) {
 	await Balance.findByIdAndUpdate(newBalance._id, {
 		name: newBalance.name,
 		amount: newBalance.amount,
+		comments: newBalance.comments || "",
 	});
 
 	return new Response("Success");

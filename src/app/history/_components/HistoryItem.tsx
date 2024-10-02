@@ -7,7 +7,7 @@ interface HistoryItemType {
 
 export default function HistoryItem({ history }: HistoryItemType) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-b-black border-opacity-[0.1] hover:bg-slate-50 hover:cursor-pointer">
+		<div className="flex py-2 px-4 border-b-[1px] border-b-black border-opacity-[0.1]">
 			<div className="w-[20%]">
 				<p>{history.name}</p>
 			</div>

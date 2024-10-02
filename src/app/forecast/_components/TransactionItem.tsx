@@ -30,10 +30,17 @@ export default function TransactionItem({
 	const balHighest = bal >= 150000;
 	const balExtreme = bal >= 200000;
 
+	const incomeColor = "text-green-600";
+	const debtColor = "text-orange-500";
+	const savingsColor = "text-blue-500";
+	const extraColor = "text-purple-500";
+
+	const type = transaction.type;
+
 	return (
 		<div
 			className={`
-				flex py-2 px-4 border-b-[1px]
+				flex py-2 px-4 border-b-[1px] font-semibold
 				border-b-black border-opacity-[0.1]
 				hover:opacity-[0.8] hover:cursor-pointer
 				${balNegative && "bg-black text-white"}
@@ -43,6 +50,10 @@ export default function TransactionItem({
 				${balHigher && "bg-green-100"}
 				${balHighest && "bg-green-200"}
 				${balExtreme && "bg-blue-200"}
+				${type === "income" && incomeColor}
+				${type === "debt" && debtColor}
+				${type === "savings" && savingsColor}
+				${type === "extra" && extraColor}
 				`}
 			onClick={onItemClick}
 		>

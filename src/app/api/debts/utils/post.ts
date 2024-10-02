@@ -25,28 +25,35 @@ export async function post(request: NextRequest) {
 
 	const newDebt: NewDebt = await request.json();
 
-	const newDebtDoc: HydratedDocument<DebtDocument> = await Debt.create({
-		userId,
-		name: newDebt.name,
-		amount: newDebt.amount,
-		day: newDebt.day,
-		startDate: newDebt.startDate,
-		endDate: newDebt.endDate,
-		comments: newDebt.comments || "",
-	});
-
-	await User.findByIdAndUpdate(userId, { $push: { debtIds: newDebtDoc._id } });
-
 	const transactionIds = [];
-	const currentYear = getYear(new Date());
-	const currentMonth = getMonth(new Date());
-	let startDate = new Date(currentYear, currentMonth, newDebt.day);
+	const year = getYear(newDebt.startDate);
+	const month = getMonth(newDebt.startDate);
+	let startDate = new Date(year, month, newDebt.day);
+	const endDate = new Date(
+		getYear(newDebt.endDate),
+		getMonth(newDebt.endDate),
+		newDebt.day
+	);
 
 	if (isPast(startDate)) {
 		startDate = addMonths(startDate, 1);
 	}
 
-	const instances = differenceInCalendarMonths(newDebt.endDate, startDate);
+	const instances = differenceInCalendarMonths(endDate, startDate);
+
+	const newDebtDoc: HydratedDocument<DebtDocument> = await Debt.create({
+		userId,
+		name: newDebt.name,
+		amount: newDebt.amount,
+		day: newDebt.day,
+		startDate,
+		endDate,
+		comments: newDebt.comments || "",
+	});
+
+	await User.findByIdAndUpdate(userId, {
+		$push: { debtIds: newDebtDoc._id },
+	});
 
 	let currentDate = startDate;
 

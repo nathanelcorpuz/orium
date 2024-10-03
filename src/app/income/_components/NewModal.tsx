@@ -1,6 +1,5 @@
 "use client";
 
-import { Frequency } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";

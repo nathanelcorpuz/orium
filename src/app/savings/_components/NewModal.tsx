@@ -28,7 +28,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	}
 
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/savings`, {
 				method: "POST",
 				body: JSON.stringify(formData),

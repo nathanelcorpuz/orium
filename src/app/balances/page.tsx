@@ -7,6 +7,7 @@ import NewModal from "./_components/NewModal";
 import BalanceItem from "./_components/BalanceItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
+import url from "@/lib/url";
 
 export default function Balances() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -16,8 +17,7 @@ export default function Balances() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["balances"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/balances").then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

@@ -7,19 +7,19 @@ import { Reminder } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import ReminderItem from "./ReminderItem";
+import url from "@/lib/url";
 
 export default function Reminders() {
 	const queryClient = useQueryClient();
 
 	const { isPending, data, isError } = useQuery({
 		queryKey: ["reminders"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/reminders").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/reminders`).then((res) => res.json()),
 	});
 
 	const newMutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/reminders", {
+			fetch(`${url}:3000/api/reminders`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}),

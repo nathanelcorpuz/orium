@@ -7,6 +7,7 @@ import NewModal from "./_components/NewModal";
 import BillItem from "./_components/BillItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
+import url from "@/lib/url";
 
 export default function Bills() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -16,8 +17,7 @@ export default function Bills() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["bills"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/bills").then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/bills`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

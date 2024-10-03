@@ -6,6 +6,7 @@ import { Balance, TransactionWithBalance } from "@/lib/types";
 import { useState } from "react";
 import Modal from "./_components/Modal";
 import Reminders from "./_components/Reminders";
+import url from "@/lib/url";
 
 export default function Forecast() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,14 +21,12 @@ export default function Forecast() {
 		error: balanceError,
 	} = useQuery({
 		queryKey: ["balances"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/balances").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/balances`).then((res) => res.json()),
 	});
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["transactions"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/forecast").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/forecast`).then((res) => res.json()),
 	});
 
 	if (isPending || balancePending) return <div>Loading data</div>;

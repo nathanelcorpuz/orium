@@ -1,6 +1,7 @@
 "use client";
 
 import { TransactionWithBalance } from "@/lib/types";
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, isFuture, isPast, isToday } from "date-fns";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -31,7 +32,7 @@ export default function Modal({
 
 	const editMutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/forecast", {
+			fetch(`${url}:3000/api/forecast`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),
@@ -55,7 +56,7 @@ export default function Modal({
 
 	const moveToHistoryMutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/forecast/move", {
+			fetch(`${url}:3000/api/forecast/move`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),

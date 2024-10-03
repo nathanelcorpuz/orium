@@ -2,6 +2,7 @@ import Check from "@/app/_components/_common/_icons/Check";
 import Close from "@/app/_components/_common/_icons/Close";
 import Pencil from "@/app/_components/_common/_icons/Pencil";
 import { Reminder } from "@/lib/types";
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 
@@ -18,7 +19,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	const editMutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/reminders", {
+			fetch(`${url}:3000/api/reminders`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),
@@ -27,7 +28,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	const deleteMutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/reminders", {
+			fetch(`${url}:3000/api/reminders`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}),

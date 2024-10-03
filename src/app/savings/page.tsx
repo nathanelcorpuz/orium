@@ -6,6 +6,7 @@ import { useState } from "react";
 import SavingsItem from "./_components/SavingsItem";
 import DeleteModal from "./_components/DeleteModal";
 import NewModal from "./_components/NewModal";
+import url from "@/lib/url";
 
 export default function Savingss() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -14,8 +15,7 @@ export default function Savingss() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["savings"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/savings").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/savings`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

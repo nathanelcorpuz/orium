@@ -1,4 +1,5 @@
 import { Income } from "@/lib/types";
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 
@@ -21,7 +22,7 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/income", {
+			fetch(`${url}:3000/api/income`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}),

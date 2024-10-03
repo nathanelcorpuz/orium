@@ -7,6 +7,7 @@ import NewModal from "./_components/NewModal";
 import ExtraItem from "./_components/ExtraItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
+import url from "@/lib/url";
 
 export default function Extras() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -16,8 +17,7 @@ export default function Extras() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["extras"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/extras").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/extras`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

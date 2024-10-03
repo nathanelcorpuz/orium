@@ -6,6 +6,7 @@ import { useState } from "react";
 import IncomeItem from "./_components/IncomeItem";
 import NewModal from "./_components/NewModal";
 import DeleteModal from "./_components/DeleteModal";
+import url from "@/lib/url";
 
 export default function IncomePage() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -14,8 +15,7 @@ export default function IncomePage() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["income"],
-		queryFn: () =>
-			fetch("http://localhost:3000/api/income").then((res) => res.json()),
+		queryFn: () => fetch(`${url}:3000/api/income`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

@@ -1,4 +1,5 @@
 import { Balance } from "@/lib/types";
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -17,7 +18,7 @@ export default function EditModal({ balance, setIsModalOpen }: EditModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/balances", {
+			fetch(`${url}/api/balances`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),

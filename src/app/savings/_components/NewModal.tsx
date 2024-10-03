@@ -1,5 +1,6 @@
 "use client";
 
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -19,7 +20,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
-			fetch("http://localhost:3000/api/savings", {
+			fetch(`${url}/api/savings`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}),

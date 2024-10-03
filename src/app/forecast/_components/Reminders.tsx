@@ -36,11 +36,11 @@ export default function Reminders() {
 	const reminders: Reminder[] = data;
 
 	return (
-		<div className="relative p-2 gap-2 flex flex-col items-start">
+		<div className="relative p-2 gap-2 flex flex-col items-start max-w-[300px]">
 			<div className="flex gap-8">
 				<p className="text-xl">Reminders</p>
 			</div>
-			<ul className="bg-slate-100 p-2 rounded-md flex flex-col gap-2">
+			<ul className=" p-2 rounded-md flex flex-col gap-2">
 				{reminders.map((reminder) => (
 					<ReminderItem reminder={reminder} />
 				))}

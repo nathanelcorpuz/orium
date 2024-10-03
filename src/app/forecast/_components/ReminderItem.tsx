@@ -38,7 +38,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	if (isEditFieldOpen) {
 		return (
-			<div className="flex min-w-[300px] justify-between items-center">
+			<div className="flex w-[300px] justify-between items-center border-b-[1px]">
 				<input
 					className="p-1 border-[1px]"
 					value={editContent}
@@ -71,7 +71,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 		);
 	} else if (isDeleteFieldOpen) {
 		return (
-			<div className="flex min-w-[300px] justify-between items-center">
+			<div className="flex min-w-[300px] justify-between items-center border-b-[1px]">
 				<p className="p-1">{reminder.content}</p>
 				<div className="flex gap-3">
 					<button
@@ -95,7 +95,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 		);
 	} else if (!isDeleteFieldOpen && !isEditFieldOpen) {
 		return (
-			<div className="flex min-w-[300px] justify-between items-center">
+			<div className="flex min-w-[300px] justify-between items-center border-b-[1px]">
 				<p className="p-1">{reminder.content}</p>
 				<div className="flex gap-3">
 					<button

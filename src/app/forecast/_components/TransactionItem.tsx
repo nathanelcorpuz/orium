@@ -41,7 +41,7 @@ export default function TransactionItem({
 		<div
 			className={`
 				flex py-1 px-4 border-b-[1px] 
-				text-xs font-semibold
+				text-xs
 				border-b-black border-opacity-[0.1]
 				hover:opacity-[0.8] hover:cursor-pointer
 				${balNegative && "bg-black text-white"}
@@ -51,10 +51,6 @@ export default function TransactionItem({
 				${balHigher && "bg-green-100"}
 				${balHighest && "bg-green-200"}
 				${balExtreme && "bg-blue-200"}
-				${type === "income" && incomeColor}
-				${type === "debt" && debtColor}
-				${type === "savings" && savingsColor}
-				${type === "extra" && extraColor}
 				`}
 			onClick={onItemClick}
 		>
@@ -67,10 +63,17 @@ export default function TransactionItem({
 			<div className="w-[20%]">
 				<p>{format(transaction.dueDate.toString(), "MMM d, y")}</p>
 			</div>
-			<div className="w-[20%]">
+			<div
+				className={`
+				w-[20%] font-bold
+				${type === "income" && incomeColor}
+				${type === "debt" && debtColor}
+				${type === "savings" && savingsColor}
+				${type === "extra" && extraColor}`}
+			>
 				<p>{transaction.type}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[20%] font-bold">
 				<p>{transaction.forecastedBalance}</p>
 			</div>
 		</div>

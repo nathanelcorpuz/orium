@@ -88,7 +88,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							<input
 								name="startDate"
 								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="date"
+								type="month"
 								value={startDate}
 								onChange={(e) => setStartDate(e.currentTarget.value)}
 							/>
@@ -98,7 +98,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							<input
 								name="endDate"
 								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="date"
+								type="month"
 								value={endDate}
 								onChange={(e) => setEndDate(e.currentTarget.value)}
 							/>

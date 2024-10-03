@@ -169,3 +169,14 @@ export interface NewBalance {
 	amount: number;
 	comments?: string;
 }
+
+export interface Reminder {
+	_id: string;
+	content: string;
+	userId: string;
+}
+
+export interface NewReminder {
+	content: string;
+	userId: string;
+}

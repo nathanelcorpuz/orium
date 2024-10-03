@@ -31,8 +31,16 @@ export async function post(request: NextRequest) {
 			name: newSavings.name,
 			amount: newSavings.amount,
 			day: newSavings.day,
-			startDate: newSavings.startDate,
-			endDate: newSavings.endDate,
+			startDate: new Date(
+				getYear(newSavings.startDate),
+				getMonth(newSavings.startDate),
+				newSavings.day
+			),
+			endDate: new Date(
+				getYear(newSavings.endDate),
+				getMonth(newSavings.endDate),
+				newSavings.day
+			),
 			comments: newSavings.comments || "",
 		}
 	);

@@ -12,6 +12,7 @@ export interface UserDocument {
 	extraIds: [Types.ObjectId];
 	balanceIds: [Types.ObjectId];
 	savingsIds: [Types.ObjectId];
+	reminderIds: [Types.ObjectId];
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -44,6 +45,7 @@ const UserSchema = new Schema<UserDocument>(
 		extraIds: [{ type: Types.ObjectId, required: true, ref: "Extra" }],
 		balanceIds: [{ type: Types.ObjectId, required: true, ref: "Balance" }],
 		savingsIds: [{ type: Types.ObjectId, required: true, ref: "Savings" }],
+		reminderIds: [{ type: Types.ObjectId, required: true, ref: "Reminder" }],
 	},
 	{
 		timestamps: true,

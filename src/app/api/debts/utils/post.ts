@@ -6,7 +6,6 @@ import User from "@/models/User";
 import {
 	addMonths,
 	differenceInCalendarMonths,
-	differenceInMonths,
 	getMonth,
 	getYear,
 	isPast,
@@ -49,8 +48,16 @@ export async function post(request: NextRequest) {
 		name: newDebt.name,
 		amount: newDebt.amount,
 		day: newDebt.day,
-		startDate,
-		endDate,
+		startDate: new Date(
+			getYear(newDebt.startDate),
+			getMonth(newDebt.startDate),
+			newDebt.day
+		),
+		endDate: new Date(
+			getYear(newDebt.endDate),
+			getMonth(newDebt.endDate),
+			newDebt.day
+		),
 		comments: newDebt.comments || "",
 	});
 

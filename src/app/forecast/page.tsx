@@ -21,12 +21,12 @@ export default function Forecast() {
 		error: balanceError,
 	} = useQuery({
 		queryKey: ["balances"],
-		queryFn: () => fetch(`${url}:3000/api/balances`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
 	});
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["transactions"],
-		queryFn: () => fetch(`${url}:3000/api/forecast`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
 	});
 
 	if (isPending || balancePending) return <div>Loading data</div>;

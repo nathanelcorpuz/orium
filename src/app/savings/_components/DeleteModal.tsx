@@ -18,7 +18,7 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: FormData) =>
-			fetch(`${url}:3000/api/savings`, {
+			fetch(`${url}/api/savings`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}),

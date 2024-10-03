@@ -39,7 +39,7 @@ export default function Modal({
 
 	const editMutation = useMutation({
 		mutationFn: (formData: FormData) =>
-			fetch(`${url}:3000/api/forecast`, {
+			fetch(`${url}/api/forecast`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),
@@ -78,7 +78,7 @@ export default function Modal({
 
 	const moveToHistoryMutation = useMutation({
 		mutationFn: (formData: MoveFormData) =>
-			fetch(`${url}:3000/api/forecast/move`, {
+			fetch(`${url}/api/forecast/move`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),

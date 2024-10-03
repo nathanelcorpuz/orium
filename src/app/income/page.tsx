@@ -15,7 +15,7 @@ export default function IncomePage() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["income"],
-		queryFn: () => fetch(`${url}:3000/api/income`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/income`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

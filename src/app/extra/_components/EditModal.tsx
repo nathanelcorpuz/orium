@@ -27,7 +27,7 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 
 	const mutation = useMutation({
 		mutationFn: (formData: FormData) =>
-			fetch(`${url}:3000/api/extras`, {
+			fetch(`${url}/api/extras`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),

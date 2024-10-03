@@ -17,7 +17,7 @@ export default function Extras() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["extras"],
-		queryFn: () => fetch(`${url}:3000/api/extras`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/extras`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

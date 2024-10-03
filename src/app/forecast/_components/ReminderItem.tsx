@@ -24,7 +24,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	const editMutation = useMutation({
 		mutationFn: (formData: EditFormData) =>
-			fetch(`${url}:3000/api/reminders`, {
+			fetch(`${url}/api/reminders`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}),
@@ -37,7 +37,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	const deleteMutation = useMutation({
 		mutationFn: (formData: DeleteFormData) =>
-			fetch(`${url}:3000/api/reminders`, {
+			fetch(`${url}/api/reminders`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}),

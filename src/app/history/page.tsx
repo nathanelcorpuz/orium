@@ -8,7 +8,7 @@ import url from "@/lib/url";
 export default function Forecast() {
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["history"],
-		queryFn: () => fetch(`${url}:3000/api/history`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/history`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>Loading data</div>;

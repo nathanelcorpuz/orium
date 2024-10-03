@@ -15,7 +15,7 @@ export default function Debts() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["debts"],
-		queryFn: () => fetch(`${url}:3000/api/debts`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/debts`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

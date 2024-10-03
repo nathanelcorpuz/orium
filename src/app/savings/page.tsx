@@ -15,7 +15,7 @@ export default function Savingss() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["savings"],
-		queryFn: () => fetch(`${url}:3000/api/savings`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/savings`).then((res) => res.json()),
 	});
 
 	if (isPending) return <div>loading</div>;

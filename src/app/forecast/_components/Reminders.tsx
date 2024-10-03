@@ -11,7 +11,7 @@ export default function Reminders() {
 
 	const { isPending, data, isError } = useQuery({
 		queryKey: ["reminders"],
-		queryFn: () => fetch(`${url}:3000/api/reminders`).then((res) => res.json()),
+		queryFn: () => fetch(`${url}/api/reminders`).then((res) => res.json()),
 	});
 
 	interface FormData {
@@ -20,7 +20,7 @@ export default function Reminders() {
 
 	const newMutation = useMutation({
 		mutationFn: (formData: FormData) =>
-			fetch(`${url}:3000/api/reminders`, {
+			fetch(`${url}/api/reminders`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}),

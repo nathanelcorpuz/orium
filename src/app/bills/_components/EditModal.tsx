@@ -16,8 +16,16 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 
 	const queryClient = useQueryClient();
 
+	interface FormData {
+		_id: string;
+		name: string;
+		amount: number;
+		day: number;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/bills`, {
 				method: "PUT",
 				body: JSON.stringify(formData),

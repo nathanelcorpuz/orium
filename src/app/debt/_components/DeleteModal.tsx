@@ -12,8 +12,12 @@ interface DeleteModal {
 export default function DeleteModal({ debt, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
 
+	interface FormData {
+		_id: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}:3000/api/debts`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),

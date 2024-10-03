@@ -16,8 +16,15 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [date, setDate] = useState("");
 	const [comments, setComments] = useState("");
 
+	interface FormData {
+		name: string;
+		amount: number;
+		date: string;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}:3000/api/extras`, {
 				method: "POST",
 				body: JSON.stringify(formData),

@@ -1,7 +1,6 @@
 import { Balance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface EditModal {
@@ -16,8 +15,15 @@ export default function EditModal({ balance, setIsModalOpen }: EditModal) {
 
 	const queryClient = useQueryClient();
 
+	interface FormData {
+		_id: string;
+		name: string;
+		amount: number;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/balances`, {
 				method: "PUT",
 				body: JSON.stringify(formData),

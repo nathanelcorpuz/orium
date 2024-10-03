@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
 			await connectDB();
 			const sessionUser = await User.findOne({ email: session?.user?.email });
 
-			// @ts-ignore
+			// @ts-expect-error
 			session.user.id = sessionUser._id.toString();
 
 			return session;

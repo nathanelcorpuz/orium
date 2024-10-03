@@ -3,7 +3,13 @@ import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
-export const register = async (values: any) => {
+interface Values {
+	email: string;
+	password: string;
+	name: string;
+}
+
+export const register = async (values: Values) => {
 	const { email, password, name } = values;
 
 	try {
@@ -20,7 +26,7 @@ export const register = async (values: any) => {
 			email,
 			password: hashedPassword,
 		});
-		const savedUser = await user.save();
+		await user.save();
 	} catch (e) {
 		console.log(e);
 	}

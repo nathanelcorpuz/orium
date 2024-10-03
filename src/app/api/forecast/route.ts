@@ -1,8 +1,6 @@
 import { authOptions } from "@/lib/auth";
-import { SessionType, Transaction as TransactionType } from "@/lib/types";
-import Bill from "@/models/Bill";
+import { SessionType } from "@/lib/types";
 import Transaction, { TransactionDocument } from "@/models/Transaction";
-import { getDate } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";

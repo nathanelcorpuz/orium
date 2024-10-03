@@ -12,6 +12,10 @@ interface DeleteModal {
 export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
 
+	interface FormData {
+		_id: string;
+	}
+
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
 			fetch(`${url}:3000/api/extras`, {

@@ -1,7 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { SessionType } from "@/lib/types";
 import Balance from "@/models/Balance";
-import Extra from "@/models/Extra";
 import User from "@/models/User";
 import { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";

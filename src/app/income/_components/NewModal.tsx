@@ -1,5 +1,6 @@
 "use client";
 
+import { Frequency } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -19,8 +20,18 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [instances, setInstances] = useState("");
 	const [comments, setComments] = useState("");
 
+	interface FormData {
+		name: string;
+		amount: number;
+		day: number;
+		instances: number;
+		frequency: string;
+		startDate: string;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}:3000/api/income`, {
 				method: "POST",
 				body: JSON.stringify(formData),

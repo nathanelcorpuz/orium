@@ -15,8 +15,14 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [amount, setAmount] = useState("");
 	const [comments, setComments] = useState("");
 
+	interface FormData {
+		name: string;
+		amount: number;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/balances`, {
 				method: "POST",
 				body: JSON.stringify(formData),

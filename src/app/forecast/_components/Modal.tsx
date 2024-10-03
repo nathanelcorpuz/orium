@@ -30,8 +30,15 @@ export default function Modal({
 	);
 	const [newName, setNewName] = useState(selectedTransaction.name);
 
+	interface FormData {
+		transactionId: string;
+		newDate: string;
+		newAmount: string;
+		newName: string;
+	}
+
 	const editMutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}:3000/api/forecast`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
@@ -54,8 +61,23 @@ export default function Modal({
 		setIsModalOpen(!isModalOpen);
 	};
 
+	interface MoveFormData {
+		transactionId: string;
+		newHistory: {
+			name: string;
+			forecastedAmount: number;
+			actualAmount: string;
+			forecastedDate: Date;
+			actualDate: string;
+			type: string;
+			typeId: string;
+			forecastedBalance: number;
+			actualBalance: number;
+		};
+	}
+
 	const moveToHistoryMutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: MoveFormData) =>
 			fetch(`${url}:3000/api/forecast/move`, {
 				method: "PUT",
 				body: JSON.stringify(formData),

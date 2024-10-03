@@ -1,5 +1,6 @@
 "use client";
 
+import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
 
@@ -16,8 +17,16 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [months, setMonths] = useState("");
 	const [comments, setComments] = useState("");
 
+	interface FormData {
+		name: string;
+		amount: number;
+		day: number;
+		instances: number;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/bills`, {
 				method: "POST",
 				body: JSON.stringify(formData),

@@ -17,8 +17,13 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 
 	const queryClient = useQueryClient();
 
+	interface EditFormData {
+		_id: string;
+		content: string;
+	}
+
 	const editMutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: EditFormData) =>
 			fetch(`${url}:3000/api/reminders`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
@@ -26,8 +31,12 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
 
+	interface DeleteFormData {
+		_id: string;
+	}
+
 	const deleteMutation = useMutation({
-		mutationFn: (formData: any) =>
+		mutationFn: (formData: DeleteFormData) =>
 			fetch(`${url}:3000/api/reminders`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),

@@ -1,4 +1,6 @@
-function Pencil(props: any) {
+import { SVGProps } from "react";
+
+function Pencil(props: SVGProps<SVGSVGElement>) {
 	return (
 		<svg
 			viewBox="0 0 24 24"

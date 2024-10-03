@@ -18,6 +18,15 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [endDate, setEndDate] = useState("");
 	const [comments, setComments] = useState("");
 
+	interface FormData {
+		name: string;
+		amount: number;
+		day: number;
+		startDate: string;
+		endDate: string;
+		comments?: string;
+	}
+
 	const mutation = useMutation({
 		mutationFn: (formData: any) =>
 			fetch(`${url}/api/savings`, {

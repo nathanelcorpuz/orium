@@ -7,7 +7,7 @@ export interface IncomeDocument {
 	amount: number;
 	frequency: "monthly" | "bi-weekly" | "weekly";
 	dayOfWeek: number;
-	day: Number;
+	day: number;
 	comments: string;
 	transactionIds: [Types.ObjectId];
 	createdAt: Date;

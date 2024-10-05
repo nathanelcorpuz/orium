@@ -1,7 +1,6 @@
 import { NewReminder, Reminder as ReminderType } from "@/lib/types";
-import Reminder, { ReminderDocument } from "@/models/Reminder";
+import Reminder from "@/models/Reminder";
 import { auth } from "@clerk/nextjs/server";
-import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

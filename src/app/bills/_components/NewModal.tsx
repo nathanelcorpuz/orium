@@ -14,14 +14,14 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [name, setName] = useState("");
 	const [amount, setAmount] = useState("");
 	const [day, setDay] = useState("");
-	const [months, setMonths] = useState("");
+	const [endDate, setEndDate] = useState("");
 	const [comments, setComments] = useState("");
 
 	interface FormData {
 		name: string;
 		amount: number;
 		day: number;
-		instances: number;
+		endDate: Date;
 		comments?: string;
 	}
 
@@ -44,7 +44,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			name,
 			amount: Number(amount),
 			day: Number(day),
-			instances: Number(months),
+			endDate: new Date(endDate),
 			comments,
 		});
 	};
@@ -86,13 +86,13 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<label htmlFor="months">Months</label>
+							<label htmlFor="endDate">Track Until:</label>
 							<input
-								name="months"
+								name="endDate"
 								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
-								value={months}
-								onChange={(e) => setMonths(e.currentTarget.value)}
+								type="month"
+								value={endDate}
+								onChange={(e) => setEndDate(e.currentTarget.value)}
 							/>
 						</div>
 						<div className="flex flex-col">

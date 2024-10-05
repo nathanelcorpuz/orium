@@ -1,8 +1,6 @@
-import { authOptions } from "@/lib/auth";
-import { NewDebt, NewTransaction, SessionType } from "@/lib/types";
+import { NewDebt, NewTransaction } from "@/lib/types";
 import Debt, { DebtDocument } from "@/models/Debt";
 import Transaction from "@/models/Transaction";
-import User from "@/models/User";
 import {
 	addMonths,
 	differenceInCalendarMonths,
@@ -11,21 +9,17 @@ import {
 	isPast,
 } from "date-fns";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function post(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newDebt: NewDebt = await request.json();
 
-	const transactionIds = [];
 	const year = getYear(newDebt.startDate);
 	const month = getMonth(newDebt.startDate);
 	let startDate = new Date(year, month, newDebt.day);
@@ -61,10 +55,6 @@ export async function post(request: NextRequest) {
 		comments: newDebt.comments || "",
 	});
 
-	await User.findByIdAndUpdate(userId, {
-		$push: { debtIds: newDebtDoc._id },
-	});
-
 	let currentDate = startDate;
 
 	for (let index = 0; index < instances; index++) {
@@ -77,9 +67,7 @@ export async function post(request: NextRequest) {
 			typeId: newDebtDoc._id,
 		};
 
-		const newTransactionDoc = await Transaction.create(newTransaction);
-
-		transactionIds.push(newTransactionDoc._id);
+		await Transaction.create(newTransaction);
 
 		const isFebOffsetNeeded = newDebt.day > 28 && getMonth(currentDate) === 1;
 
@@ -89,10 +77,6 @@ export async function post(request: NextRequest) {
 			currentDate = addMonths(currentDate, 1);
 		}
 	}
-
-	await newDebtDoc.updateOne({ $push: { transactionIds } });
-
-	await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 
 	return new Response("Success");
 }

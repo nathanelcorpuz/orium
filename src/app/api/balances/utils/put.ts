@@ -1,15 +1,13 @@
-import { authOptions } from "@/lib/auth";
-import { NewBalance, SessionType } from "@/lib/types";
+import { NewBalance } from "@/lib/types";
 import Balance from "@/models/Balance";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function put(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	interface NewBalanceToEdit extends NewBalance {
 		_id: string;

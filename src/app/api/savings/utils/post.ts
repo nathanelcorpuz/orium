@@ -1,8 +1,6 @@
-import { authOptions } from "@/lib/auth";
-import { NewSavings, NewTransaction, SessionType } from "@/lib/types";
+import { NewSavings, NewTransaction } from "@/lib/types";
 import Savings, { SavingsDocument } from "@/models/Savings";
 import Transaction from "@/models/Transaction";
-import User from "@/models/User";
 import {
 	addMonths,
 	differenceInCalendarMonths,
@@ -11,17 +9,14 @@ import {
 	isPast,
 } from "date-fns";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function post(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newSavings: NewSavings = await request.json();
 
@@ -45,11 +40,6 @@ export async function post(request: NextRequest) {
 		}
 	);
 
-	await User.findByIdAndUpdate(userId, {
-		$push: { savingsIds: newSavingsDoc._id },
-	});
-
-	const transactionIds = [];
 	const year = getYear(newSavings.startDate);
 	const month = getMonth(newSavings.startDate);
 	let startDate = new Date(year, month, newSavings.day);
@@ -79,9 +69,7 @@ export async function post(request: NextRequest) {
 			typeId: newSavingsDoc._id,
 		};
 
-		const newTransactionDoc = await Transaction.create(newTransaction);
-
-		transactionIds.push(newTransactionDoc._id);
+		await Transaction.create(newTransaction);
 
 		const isFebOffsetNeeded =
 			newSavings.day > 28 && getMonth(currentDate) === 1;
@@ -92,10 +80,6 @@ export async function post(request: NextRequest) {
 			currentDate = addMonths(currentDate, 1);
 		}
 	}
-
-	await newSavingsDoc.updateOne({ $push: { transactionIds } });
-
-	await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 
 	return new Response("Success");
 }

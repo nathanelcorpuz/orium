@@ -1,18 +1,13 @@
-import { authOptions } from "@/lib/auth";
-import { SessionType } from "@/lib/types";
 import Transaction, { TransactionDocument } from "@/models/Transaction";
+import { auth } from "@clerk/nextjs/server";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const transactions: HydratedDocument<TransactionDocument>[] =
 		await Transaction.find({ userId }).sort({ dueDate: 1 });
@@ -21,11 +16,10 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	interface Body {
 		transactionId: string;

@@ -1,3 +1,11 @@
+import {
+	ClerkProvider,
+	SignInButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from "@clerk/nextjs";
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -26,15 +34,17 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<Provider>
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
-				>
-					<SideNav />
-					<div className="w-full h-full p-2 z-[1]">{children}</div>
-				</body>
-			</Provider>
-		</html>
+		<ClerkProvider>
+			<html lang="en">
+				<Provider>
+					<body
+						className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
+					>
+						<SideNav />
+						<main className="w-full h-full p-2 z-[1]">{children}</main>
+					</body>
+				</Provider>
+			</html>
+		</ClerkProvider>
 	);
 }

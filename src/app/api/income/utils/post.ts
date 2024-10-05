@@ -1,11 +1,11 @@
-import { authOptions } from "@/lib/auth";
-import { NewIncome, NewTransaction, SessionType } from "@/lib/types";
+import { NewIncome, NewTransaction } from "@/lib/types";
 import Income, { IncomeDocument } from "@/models/Income";
 import Transaction from "@/models/Transaction";
-import User from "@/models/User";
+import { auth } from "@clerk/nextjs/server";
 import {
 	addMonths,
 	addWeeks,
+	differenceInCalendarMonths,
 	getDate,
 	getDay,
 	getMonth,
@@ -13,17 +13,13 @@ import {
 	isPast,
 } from "date-fns";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function post(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newIncome: NewIncome = await request.json();
 
@@ -36,25 +32,23 @@ export async function post(request: NextRequest) {
 		comments: newIncome.comments || "",
 	});
 
-	await User.findByIdAndUpdate(userId, {
-		$push: { incomeIds: newIncomeDoc._id },
-	});
+	let startDate = new Date(
+		getYear(new Date()),
+		getMonth(new Date()),
+		newIncome.day
+	);
 
-	const transactionIds = [];
+	if (isPast(startDate)) {
+		startDate = addMonths(startDate, 1);
+	}
+
+	const instances =
+		differenceInCalendarMonths(newIncome.endDate, startDate) + 1;
 
 	if (newIncome.frequency === "monthly") {
-		const currentYear = getYear(new Date());
-		const currentMonth = getMonth(new Date());
-
-		let startDate = new Date(currentYear, currentMonth, newIncome.day);
-
-		if (isPast(startDate)) {
-			startDate = addMonths(startDate, 1);
-		}
-
 		let currentDate = startDate;
 
-		for (let index = 0; index < newIncome.instances; index++) {
+		for (let index = 0; index < instances; index++) {
 			const newTransaction: NewTransaction = {
 				userId,
 				name: newIncome.name,
@@ -64,9 +58,7 @@ export async function post(request: NextRequest) {
 				typeId: newIncomeDoc._id,
 			};
 
-			const newTransactionDoc = await Transaction.create(newTransaction);
-
-			transactionIds.push(newTransactionDoc._id);
+			await Transaction.create(newTransaction);
 
 			const isFebOffsetNeeded =
 				newIncome.day > 28 && getMonth(currentDate) === 1;
@@ -77,16 +69,12 @@ export async function post(request: NextRequest) {
 				currentDate = addMonths(currentDate, 1);
 			}
 		}
-
-		await newIncomeDoc.updateOne({ $push: { transactionIds } });
-
-		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	} else if (
 		newIncome.frequency === "bi-weekly" ||
 		newIncome.frequency === "weekly"
 	) {
 		let currentDate = newIncome.startDate;
-		for (let i = 0; i < newIncome.instances; i++) {
+		for (let i = 0; i < instances; i++) {
 			const newTransaction: NewTransaction = {
 				userId,
 				name: newIncome.name,
@@ -96,9 +84,8 @@ export async function post(request: NextRequest) {
 				typeId: newIncomeDoc._id,
 			};
 
-			const newTransactionDoc = await Transaction.create(newTransaction);
+			await Transaction.create(newTransaction);
 
-			transactionIds.push(newTransactionDoc._id);
 			currentDate = addWeeks(
 				currentDate,
 				newIncome.frequency === "bi-weekly" ? 2 : 1
@@ -106,19 +93,21 @@ export async function post(request: NextRequest) {
 		}
 
 		await newIncomeDoc.updateOne({
-			$push: { transactionIds },
 			dayOfWeek: getDay(newIncome.startDate),
 		});
-
-		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	} else if (newIncome.frequency === "15-30") {
-		let currentDate = new Date(
-			getYear(newIncome.startDate),
-			getMonth(newIncome.startDate),
+		const startDate15_30 = new Date(
+			getYear(startDate),
+			getMonth(startDate),
 			15
 		);
 
-		for (let index = 0; index < newIncome.instances; index++) {
+		const instances15_30 =
+			differenceInCalendarMonths(newIncome.endDate, startDate15_30) + 1;
+
+		let currentDate = startDate15_30;
+
+		for (let index = 0; index < instances15_30; index++) {
 			const newTransaction: NewTransaction = {
 				userId,
 				name: newIncome.name,
@@ -128,9 +117,7 @@ export async function post(request: NextRequest) {
 				typeId: newIncomeDoc._id,
 			};
 
-			const newTransactionDoc = await Transaction.create(newTransaction);
-
-			transactionIds.push(newTransactionDoc._id);
+			await Transaction.create(newTransaction);
 
 			//feb offset
 			if (getDate(currentDate) === 15 && getMonth(currentDate) !== 1) {
@@ -145,10 +132,6 @@ export async function post(request: NextRequest) {
 				currentDate = new Date(getYear(currentDate), getMonth(currentDate), 15);
 			}
 		}
-
-		await newIncomeDoc.updateOne({ $push: { transactionIds } });
-
-		await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 	}
 
 	return new Response("Success");

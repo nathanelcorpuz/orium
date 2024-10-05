@@ -1,20 +1,15 @@
-import { authOptions } from "@/lib/auth";
-import { NewExtra, NewTransaction, SessionType } from "@/lib/types";
+import { NewExtra, NewTransaction } from "@/lib/types";
 import Extra, { ExtraDocument } from "@/models/Extra";
 import Transaction from "@/models/Transaction";
-import User from "@/models/User";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function post(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newExtra: NewExtra = await request.json();
 	const newExtraDoc: HydratedDocument<ExtraDocument> = await Extra.create({
@@ -23,10 +18,6 @@ export async function post(request: NextRequest) {
 		amount: newExtra.amount,
 		date: newExtra.date,
 		comments: newExtra.comments || "",
-	});
-
-	await User.findByIdAndUpdate(userId, {
-		$push: { extraIds: newExtraDoc._id },
 	});
 
 	const newTransaction: NewTransaction = {
@@ -41,10 +32,6 @@ export async function post(request: NextRequest) {
 	const newTransactionDoc = await Transaction.create(newTransaction);
 
 	await newExtraDoc.updateOne({ transactionId: newTransactionDoc._id });
-
-	await User.findByIdAndUpdate(userId, {
-		transactionId: newTransactionDoc._id,
-	});
 
 	return new Response("Success");
 }

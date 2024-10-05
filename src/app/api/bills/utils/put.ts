@@ -1,29 +1,25 @@
-import { authOptions } from "@/lib/auth";
-import { Bill as BillType, SessionType } from "@/lib/types";
+import { Bill as BillType } from "@/lib/types";
 import Bill from "@/models/Bill";
 import Transaction, { TransactionDocument } from "@/models/Transaction";
+import { auth } from "@clerk/nextjs/server";
 import { addMonths, getMonth, getYear, isPast } from "date-fns";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function put(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newBill: BillType = await request.json();
 
-	const result = await Bill.findByIdAndUpdate(newBill._id, {
+	await Bill.findByIdAndUpdate(newBill._id, {
 		name: newBill.name,
 		amount: newBill.amount,
 		day: newBill.day,
 		comments: newBill.comments || "",
 	});
-
-	console.log(result);
 
 	await Transaction.updateMany(
 		{ typeId: newBill._id },
@@ -39,7 +35,6 @@ export async function put(request: NextRequest) {
 	const currentMonth = getMonth(new Date());
 	let startDate = new Date(currentYear, currentMonth, newBill.day);
 	if (isPast(startDate)) {
-		console.log("is past");
 		startDate = addMonths(startDate, 1);
 	}
 

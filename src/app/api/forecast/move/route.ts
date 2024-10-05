@@ -1,16 +1,14 @@
-import { authOptions } from "@/lib/auth";
-import { NewHistory, SessionType } from "@/lib/types";
+import { NewHistory } from "@/lib/types";
 import History from "@/models/History";
 import Transaction from "@/models/Transaction";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	interface Body {
 		transactionId: string;
@@ -21,7 +19,7 @@ export async function PUT(request: NextRequest) {
 
 	const newHistory: NewHistory = body.newHistory;
 
-	newHistory.userId = session.user.id;
+	newHistory.userId = userId;
 
 	await History.create(newHistory);
 

@@ -31,7 +31,7 @@ export interface NewBill {
 	amount: number;
 	day: number;
 	comments?: string;
-	instances: number;
+	endDate: Date;
 }
 
 export interface Income {
@@ -51,7 +51,7 @@ export interface NewIncome {
 	dayOfWeek: DayOfWeek;
 	startDate: Date;
 	day: number;
-	instances: number;
+	endDate: number;
 	comments?: string;
 }
 

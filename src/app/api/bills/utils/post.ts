@@ -1,21 +1,22 @@
-import { authOptions } from "@/lib/auth";
-import { NewBill, NewTransaction, SessionType } from "@/lib/types";
+import { NewBill, NewTransaction } from "@/lib/types";
 import Bill, { BillDocument } from "@/models/Bill";
 import Transaction from "@/models/Transaction";
-import User from "@/models/User";
-import { addMonths, getMonth, getYear, isPast } from "date-fns";
+import {
+	addMonths,
+	differenceInCalendarMonths,
+	getMonth,
+	getYear,
+	isPast,
+} from "date-fns";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 export async function post(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newBill: NewBill = await request.json();
 	const newBillDoc: HydratedDocument<BillDocument> = await Bill.create({
@@ -26,20 +27,20 @@ export async function post(request: NextRequest) {
 		comments: newBill.comments || "",
 	});
 
-	await User.findByIdAndUpdate(userId, { $push: { billIds: newBillDoc._id } });
-
-	const transactionIds = [];
 	const currentYear = getYear(new Date());
 	const currentMonth = getMonth(new Date());
+
 	let startDate = new Date(currentYear, currentMonth, newBill.day);
+
 	if (isPast(startDate)) {
-		console.log("is past");
 		startDate = addMonths(startDate, 1);
 	}
 
+	let instances = differenceInCalendarMonths(newBill.endDate, startDate) + 1;
+
 	let currentDate = startDate;
 
-	for (let index = 0; index < newBill.instances; index++) {
+	for (let index = 0; index < instances; index++) {
 		const newTransaction: NewTransaction = {
 			userId,
 			name: newBill.name,
@@ -49,9 +50,7 @@ export async function post(request: NextRequest) {
 			typeId: newBillDoc._id,
 		};
 
-		const newTransactionDoc = await Transaction.create(newTransaction);
-
-		transactionIds.push(newTransactionDoc._id);
+		await Transaction.create(newTransaction);
 
 		const isFebOffsetNeeded = newBill.day > 28 && getMonth(currentDate) === 1;
 
@@ -61,10 +60,6 @@ export async function post(request: NextRequest) {
 			currentDate = addMonths(currentDate, 1);
 		}
 	}
-
-	await newBillDoc.updateOne({ $push: { transactionIds } });
-
-	await User.findByIdAndUpdate(userId, { $push: { transactionIds } });
 
 	return new Response("Success");
 }

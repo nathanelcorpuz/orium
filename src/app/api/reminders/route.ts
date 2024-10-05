@@ -1,44 +1,28 @@
-import { authOptions } from "@/lib/auth";
-import {
-	NewReminder,
-	Reminder as ReminderType,
-	SessionType,
-} from "@/lib/types";
+import { NewReminder, Reminder as ReminderType } from "@/lib/types";
 import Reminder, { ReminderDocument } from "@/models/Reminder";
-import User from "@/models/User";
+import { auth } from "@clerk/nextjs/server";
 import { HydratedDocument } from "mongoose";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newReminder: NewReminder = await request.json();
 
 	const newReminderDoc: HydratedDocument<ReminderDocument> =
 		await Reminder.create({ userId, content: newReminder.content });
 
-	await User.findByIdAndUpdate(userId, {
-		$push: { reminderIds: newReminderDoc._id },
-	});
-
 	return new Response("Success");
 }
 
 export async function GET() {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const reminders = await Reminder.find({ userId });
 
@@ -46,11 +30,10 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const newReminder: ReminderType = await request.json();
 
@@ -62,19 +45,14 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const { _id } = await request.json();
 
 	await Reminder.findByIdAndDelete(_id);
-
-	await User.findByIdAndUpdate(userId, { $pull: { reminderIds: _id } });
 
 	return new Response("success");
 }

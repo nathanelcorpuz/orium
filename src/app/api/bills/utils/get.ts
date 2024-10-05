@@ -1,17 +1,12 @@
-import { authOptions } from "@/lib/auth";
-import { SessionType } from "@/lib/types";
 import Bill from "@/models/Bill";
-import { getServerSession } from "next-auth";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function get() {
-	const session: SessionType = await getServerSession(authOptions);
+	const { userId } = auth();
 
-	if (!session) {
-		return new Response("unauthorized");
-	}
-
-	const userId = session.user.id;
+	if (!userId)
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
 	const bills = await Bill.find({ userId });
 

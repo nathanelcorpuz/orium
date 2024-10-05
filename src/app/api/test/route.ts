@@ -1,10 +1,13 @@
+import { errorHandler } from "@/lib/errorHandler";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-	const { userId } = auth();
-	console.log(userId);
-
-	if (userId) throw new Error("error message thrown");
-	return NextResponse.json("success");
+	try {
+		const { userId } = auth();
+		if (userId) throw new Error("Account error");
+		return NextResponse.json("success");
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

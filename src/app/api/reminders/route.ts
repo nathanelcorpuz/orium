@@ -12,8 +12,7 @@ export async function POST(request: NextRequest) {
 
 	const newReminder: NewReminder = await request.json();
 
-	const newReminderDoc: HydratedDocument<ReminderDocument> =
-		await Reminder.create({ userId, content: newReminder.content });
+	await Reminder.create({ userId, content: newReminder.content });
 
 	return new Response("Success");
 }

@@ -36,7 +36,7 @@ export async function post(request: NextRequest) {
 		startDate = addMonths(startDate, 1);
 	}
 
-	let instances = differenceInCalendarMonths(newBill.endDate, startDate) + 1;
+	const instances = differenceInCalendarMonths(newBill.endDate, startDate) + 1;
 
 	let currentDate = startDate;
 

@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface ExtraDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	date: Date;
@@ -14,7 +14,7 @@ export interface ExtraDocument {
 
 const ExtraSchema = new Schema<ExtraDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		amount: Number,
 		date: Date,

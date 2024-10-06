@@ -3,10 +3,10 @@ import Extra, { ExtraDocument } from "@/models/Extra";
 import Transaction from "@/models/Transaction";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+
 
 export async function post(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -3,7 +3,7 @@ import { Type } from "@/lib/types";
 
 export interface HistoryDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	forecastedAmount: number;
 	actualAmount: number;
@@ -19,7 +19,7 @@ export interface HistoryDocument {
 
 const HistorySchema = new Schema<HistoryDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		forecastedAmount: Number,
 		actualAmount: Number,

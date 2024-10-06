@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface ReminderDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	content: string;
 	createdAt: Date;
 	updatedAt: Date;
@@ -10,7 +10,7 @@ export interface ReminderDocument {
 
 const ReminderSchema = new Schema<ReminderDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		content: String,
 	},
 	{

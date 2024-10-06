@@ -5,7 +5,7 @@ import { Type } from "@/lib/types";
 
 export interface TransactionDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	dueDate: Date;
@@ -17,7 +17,7 @@ export interface TransactionDocument {
 
 export const TransactionSchema = new Schema<TransactionDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: { type: String },
 		amount: { type: Number },
 		dueDate: { type: Date },

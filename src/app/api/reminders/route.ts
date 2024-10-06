@@ -1,10 +1,10 @@
 import { NewReminder, Reminder as ReminderType } from "@/lib/types";
 import Reminder from "@/models/Reminder";
-import { auth } from "@clerk/nextjs/server";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -28,7 +28,7 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -43,7 +43,7 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

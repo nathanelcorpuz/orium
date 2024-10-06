@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface IncomeDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	frequency: "monthly" | "bi-weekly" | "weekly";
@@ -16,7 +16,7 @@ export interface IncomeDocument {
 
 const IncomeSchema = new Schema<IncomeDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		amount: Number,
 		frequency: String,

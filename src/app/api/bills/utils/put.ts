@@ -1,13 +1,13 @@
 import { Bill as BillType } from "@/lib/types";
 import Bill from "@/models/Bill";
 import Transaction, { TransactionDocument } from "@/models/Transaction";
-import { auth } from "@clerk/nextjs/server";
+
 import { addMonths, getMonth, getYear, isPast } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function put(request: NextRequest) {
-	const { userId } = auth();
+	const userId = "";
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

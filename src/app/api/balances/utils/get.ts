@@ -1,14 +1,19 @@
+import { errorHandler } from "@/lib/error";
 import Balance from "@/models/Balance";
-import { auth } from "@clerk/nextjs/server";
+
 import { NextResponse } from "next/server";
 
 export async function get() {
-	const { userId } = auth();
+	try {
+		const userId = "";
 
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		const balances = await Balance.find({ userId });
 
-	const balances = await Balance.find({ userId });
+		console.log("\n\n\n BALANCES:");
+		console.log(balances);
 
-	return NextResponse.json(balances);
+		return NextResponse.json(balances);
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

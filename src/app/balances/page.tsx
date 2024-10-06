@@ -15,7 +15,7 @@ export default function Balances() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedBalance, setSelectedBalance] = useState({} as Balance);
 
-	const { isPending, isError, data, error } = useQuery({
+	const { isPending, isError, data, error, isSuccess } = useQuery({
 		queryKey: ["balances"],
 		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
 	});
@@ -23,13 +23,18 @@ export default function Balances() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
-	const balances: Balance[] = data;
+	console.log(data);
+	let balances: Balance[] | [] = [];
+
+	if (isSuccess) {
+		balances = data;
+	}
 
 	let totalBalance = 0;
 
-	balances.forEach((balance) => {
-		totalBalance = totalBalance + balance.amount;
-	});
+	// balances.forEach((balance) => {
+	// 	totalBalance = totalBalance + balance.amount;
+	// });
 
 	return (
 		<div>
@@ -58,7 +63,7 @@ export default function Balances() {
 					<p>Comments</p>
 				</div>
 			</div>
-			<ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
+			{/* <ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
 				{data.map((balance: Balance) => (
 					<BalanceItem
 						key={balance._id}
@@ -68,7 +73,7 @@ export default function Balances() {
 						setSelectedBalance={setSelectedBalance}
 					/>
 				))}
-			</ul>
+			</ul> */}
 
 			{isDeleteModalOpen ? (
 				<DeleteModal

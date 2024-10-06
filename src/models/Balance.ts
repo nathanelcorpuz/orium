@@ -1,8 +1,8 @@
-import mongoose, { Schema, Types, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
 export interface BalanceDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	comments: string;
@@ -12,7 +12,7 @@ export interface BalanceDocument {
 
 const BalanceSchema = new Schema<BalanceDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		amount: Number,
 		comments: String,

@@ -1,16 +1,16 @@
+import { errorHandler } from "@/lib/error";
 import Balance from "@/models/Balance";
-import { auth } from "@clerk/nextjs/server";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function del(request: NextRequest) {
-	const { userId } = auth();
+	try {
+		const body = await request.json();
 
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		await Balance.findByIdAndDelete(body._id);
 
-	const body = await request.json();
-
-	await Balance.findByIdAndDelete(body._id);
-
-	return new Response("success");
+		return new Response("success");
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

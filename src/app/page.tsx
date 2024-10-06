@@ -1,11 +1,11 @@
 "use client";
 
-import Dashboard from "./_components/Dashboard";
+import Dashboard from "./_components/_layout/Dashboard";
 
 export default function Home() {
 	return (
-		<main className="flex justify-center items-center w-full">
+		<div className="flex justify-center items-center w-full">
 			<Dashboard />
-		</main>
+		</div>
 	);
 }

@@ -1,7 +1,7 @@
 import { NewIncome, NewTransaction } from "@/lib/types";
 import Income, { IncomeDocument } from "@/models/Income";
 import Transaction from "@/models/Transaction";
-import { auth } from "@clerk/nextjs/server";
+
 import {
 	addMonths,
 	addWeeks,
@@ -16,7 +16,7 @@ import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function post(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

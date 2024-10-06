@@ -1,10 +1,10 @@
 import Transaction, { TransactionDocument } from "@/models/Transaction";
-import { auth } from "@clerk/nextjs/server";
+
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -16,7 +16,7 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-	const { userId } = auth();
+	
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -35,12 +35,12 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const onClickClose = () => setIsModalOpen(false);
 	const onClickSubmit = () => {
-		setIsModalOpen(false);
 		mutation.mutate({
 			name,
 			amount: Number(amount),
 			comments,
 		});
+		setIsModalOpen(false);
 	};
 
 	return (
@@ -48,12 +48,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
 			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
 				<div className="flex flex-col py-4 gap-4">
-					<form
-						className="flex flex-col gap-6"
-						onSubmit={async (e) => {
-							e.preventDefault();
-						}}
-					>
+					<div className="flex flex-col gap-6">
 						<h1 className="text-2xl font-bold">New Balance</h1>
 						<div className="flex flex-col">
 							<label htmlFor="name">Name</label>
@@ -98,7 +93,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 								Submit
 							</button>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

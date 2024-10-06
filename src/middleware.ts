@@ -1,25 +1,21 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const isProtectedRoute = createRouteMatcher([
-	"/",
-	"/forecast",
-	"/bills",
-	"/debt",
-	"/extra",
-	"/history",
-	"/savings",
-	"/income",
-]);
-
-export default clerkMiddleware((auth, req) => {
-	if (isProtectedRoute(req)) auth().protect();
-});
+export default function middleware(request: NextRequest) {
+	let cookie = request.cookies.get("token");
+	if (!cookie)
+		return NextResponse.redirect(new URL("/auth/login", request.url));
+}
 
 export const config = {
 	matcher: [
-		// Skip Next.js internals and all static files, unless found in search params
-		"/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
-		// Always run for API routes
-		"/(api|trpc)(.*)",
+		"/",
+		"/forecast",
+		"/bills",
+		"/debt",
+		"/extra",
+		"/history",
+		"/savings",
+		"/income",
+		"/settings",
 	],
 };

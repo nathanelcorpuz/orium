@@ -1,6 +1,6 @@
 export default function Dashboard() {
 	return (
-		<div className="w-full bg-slate-100 rounded-md p-2 flex justify-between">
+		<div className="w-full p-6 flex justify-between">
 			<div>
 				<p className="font-bold">Running balance</p>
 				<p>34,000</p>

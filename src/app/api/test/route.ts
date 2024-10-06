@@ -1,11 +1,12 @@
-import { errorHandler } from "@/lib/errorHandler";
-import { auth } from "@clerk/nextjs/server";
+import { errorHandler } from "@/lib/error";
+import { verifyToken } from "@/lib/token";
+
 import { NextResponse } from "next/server";
 
 export async function GET() {
 	try {
-		const { userId } = auth();
-		if (userId) throw new Error("Account error");
+		await verifyToken();
+
 		return NextResponse.json("success");
 	} catch (error) {
 		return errorHandler(error as Error);

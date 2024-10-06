@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface DebtDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	day: number;
@@ -16,7 +16,7 @@ export interface DebtDocument {
 
 const DebtSchema = new Schema<DebtDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		amount: Number,
 		day: Number,

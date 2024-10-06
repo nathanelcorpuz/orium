@@ -1,9 +1,9 @@
 import Bill from "@/models/Bill";
-import { auth } from "@clerk/nextjs/server";
+
 import { NextResponse } from "next/server";
 
 export async function get() {
-	const { userId } = auth();
+	const userId = "";
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

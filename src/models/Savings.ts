@@ -2,7 +2,7 @@ import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface SavingsDocument {
 	_id: string;
-	userId: Types.ObjectId;
+	userId: string;
 	name: string;
 	amount: number;
 	day: number;
@@ -16,7 +16,7 @@ export interface SavingsDocument {
 
 const SavingsSchema = new Schema<SavingsDocument>(
 	{
-		userId: { type: Schema.Types.ObjectId, required: true },
+		userId: { type: String, required: true },
 		name: String,
 		amount: Number,
 		day: Number,

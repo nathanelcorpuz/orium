@@ -1,10 +1,9 @@
 import Debt from "@/models/Debt";
 import Transaction from "@/models/Transaction";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
 
 export async function del(request: NextRequest) {
-	const { userId } = auth();
+	const userId = "";
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

@@ -1,12 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
-
-// redeployment
+// comment for redeployment 1
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Provider } from "./provider";
-import SideNav from "./_components/SideNav";
+import SideNav from "./_components/_layout/SideNav";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -30,17 +28,17 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider>
-			<html lang="en">
-				<Provider>
-					<body
-						className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
-					>
-						<SideNav />
-						<main className="w-full h-full p-2 z-[1]">{children}</main>
-					</body>
-				</Provider>
-			</html>
-		</ClerkProvider>
+		<html lang="en">
+			<Provider>
+				<body
+					className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
+				>
+					<SideNav />
+					<main className="w-full h-full bg-gray-50 z-[1] flex">
+						{children}
+					</main>
+				</body>
+			</Provider>
+		</html>
 	);
 }

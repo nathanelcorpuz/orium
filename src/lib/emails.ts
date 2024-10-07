@@ -4,7 +4,7 @@ import { transporter } from "./mailer";
 
 const fromEmail = process.env.MAILER_EMAIL;
 
-export async function sendEmailVerification({
+export async function sendEmailVerificationCode({
 	userId,
 	userEmail,
 }: {
@@ -33,7 +33,7 @@ export async function sendEmailVerification({
 	});
 }
 
-export async function sendPasswordChanged({
+export async function sendPasswordChangedConfirmation({
 	userEmail,
 }: {
 	userEmail: string;
@@ -41,14 +41,40 @@ export async function sendPasswordChanged({
 	await transporter.sendMail({
 		from: fromEmail,
 		to: userEmail,
-		subject: "Your password was changed",
+		subject: "Your Password Was Changed",
 		html: `
     <p>
     Your password was just changed.
     </p>
     <p>
-    If you did not do this, please reset your password immediately
-    <a target="blank" href="https://orium.vercel.app/reset">here</a> and reach out to us via oriumsupport@gmail.com
+    If you did not do this, please reach out to oriumsupport@gmail.com to secure your account.
+    </p>
+    `,
+	});
+}
+
+export async function sendPasswordResetCode({
+	userEmail,
+}: {
+	userEmail: string;
+}) {
+	const { code, digits } = generateCode();
+
+	await User.findOneAndUpdate({ email: userEmail }, { code });
+
+	await transporter.sendMail({
+		from: fromEmail,
+		to: userEmail,
+		subject: "Reset Your Password",
+		html: `
+    <p>
+    Use the code below to reset your password.
+    </p>
+    <p>
+    ${digits}
+    </p>
+    <p>
+    If you did not do this, please reach out to oriumsupport@gmail.com to secure your account.
     </p>
     `,
 	});

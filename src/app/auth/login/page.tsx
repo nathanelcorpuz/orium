@@ -63,24 +63,26 @@ export default function Page() {
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
 							const result = await mutation.mutateAsync({ email, password });
-							console.log(result);
 							if (result.ok) router.push("/");
 						}}
 					>
 						Submit
 					</button>
 				</div>
-				<div>
-					<p>
-						Not registered? Sign up{" "}
-						<Link
-							href="/auth/register"
-							className="hover:text-gray-500 underline transition-all"
-						>
-							here
-						</Link>
-						.
-					</p>
+				<div className="flex gap-8">
+					<Link
+						href="/auth/register"
+						className="hover:text-gray-500 underline transition-all text-sm"
+					>
+						Create an account
+					</Link>
+					<div className="h-[25px] w-[1px] border-gray-300 border-r-[1px]"></div>
+					<Link
+						href="/auth/reset"
+						className="hover:text-gray-500 underline transition-all text-sm"
+					>
+						Forgot password
+					</Link>
 				</div>
 				<div>
 					{mutation.isError && (

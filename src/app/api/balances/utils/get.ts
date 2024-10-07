@@ -1,10 +1,13 @@
 import { errorHandler } from "@/lib/error";
+import { connectDB } from "@/lib/mongodb";
 import Balance from "@/models/Balance";
 
 import { NextResponse } from "next/server";
 
 export async function get() {
 	try {
+		await connectDB();
+
 		const userId = "";
 
 		const balances = await Balance.find({ userId });

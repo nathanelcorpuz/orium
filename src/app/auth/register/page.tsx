@@ -7,8 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type PasswordValidationResult = string;
-
 export default function RegisterPage() {
 	const router = useRouter();
 
@@ -78,7 +76,7 @@ export default function RegisterPage() {
 					/>
 					<div>
 						<ul className="flex flex-col">
-							{passwordValidation.map((result: PasswordValidationResult) => (
+							{passwordValidation.map((result: string) => (
 								<li key={result} className="text-sm text-gray-400 pt-2">
 									{result}
 								</li>
@@ -135,14 +133,12 @@ export default function RegisterPage() {
 				</div>
 				<div>
 					<p>
-						Already registered? Sign in{" "}
 						<Link
 							href="/auth/login"
-							className="hover:text-gray-500 underline transition-all"
+							className="hover:text-gray-500 underline transition-all text-sm"
 						>
-							here
+							Already have an account? Sign in
 						</Link>
-						.
 					</p>
 				</div>
 				<div>{mutation.isError && <p>{mutation.error.message}</p>}</div>

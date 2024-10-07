@@ -21,7 +21,10 @@ export async function verifyToken() {
 
 	if (!userDoc) throw new Error("Account error");
 
-	if (userDoc.isLocked) throw new Error("Account locked");
+	if (userDoc.isLocked)
+		throw new Error(
+			"Account locked, please reach out to oriumsupport@gmail.com"
+		);
 
 	return decoded;
 }

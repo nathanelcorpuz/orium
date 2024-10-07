@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { email: string } }) {
 
 	const submitMutation = useMutation({
 		mutationFn: (formData: FormData) =>
-			fetch(`${url}/api/auth/verify`, {
+			fetch(`${url}/api/auth/register/verify`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then(async (res) => {
@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { email: string } }) {
 
 	const resendMutation = useMutation({
 		mutationFn: (formData: ResendFormData) =>
-			fetch(`${url}/api/auth/code`, {
+			fetch(`${url}/api/auth/register/code`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then(async (res) => {

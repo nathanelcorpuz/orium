@@ -1,10 +1,11 @@
+import { connectDB } from "@/lib/mongodb";
 import { NewReminder, Reminder as ReminderType } from "@/lib/types";
 import Reminder from "@/models/Reminder";
 
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-	
+	const userId = "";
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -17,7 +18,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET() {
-	
+	await connectDB();
+	const userId = "";
 
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -28,8 +30,6 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
-	
-
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -43,8 +43,6 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-	
-
 	if (!userId)
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 

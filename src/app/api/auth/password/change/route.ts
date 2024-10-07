@@ -4,9 +4,12 @@ import User, { UserDocument } from "@/models/User";
 import { HydratedDocument } from "mongoose";
 import { NextRequest } from "next/server";
 import { errorHandler } from "@/lib/error";
+import { connectDB } from "@/lib/mongodb";
 
 export async function PUT(request: NextRequest) {
 	try {
+		await connectDB();
+
 		const decoded = await verifyToken();
 
 		const { oldPassword, newPassword } = await request.json();

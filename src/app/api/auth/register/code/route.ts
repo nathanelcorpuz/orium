@@ -1,11 +1,14 @@
-import { sendEmailVerification } from "@/lib/emails";
+import { sendEmailVerificationCode } from "@/lib/emails";
 import { errorHandler } from "@/lib/error";
+import { connectDB } from "@/lib/mongodb";
 import User, { UserDocument } from "@/models/User";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
 	try {
+		await connectDB();
+
 		interface Body {
 			email: string;
 		}
@@ -20,7 +23,7 @@ export async function POST(request: NextRequest) {
 
 		if (!userDoc) throw new Error("Email unregistered");
 
-		await sendEmailVerification({
+		await sendEmailVerificationCode({
 			userId: userDoc._id,
 			userEmail: userDoc.email,
 		});

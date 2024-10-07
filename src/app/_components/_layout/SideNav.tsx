@@ -59,8 +59,8 @@ export default function SideNav() {
 	return (
 		<header className="flex">
 			{pathname.includes("auth") ? null : (
-				<div className="flex flex-col p-6 gap-2 border-r-2">
-					<div className="flex flex-col gap-6 h-[100%]">
+				<div className="flex flex-col bg-slate-200">
+					<div className="flex flex-col gap-10 p-10 h-[100%] bg-white">
 						{links.map((link) => (
 							<Link
 								key={link.text}
@@ -75,9 +75,9 @@ export default function SideNav() {
 						<div className="flex flex-col gap-6 mt-auto">
 							<Link
 								className={`${linkClass} ${
-									"/settings" === pathname && "font-extrabold"
+									pathname.includes("settings") && "font-extrabold"
 								}`}
-								href="settings"
+								href="/settings"
 							>
 								Settings
 							</Link>

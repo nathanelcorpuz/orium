@@ -4,11 +4,14 @@ import User, { UserDocument } from "@/models/User";
 import { addDays, differenceInMinutes } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongodb";
 
 const { AUTH_TOKEN_SECRET } = process.env;
 
 export async function POST(request: NextRequest) {
 	try {
+		await connectDB();
+
 		const { digits, email } = await request.json();
 
 		const userDoc: HydratedDocument<UserDocument> | null = await User.findOne({

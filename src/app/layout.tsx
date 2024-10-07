@@ -34,7 +34,7 @@ export default function RootLayout({
 					className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen overflow-hidden`}
 				>
 					<SideNav />
-					<main className="w-full h-full bg-gray-50 z-[1] flex">
+					<main className="w-full h-full bg-slate-200 z-[1] flex">
 						{children}
 					</main>
 				</body>

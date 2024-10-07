@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import User, { UserDocument } from "@/models/User";
 import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "@/lib/error";
-import { sendEmailVerification } from "@/lib/emails";
+import { sendEmailVerificationCode } from "@/lib/emails";
 import { HydratedDocument } from "mongoose";
 import { connectDB } from "@/lib/mongodb";
 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 			isVerified: false,
 		});
 
-		await sendEmailVerification({
+		await sendEmailVerificationCode({
 			userId: newAccountDoc._id,
 			userEmail: email,
 		});

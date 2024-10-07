@@ -1,5 +1,7 @@
 "use client";
 
+import Eye from "@/app/_components/_common/_icons/Eye";
+import EyeClosed from "@/app/_components/_common/_icons/EyeClosed";
 import { validatePassword } from "@/lib/password";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
@@ -7,16 +9,14 @@ import { useState } from "react";
 
 export default function ChangePassword() {
 	const [password, setPassword] = useState("");
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [newPassword, setNewPassword] = useState("");
+	const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
 	const [newPasswordValidation, setNewPasswordValidation] = useState([]);
 	const [confirmNewPassword, setConfirmNewPassword] = useState("");
+	const [isConfirmNewPasswordVisible, setIsConfirmNewPasswordVisible] =
+		useState(false);
 	const [confirmNewPassError, setConfirmNewPassError] = useState(false);
-
-	console.log(`
-    password: ${password}
-    newPassword: ${newPassword}
-    confirmNewPassword: ${confirmNewPassword}
-    `);
 
 	const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -36,6 +36,14 @@ export default function ChangePassword() {
 			}),
 	});
 
+	const clear = () => {
+		setConfirmNewPassError(false);
+		setPassword("");
+		setNewPassword("");
+		setConfirmNewPassword("");
+		setNewPasswordValidation([]);
+	};
+
 	return (
 		<div>
 			<div className="mt-6">
@@ -52,31 +60,55 @@ export default function ChangePassword() {
 						<label className="text-sm" htmlFor="password">
 							Current Password
 						</label>
-						<input
-							className="border rounded-md p-2 text-md"
-							name="password"
-							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.currentTarget.value)}
-						/>
+						<div className="relative">
+							<input
+								className="border rounded-md p-2 text-md w-full"
+								name="password"
+								type={isPasswordVisible ? "text" : "password"}
+								value={password}
+								onChange={(e) => setPassword(e.currentTarget.value)}
+							/>
+							<div
+								className="absolute top-0 right-[10px] bottom-0 flex items-center"
+								onClick={() => setIsPasswordVisible((val) => !val)}
+							>
+								{isPasswordVisible ? (
+									<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								) : (
+									<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								)}
+							</div>
+						</div>
 					</div>
 					<div className="flex flex-col">
 						<label className="text-sm" htmlFor="newPassword">
 							New Password
 						</label>
-						<input
-							className="border rounded-md p-2 text-md"
-							name="newPassword"
-							type="password"
-							value={newPassword}
-							onChange={(e) => {
-								setNewPassword(e.currentTarget.value);
-								const validatedPassword = validatePassword(
-									e.currentTarget.value
-								);
-								setNewPasswordValidation(validatedPassword);
-							}}
-						/>
+						<div className="relative">
+							<input
+								className="border rounded-md p-2 text-md w-full"
+								name="password"
+								type={isNewPasswordVisible ? "text" : "password"}
+								value={newPassword}
+								onChange={(e) => {
+									setNewPassword(e.currentTarget.value);
+									const validatedPassword = validatePassword(
+										e.currentTarget.value
+									);
+									setNewPasswordValidation(validatedPassword);
+								}}
+							/>
+							<div
+								className="absolute top-0 right-[10px] bottom-0 flex items-center"
+								onClick={() => setIsNewPasswordVisible((val) => !val)}
+							>
+								{isNewPasswordVisible ? (
+									<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								) : (
+									<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								)}
+							</div>
+						</div>
 						<div>
 							<ul className="flex flex-col">
 								{newPasswordValidation.map((result: string) => (
@@ -91,15 +123,25 @@ export default function ChangePassword() {
 						<label className="text-sm" htmlFor="confirmNewPassword">
 							Confirm New Password
 						</label>
-						<input
-							className="border rounded-md p-2 text-md"
-							name="confirmNewPassword"
-							type="password"
-							value={confirmNewPassword}
-							onChange={(e) => {
-								setConfirmNewPassword(e.currentTarget.value);
-							}}
-						/>
+						<div className="relative">
+							<input
+								className="border rounded-md p-2 text-md w-full"
+								name="confirmNewPassword"
+								type={isConfirmNewPasswordVisible ? "text" : "password"}
+								value={confirmNewPassword}
+								onChange={(e) => setConfirmNewPassword(e.currentTarget.value)}
+							/>
+							<div
+								className="absolute top-0 right-[10px] bottom-0 flex items-center"
+								onClick={() => setIsConfirmNewPasswordVisible((val) => !val)}
+							>
+								{isConfirmNewPasswordVisible ? (
+									<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								) : (
+									<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+								)}
+							</div>
+						</div>
 						<div>
 							{confirmNewPassError ? (
 								<p className="text-red-600 text-sm">Password mismatch</p>
@@ -129,12 +171,7 @@ export default function ChangePassword() {
 									newPassword,
 								});
 
-								if (result.ok) {
-									setConfirmNewPassError(false);
-									setPassword("");
-									setNewPassword("");
-									setConfirmNewPassword("");
-								}
+								if (result.ok) clear();
 							}}
 						>
 							Submit
@@ -142,7 +179,10 @@ export default function ChangePassword() {
 						<button
 							className="py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
-							onClick={() => setIsFormOpen(false)}
+							onClick={() => {
+								setIsFormOpen(false);
+								clear();
+							}}
 						>
 							Close
 						</button>

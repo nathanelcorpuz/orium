@@ -46,7 +46,6 @@ export default function EmailField({ email }: EmailField) {
 							className="border-[1px] border-slate-300 p-2 rounded-md w-[300px]"
 							name="name"
 							type="email"
-							defaultValue={email}
 							value={newEmail}
 							onChange={(e) => setNewEmail(e.currentTarget.value)}
 						/>

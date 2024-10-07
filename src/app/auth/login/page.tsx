@@ -1,5 +1,7 @@
 "use client";
 
+import Eye from "@/app/_components/_common/_icons/Eye";
+import EyeClosed from "@/app/_components/_common/_icons/EyeClosed";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -11,6 +13,8 @@ export default function Page() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 	interface FormData {
 		email: string;
@@ -48,13 +52,25 @@ export default function Page() {
 					<label className="text-sm" htmlFor="password">
 						Password
 					</label>
-					<input
-						className="border rounded-md p-2 text-md"
-						name="password"
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.currentTarget.value)}
-					/>
+					<div className="relative">
+						<input
+							className="border rounded-md p-2 text-md w-full"
+							name="password"
+							type={isPasswordVisible ? "text" : "password"}
+							value={password}
+							onChange={(e) => setPassword(e.currentTarget.value)}
+						/>
+						<div
+							className="absolute top-0 right-[10px] bottom-0 flex items-center"
+							onClick={() => setIsPasswordVisible(val => !val)}
+						>
+							{isPasswordVisible ? (
+								<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							) : (
+								<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							)}
+						</div>
+					</div>
 				</div>
 				<div>
 					<button

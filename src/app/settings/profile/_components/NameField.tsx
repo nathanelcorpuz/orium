@@ -45,7 +45,6 @@ export default function NameField({ name }: NameField) {
 						<input
 							className="border-[1px] border-slate-300 p-2 rounded-md w-[300px]"
 							name="name"
-							defaultValue={name}
 							value={newName}
 							onChange={(e) => setNewName(e.currentTarget.value)}
 						/>

@@ -1,5 +1,7 @@
 "use client";
 
+import Eye from "@/app/_components/_common/_icons/Eye";
+import EyeClosed from "@/app/_components/_common/_icons/EyeClosed";
 import { validatePassword } from "@/lib/password";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
@@ -13,8 +15,11 @@ export default function RegisterPage() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [passwordValidation, setPasswordValidation] = useState([]);
 	const [confirmPassword, setConfirmPassword] = useState("");
+	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+		useState(false);
 	const [confirmPassError, setConfirmPassError] = useState(false);
 
 	interface FormData {
@@ -63,17 +68,31 @@ export default function RegisterPage() {
 					<label className="text-sm" htmlFor="password">
 						Password
 					</label>
-					<input
-						className="border rounded-md p-2 text-md"
-						name="password"
-						type="password"
-						value={password}
-						onChange={(e) => {
-							setPassword(e.currentTarget.value);
-							const validatedPassword = validatePassword(e.currentTarget.value);
-							setPasswordValidation(validatedPassword);
-						}}
-					/>
+					<div className="relative">
+						<input
+							className="border rounded-md p-2 text-md w-full"
+							name="password"
+							type={isPasswordVisible ? "text" : "password"}
+							value={password}
+							onChange={(e) => {
+								setPassword(e.currentTarget.value);
+								const validatedPassword = validatePassword(
+									e.currentTarget.value
+								);
+								setPasswordValidation(validatedPassword);
+							}}
+						/>
+						<div
+							className="absolute top-0 right-[10px] bottom-0 flex items-center"
+							onClick={() => setIsPasswordVisible((val) => !val)}
+						>
+							{isPasswordVisible ? (
+								<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							) : (
+								<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							)}
+						</div>
+					</div>
 					<div>
 						<ul className="flex flex-col">
 							{passwordValidation.map((result: string) => (
@@ -88,15 +107,25 @@ export default function RegisterPage() {
 					<label className="text-sm" htmlFor="confirmPassword">
 						Confirm Password
 					</label>
-					<input
-						className="border rounded-md p-2 text-md"
-						name="confirmPassword"
-						type="password"
-						value={confirmPassword}
-						onChange={(e) => {
-							setConfirmPassword(e.currentTarget.value);
-						}}
-					/>
+					<div className="relative">
+						<input
+							className="border rounded-md p-2 text-md w-full"
+							name="confirmPassword"
+							type={isConfirmPasswordVisible ? "text" : "password"}
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.currentTarget.value)}
+						/>
+						<div
+							className="absolute top-0 right-[10px] bottom-0 flex items-center"
+							onClick={() => setIsConfirmPasswordVisible((val) => !val)}
+						>
+							{isConfirmPasswordVisible ? (
+								<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							) : (
+								<EyeClosed className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />
+							)}
+						</div>
+					</div>
 					<div>
 						{confirmPassError ? (
 							<p className="text-red-600 text-sm">Password mismatch</p>

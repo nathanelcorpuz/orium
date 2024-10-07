@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function del(request: NextRequest) {
 	try {
+		
 		const body = await request.json();
 
 		await Balance.findByIdAndDelete(body._id);

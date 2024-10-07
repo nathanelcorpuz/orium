@@ -3,9 +3,12 @@ import User, { UserDocument } from "@/models/User";
 import { HydratedDocument } from "mongoose";
 import { verifyToken } from "@/lib/token";
 import { NextRequest, NextResponse } from "next/server";
+import { connectDB } from "@/lib/mongodb";
 
 export async function GET() {
 	try {
+		await connectDB();
+
 		const decoded = await verifyToken();
 
 		const userDoc: HydratedDocument<UserDocument> | null = await User.findById(

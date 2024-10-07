@@ -2,9 +2,10 @@ import bcrypt from "bcrypt";
 import { verifyToken } from "@/lib/token";
 import User, { UserDocument } from "@/models/User";
 import { HydratedDocument } from "mongoose";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { errorHandler } from "@/lib/error";
 import { connectDB } from "@/lib/mongodb";
+import { sendPasswordChangedConfirmation } from "@/lib/emails";
 
 export async function PUT(request: NextRequest) {
 	try {
@@ -12,7 +13,10 @@ export async function PUT(request: NextRequest) {
 
 		const decoded = await verifyToken();
 
-		const { oldPassword, newPassword } = await request.json();
+		const { password, newPassword } = await request.json();
+
+		if (password === newPassword)
+			throw new Error("Old and new passwords are the same");
 
 		const userDoc: HydratedDocument<UserDocument> | null = await User.findById(
 			decoded.userId
@@ -20,14 +24,17 @@ export async function PUT(request: NextRequest) {
 
 		if (!userDoc) throw new Error("Account error");
 
-		const isPasswordCorrect = await bcrypt.compare(
-			oldPassword,
-			userDoc.password
-		);
+		const isPasswordCorrect = await bcrypt.compare(password, userDoc.password);
 
 		if (!isPasswordCorrect) throw new Error("Invalid credentials");
 
-		await userDoc.updateOne({ password: newPassword });
+		await userDoc.updateOne({
+			password: await bcrypt.hash(newPassword, Number(process.env.SALT)),
+		});
+
+		await sendPasswordChangedConfirmation({ userEmail: userDoc.email });
+
+		return NextResponse.json({ message: "Success" });
 	} catch (error) {
 		return errorHandler(error as Error);
 	}

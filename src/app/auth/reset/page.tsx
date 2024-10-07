@@ -30,7 +30,6 @@ export default function Page() {
 			<div className="flex w-[500px] flex-col rounded-lg p-8 drop-shadow-xl bg-white gap-6">
 				<p className="text-xl font-bold">Reset your password</p>
 				<p className="text-sm">Enter your registered email to begin.</p>
-				<div className="border-b-[1px]"></div>
 				<input
 					className="border rounded-md p-2 text-md"
 					name="email"

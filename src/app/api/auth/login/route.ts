@@ -8,7 +8,6 @@ import { HydratedDocument } from "mongoose";
 import { addDays } from "date-fns";
 
 export async function POST(request: NextRequest) {
-	throw new Error("test error!");
 	try {
 		await connectDB();
 		interface Body {

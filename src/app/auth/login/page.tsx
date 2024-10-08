@@ -80,7 +80,7 @@ export default function Page() {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
-							mutation.mutateAsync({ email, password });
+							mutation.mutate({ email, password });
 						}}
 					>
 						Submit

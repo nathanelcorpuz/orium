@@ -20,6 +20,9 @@ export default function DeleteModal({ bill, setIsModalOpen }: DeleteModal) {
 			fetch(`${url}/api/bills`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["bills"] });
@@ -30,48 +33,52 @@ export default function DeleteModal({ bill, setIsModalOpen }: DeleteModal) {
 	const onClickClose = () => {
 		setIsModalOpen(false);
 	};
-	const onClickSubmit = () => {
-		mutation.mutate({ _id: bill._id });
-		setIsModalOpen(false);
+	const onClickSubmit = async () => {
+		const res = await mutation.mutateAsync({ _id: bill._id });
+		if (res.ok) setIsModalOpen(false);
 	};
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
-			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
-			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
+			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
+			<div className="w-[500px] bg-white flex flex-col p-8 gap-8 rounded-2xl z-[99]">
 				<div className="flex flex-col py-4 gap-4">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">Delete Bill?</h1>
+						<h1 className="text-2xl font-bold">Delete Bill</h1>
 						<p>This will delete all related transactions.</p>
+						<div className="border-b-[1px] border-slate-200"></div>
 						<div className="flex flex-col">
-							<p className="font-bold">Name</p>
+							<p className="text-sm text-slate-400">Name</p>
 							<p>{bill.name}</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Amount</p>
+							<p className="text-sm text-slate-400">Amount</p>
 							<p>{bill.amount}</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Day</p>
+							<p className="text-sm text-slate-400">Monthly Due Date</p>
 							<p>{bill.day}</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Comments</p>
+							<p className="text-sm text-slate-400">Comments</p>
 							<p>{bill.comments}</p>
 						</div>
 						<div className="flex mt-auto justify-between">
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickClose}
 							>
 								Close
 							</button>
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickSubmit}
 							>
 								Submit
 							</button>
 						</div>
+						{mutation.isError && (
+							<p className="text-red-600">{mutation.error.message}</p>
+						)}
 					</div>
 				</div>
 			</div>

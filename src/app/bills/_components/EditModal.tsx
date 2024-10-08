@@ -29,6 +29,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 			fetch(`${url}/api/bills`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["bills"] });
@@ -40,15 +43,16 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 		setIsModalOpen(false);
 	};
 
-	const onClickSubmit = () => {
-		mutation.mutate({
+	const onClickSubmit = async () => {
+		const res = await mutation.mutateAsync({
 			_id: bill._id,
 			name,
 			amount: Number(amount),
 			day: Number(day),
 			comments: comments || "",
 		});
-		setIsModalOpen(false);
+
+		if (res.ok) setIsModalOpen(false);
 	};
 
 	return (
@@ -56,19 +60,16 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
 			<div className="w-[500px] bg-white flex flex-col p-8 gap-8 rounded-2xl z-[99]">
 				<div className="flex flex-col py-4 gap-4 ">
-					<form
-						className="flex flex-col gap-6"
-						onSubmit={async (e) => {
-							e.preventDefault();
-						}}
-					>
-						<h1 className="text-2xl font-bold">Edit Bill?</h1>
-						<p>
-							This will edit all related transactions, even the independently
-							edited ones.
+					<div className="flex flex-col gap-6">
+						<h1 className="text-2xl font-bold">Edit Bill</h1>
+						<p className="text-sm text-slate-500">
+							This will edit all related transactions.
 						</p>
+						<div className="border-b-[1px] border-slate-200"></div>
 						<div className="flex flex-col">
-							<label htmlFor="name">Name</label>
+							<label className="text-sm text-slate-400" htmlFor="name">
+								Name
+							</label>
 							<input
 								name="name"
 								className="border-[1px] h-[35px] p-2 rounded-md"
@@ -77,7 +78,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<label htmlFor="amount">Amount</label>
+							<label className="text-sm text-slate-400" htmlFor="amount">
+								Amount
+							</label>
 							<input
 								name="amount"
 								className="border-[1px] h-[35px] p-2 rounded-md"
@@ -87,7 +90,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<label htmlFor="day">Day</label>
+							<label className="text-sm text-slate-400" htmlFor="day">
+								Monthly Due Date
+							</label>
 							<input
 								name="day"
 								className="border-[1px] h-[35px] p-2 rounded-md"
@@ -97,7 +102,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 							/>
 						</div>
 						<div className="flex flex-col">
-							<label htmlFor="comments">Comments</label>
+							<label className="text-sm text-slate-400" htmlFor="comments">
+								Comments
+							</label>
 							<textarea
 								maxLength={150}
 								name="comments"
@@ -108,19 +115,22 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 						</div>
 						<div className="flex mt-auto justify-between">
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickClose}
 							>
 								Close
 							</button>
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickSubmit}
 							>
 								Submit
 							</button>
 						</div>
-					</form>
+						{mutation.isError && (
+							<p className="text-red-600">{mutation.error.message}</p>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -80,7 +80,7 @@ export default function Page() {
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
 							const result = await mutation.mutateAsync({ email, password });
-
+							console.log(result);
 							if (!result.ok) setError(result.statusText);
 							if (result.ok) router.push("/");
 						}}

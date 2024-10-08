@@ -17,11 +17,11 @@ export interface DebtDocument {
 const DebtSchema = new Schema<DebtDocument>(
 	{
 		userId: { type: String, required: true },
-		name: String,
-		amount: Number,
-		day: Number,
-		startDate: Date,
-		endDate: Date,
+		name: { type: String, required: true },
+		amount: { type: Number, required: true },
+		day: { type: Number, required: true },
+		startDate: { type: Date, required: true },
+		endDate: { type: Date, required: true },
 		comments: String,
 		transactionIds: [Schema.Types.ObjectId],
 	},

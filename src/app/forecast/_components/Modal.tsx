@@ -3,7 +3,7 @@
 import { TransactionWithBalance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, isFuture, isPast, isToday } from "date-fns";
+import { format } from "date-fns";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface ModalInterface {
@@ -42,23 +42,23 @@ export default function Modal({
 			fetch(`${url}/api/forecast`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: ["transactions"] }),
 	});
 
-	const onClickSubmit = () => {
-		if (isPast(actualDate) && !isToday(actualDate)) {
-			throw new Error("Date is past, move to history instead.");
-		}
-		editMutation.mutate({
+	const onClickSubmit = async () => {
+		const result = await editMutation.mutateAsync({
 			transactionId: selectedTransaction._id,
 			newDate: actualDate,
 			newAmount: actualAmount,
 			newName: newName,
 		});
 
-		setIsModalOpen(!isModalOpen);
+		if (result.ok) setIsModalOpen(!isModalOpen);
 	};
 
 	interface MoveFormData {
@@ -81,15 +81,15 @@ export default function Modal({
 			fetch(`${url}/api/forecast/move`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: ["transactions"] }),
 	});
 
-	const onMoveToHistoryClick = () => {
-		if (isFuture(actualDate)) {
-			throw new Error("Date is in future, submit edit instead.");
-		}
+	const onMoveToHistoryClick = async () => {
 		const newHistory = {
 			name: selectedTransaction.name,
 			forecastedAmount: selectedTransaction.amount,
@@ -103,46 +103,51 @@ export default function Modal({
 				selectedTransaction.forecastedBalance + Number(actualAmount),
 		};
 
-		setIsModalOpen(!isModalOpen);
-
-		moveToHistoryMutation.mutate({
+		const result = await moveToHistoryMutation.mutateAsync({
 			transactionId: selectedTransaction._id,
 			newHistory,
 		});
+
+		if (result.ok) setIsModalOpen(!isModalOpen);
 	};
 
 	return (
 		<div className="z-[2] absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
-			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
+			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
 			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
-				<div>
-					<h1 className="text-2xl font-bold">Edit Transaction</h1>
-				</div>
-				<div className="flex flex-col py-4 gap-4">
-					<div className="flex gap-[30px]">
-						<div>
-							<p className="font-bold capitalize">{selectedTransaction.type}</p>
-							<p>{selectedTransaction.name}</p>
+				<h1 className="text-2xl font-bold">Edit Transaction</h1>
+				<div className="border-b-[1px] border-slate-200"></div>
+				<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-4">
+						<div className="flex gap-4">
+							<div className="w-full border-[1px] rounded-md p-3">
+								<p className="text-sm text-slate-400 capitalize">
+									{selectedTransaction.type}
+								</p>
+								<p>{selectedTransaction.name}</p>
+							</div>
+							<div className="w-full border-[1px] rounded-md p-3">
+								<p className="text-sm text-slate-400 capitalize">Amount</p>
+								<p>{selectedTransaction.amount}</p>
+							</div>
 						</div>
-						<div>
-							<p className="font-bold capitalize">Amount</p>
-							<p>{selectedTransaction.amount}</p>
-						</div>
-					</div>
-					<div className="flex gap-[30px]">
-						<div>
-							<p className="font-bold capitalize">Due Date</p>
-							<p>
-								{format(selectedTransaction.dueDate.toString(), "MMM d, y")}
-							</p>
-						</div>
-						<div>
-							<p className="font-bold capitalize">Forecasted Balance</p>
-							<p>{selectedTransaction.forecastedBalance}</p>
+						<div className="flex gap-4">
+							<div className="w-full border-[1px] rounded-md p-3">
+								<p className="text-sm text-slate-400 capitalize">Due Date</p>
+								<p>
+									{format(selectedTransaction.dueDate.toString(), "MMM d, y")}
+								</p>
+							</div>
+							<div className="w-full border-[1px] rounded-md p-3">
+								<p className="text-sm text-slate-400 capitalize">
+									Forecasted Balance
+								</p>
+								<p>{selectedTransaction.forecastedBalance}</p>
+							</div>
 						</div>
 					</div>
 					<div className="flex flex-col gap-1">
-						<label htmlFor="actualAmount" className="font-bold">
+						<label htmlFor="actualAmount" className="text-sm text-slate-400">
 							Actual Amount
 						</label>
 						<input
@@ -155,7 +160,7 @@ export default function Modal({
 						/>
 					</div>
 					<div className="flex flex-col gap-1">
-						<label htmlFor="actualDueDate" className="font-bold">
+						<label htmlFor="actualDueDate" className="text-sm text-slate-400">
 							Actual Date
 						</label>
 						<input
@@ -168,7 +173,7 @@ export default function Modal({
 						/>
 					</div>
 					<div className="flex flex-col gap-1">
-						<label htmlFor="newName" className="font-bold">
+						<label htmlFor="newName" className="text-sm text-slate-400">
 							New Name
 						</label>
 						<input
@@ -187,23 +192,29 @@ export default function Modal({
 							setIsModalOpen(!isModalOpen);
 							setSelectedTransaction({} as TransactionWithBalance);
 						}}
-						className="py-2 px-8 text-xl font-bold border-2 rounded-lg"
+						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 					>
 						Close
 					</button>
 					<button
-						className="py-2 px-8 text-sm font-bold border-2 rounded-lg"
+						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 						onClick={onMoveToHistoryClick}
 					>
 						Move To History
 					</button>
 					<button
-						className="py-2 px-8 text-xl font-bold border-2 rounded-lg"
+						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 						onClick={onClickSubmit}
 					>
 						Submit
 					</button>
 				</div>
+				{moveToHistoryMutation.isError && (
+					<p className="text-red-500">{moveToHistoryMutation.error.message}</p>
+				)}
+				{editMutation.isError && (
+					<p className="text-red-500">{editMutation.error.message}</p>
+				)}
 			</div>
 		</div>
 	);

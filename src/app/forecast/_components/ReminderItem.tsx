@@ -27,6 +27,9 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 			fetch(`${url}/api/reminders`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
@@ -40,21 +43,22 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 			fetch(`${url}/api/reminders`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
 
-	const iconSize = 20;
-
 	if (isEditFieldOpen) {
 		return (
-			<div className="flex w-[300px] justify-between items-center border-b-[1px]">
+			<div className="flex w-full justify-between items-center gap-2">
 				<input
-					className="p-1 border-[1px]"
+					className="p-2 border-[1px] w-[85%] text-sm rounded-md"
 					value={editContent}
 					onChange={(e) => setEditContent(e.currentTarget.value)}
 				/>
-				<div className="flex gap-3">
+				<div className="flex gap-1">
 					<button
 						className="flex justify-center items-center"
 						onClick={() => {
@@ -65,7 +69,9 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 							setIsEditFieldOpen(false);
 						}}
 					>
-						<Check className={`w-[${iconSize}px] h-[${iconSize}px]`} />
+						<Check
+							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+						/>
 					</button>
 					<button
 						className="flex justify-center items-center"
@@ -74,7 +80,9 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 							setIsEditFieldOpen(false);
 						}}
 					>
-						<Close className={`w-[${iconSize}px] h-[${iconSize}px]`} />
+						<Close
+							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+						/>
 					</button>
 				</div>
 			</div>
@@ -82,43 +90,54 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 	} else if (isDeleteFieldOpen) {
 		return (
 			<div className="flex min-w-[300px] justify-between items-center border-b-[1px]">
-				<p className="p-1">{reminder.content}</p>
-				<div className="flex gap-3">
-					<button
-						className="flex justify-center items-center"
-						onClick={() => {
-							deleteMutation.mutate({ _id: reminder._id });
-							setIsDeleteFieldOpen(false);
-						}}
-					>
-						<Check className={`w-[${iconSize}px] h-[${iconSize}px]`} />
-					</button>
-					<button
-						className="flex justify-center items-center"
-						onClick={() => setIsDeleteFieldOpen(false)}
-					>
-						<Close className={`w-[${iconSize}px] h-[${iconSize}px]`} />
-					</button>
+				<p className="p-[5px] text-sm">{reminder.content}</p>
+				<div className="flex flex-col items-end">
+					<div className="flex gap-1">
+						<button
+							className="flex justify-center items-center"
+							onClick={() => {
+								deleteMutation.mutate({ _id: reminder._id });
+								setIsDeleteFieldOpen(false);
+							}}
+						>
+							<Check
+								className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+							/>
+						</button>
+						<button
+							className="flex justify-center items-center"
+							onClick={() => setIsDeleteFieldOpen(false)}
+						>
+							<Close
+								className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+							/>
+						</button>
+					</div>
+
+					<p className="text-xs">Delete reminder?</p>
 				</div>
-				<p className="absolute right-[-150px]">Delete reminder?</p>
 			</div>
 		);
 	} else if (!isDeleteFieldOpen && !isEditFieldOpen) {
 		return (
 			<div className="flex min-w-[300px] justify-between items-center border-b-[1px]">
-				<p className="p-1">{reminder.content}</p>
-				<div className="flex gap-3">
+				<p className="p-2 text-sm">{reminder.content}</p>
+				<div className="flex gap-1">
 					<button
 						className="flex justify-center items-center"
 						onClick={() => setIsEditFieldOpen(true)}
 					>
-						<Pencil className={`w-[${iconSize}px] h-[${iconSize}px]`} />
+						<Pencil
+							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+						/>
 					</button>
 					<button
 						className="flex justify-center items-center"
 						onClick={() => setIsDeleteFieldOpen(true)}
 					>
-						<Close className={`w-[${iconSize}px] h-[${iconSize}px]`} />
+						<Close
+							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+						/>
 					</button>
 				</div>
 			</div>

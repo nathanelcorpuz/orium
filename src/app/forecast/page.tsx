@@ -21,15 +21,28 @@ export default function Forecast() {
 		error: balanceError,
 	} = useQuery({
 		queryKey: ["balances"],
-		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
+		queryFn: () =>
+			fetch(`${url}/api/balances`).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res.json();
+			}),
 	});
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["transactions"],
-		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
+		queryFn: () =>
+			fetch(`${url}/api/forecast`).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res.json();
+			}),
 	});
 
-	if (isPending || balancePending) return <div>Loading data</div>;
+	if (isPending || balancePending)
+		return (
+			<div className="flex justify-center items-center w-full h-full">
+				<p className="text-lg">Loading data...</p>
+			</div>
+		);
 
 	if (isError || balanceIsError)
 		return <div>Error: {error?.message || balanceError?.message}</div>;
@@ -55,31 +68,31 @@ export default function Forecast() {
 	);
 
 	return (
-		<div className="flex gap-8">
-			<div className="flex flex-col flex-1 max-w-[1000px]">
-				<div className="flex gap-2 text-xl items-center py-2">
-					<p>Total balance</p>
-					<p>₱{totalBalance}</p>
-				</div>
-				<div className="p-5 bg-slate-100 rounded-lg">
-					<div className="flex font-bold pb-2 px-4">
+		<div className="flex gap-8 p-8">
+			<div className="flex flex-col flex-1 w-[1000px]">
+				<div className="p-5 bg-white rounded-lg h-[90vh]">
+					<div className="flex py-2 flex-col">
+						<p className="text-sm text-gray-400">Total Balance</p>
+						<p className="text-2xl font-bold">₱{totalBalance}</p>
+					</div>
+					<div className="flex p-4 border-t-[1px] border-slate-300 text-gray-400">
 						<div className="w-[30%]">
-							<p>Name</p>
+							<p className="text-sm">Name</p>
 						</div>
 						<div className="w-[18%]">
-							<p>Amount</p>
+							<p className="text-sm">Amount</p>
 						</div>
 						<div className="w-[18%]">
-							<p>Due Date</p>
+							<p className="text-sm">Due Date</p>
 						</div>
 						<div className="w-[18%]">
-							<p>Type</p>
+							<p className="text-sm">Type</p>
 						</div>
 						<div className="w-[18%]">
-							<p>Balance</p>
+							<p className="text-sm">Balance</p>
 						</div>
 					</div>
-					<div className="flex flex-col h-[80vh] overflow-auto">
+					<div className="flex flex-col overflow-auto h-[70vh] rounded-lg">
 						{transactionsWithBalance.map(
 							(transaction: TransactionWithBalance) => (
 								<TransactionItem

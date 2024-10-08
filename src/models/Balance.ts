@@ -13,7 +13,7 @@ export interface BalanceDocument {
 const BalanceSchema = new Schema<BalanceDocument>(
 	{
 		userId: { type: String, required: true },
-		name: String,
+		name: { type: String, required: true },
 		amount: Number,
 		comments: String,
 	},

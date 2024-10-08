@@ -53,9 +53,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
-			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
-			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
-				<div className="flex flex-col py-4 gap-4">
+			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
+			<div className="w-[500px] bg-white flex flex-col p-8 gap-8 rounded-2xl z-[99]">
+				<div className="flex flex-col py-4 gap-4 ">
 					<form
 						className="flex flex-col gap-6"
 						onSubmit={async (e) => {
@@ -98,10 +98,10 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 						</div>
 						<div className="flex flex-col">
 							<label htmlFor="comments">Comments</label>
-							<input
+							<textarea
+								maxLength={150}
 								name="comments"
-								className="border-[1px] h-[35px] p-2 rounded-md"
-								type="text"
+								className="border-[1px] h-[100px] p-2 rounded-md resize-none"
 								value={comments}
 								onChange={(e) => setComments(e.currentTarget.value)}
 							/>

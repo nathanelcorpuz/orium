@@ -44,7 +44,7 @@ export default function TransactionItem({
 				text-xs
 				border-b-black border-opacity-[0.1]
 				hover:opacity-[0.8] hover:cursor-pointer
-				${balNegative && "bg-black text-white"}
+				${balNegative && "bg-gray-500 text-white"}
 				${balLow && "bg-red-200"}	
 				${balMed && "bg-yellow-100"}	
 				${balHigh && "bg-white"}

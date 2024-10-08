@@ -11,7 +11,11 @@ export default function Reminders() {
 
 	const { isPending, data, isError } = useQuery({
 		queryKey: ["reminders"],
-		queryFn: () => fetch(`${url}/api/reminders`).then((res) => res.json()),
+		queryFn: () =>
+			fetch(`${url}/api/reminders`).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res.json();
+			}),
 	});
 
 	interface FormData {
@@ -23,6 +27,9 @@ export default function Reminders() {
 			fetch(`${url}/api/reminders`, {
 				method: "POST",
 				body: JSON.stringify(formData),
+			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res;
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
@@ -37,11 +44,11 @@ export default function Reminders() {
 	const reminders: Reminder[] = data;
 
 	return (
-		<div className="relative p-2 gap-2 flex flex-col items-start max-w-[300px]">
+		<div className="relative p-6 gap-8 flex flex-col items-start bg-white w-[500px] h-[90vh] rounded-lg">
 			<div className="flex gap-8">
-				<p className="text-xl">Reminders</p>
+				<p className="text-gray-400 text-sm">Reminders</p>
 			</div>
-			<ul className=" p-2 rounded-md flex flex-col gap-2">
+			<ul className="p-2 rounded-md flex flex-col gap-2 h-full overflow-auto w-full border">
 				{reminders.map((reminder) => (
 					<ReminderItem key={reminder._id} reminder={reminder} />
 				))}
@@ -55,21 +62,22 @@ export default function Reminders() {
 				</button>
 			)}
 			{isNewFieldOpen && (
-				<div className="">
+				<div className="w-[300px]">
+					<p className="pb-2 font-bold">New reminder</p>
 					<input
 						value={newContent}
 						onChange={(e) => setNewContent(e.currentTarget.value)}
-						className="border-[1px] p-1"
+						className="border-[1px] p-1 w-full"
 					/>
-					<div className="flex space-between">
+					<div className="flex space-between w-full">
 						<button
-							className="px-6 py-1 border-[1px]"
+							className="px-6 py-1 border-[1px] w-full"
 							onClick={() => setIsNewFieldOpen(false)}
 						>
 							Close
 						</button>
 						<button
-							className="px-6 py-1 border-[1px]"
+							className="px-6 py-1 border-[1px] w-full"
 							onClick={() => {
 								newMutation.mutate({ content: newContent });
 								setIsNewFieldOpen(false);

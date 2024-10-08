@@ -1,18 +1,26 @@
+import { errorHandler } from "@/lib/error";
+import { connectDB } from "@/lib/mongodb";
+import { verifyToken } from "@/lib/token";
 import Bill from "@/models/Bill";
 import Transaction from "@/models/Transaction";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function del(request: NextRequest) {
-	const userId = "";
+	try {
+		await connectDB();
+		const { userId } = await verifyToken();
 
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const body = await request.json();
+		const body = await request.json();
 
-	await Transaction.deleteMany({ typeId: body._id });
+		await Transaction.deleteMany({ typeId: body._id });
 
-	await Bill.findByIdAndDelete(body._id);
+		await Bill.findByIdAndDelete(body._id);
 
-	return new Response("success");
+		return NextResponse.json({ message: "success" });
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

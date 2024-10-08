@@ -1,54 +1,78 @@
+import { errorHandler } from "@/lib/error";
 import { connectDB } from "@/lib/mongodb";
+import { verifyToken } from "@/lib/token";
 import { NewReminder, Reminder as ReminderType } from "@/lib/types";
 import Reminder from "@/models/Reminder";
 
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-	const userId = "";
+	try {
+		const { userId } = await verifyToken();
 
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const newReminder: NewReminder = await request.json();
+		const newReminder: NewReminder = await request.json();
 
-	await Reminder.create({ userId, content: newReminder.content });
+		await Reminder.create({ userId, content: newReminder.content });
 
-	return new Response("Success");
+		return new Response("Success");
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }
 
 export async function GET() {
-	await connectDB();
-	const userId = "";
+	try {
+		await connectDB();
+		const { userId } = await verifyToken();
 
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	const reminders = await Reminder.find({ userId });
+		const reminders = await Reminder.find({ userId });
 
-	return NextResponse.json(reminders);
+		return NextResponse.json(reminders);
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }
 
 export async function PUT(request: NextRequest) {
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	try {
+		await connectDB();
 
-	const newReminder: ReminderType = await request.json();
+		const { userId } = await verifyToken();
 
-	await Reminder.findByIdAndUpdate(newReminder._id, {
-		content: newReminder.content,
-	});
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	return new Response("success");
+		const newReminder: ReminderType = await request.json();
+
+		await Reminder.findByIdAndUpdate(newReminder._id, {
+			content: newReminder.content,
+		});
+
+		return new Response("success");
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }
 
 export async function DELETE(request: NextRequest) {
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	try {
+		const { userId } = await verifyToken();
 
-	const { _id } = await request.json();
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	await Reminder.findByIdAndDelete(_id);
+		const { _id } = await request.json();
 
-	return new Response("success");
+		await Reminder.findByIdAndDelete(_id);
+
+		return new Response("success");
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

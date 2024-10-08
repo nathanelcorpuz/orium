@@ -15,9 +15,9 @@ export interface BillDocument {
 const BillSchema = new Schema<BillDocument>(
 	{
 		userId: { type: String, required: true },
-		name: String,
+		name: { type: String, required: true },
 		amount: Number,
-		day: Number,
+		day: { type: Number, required: true },
 		comments: String,
 		transactionIds: [Schema.Types.ObjectId],
 	},

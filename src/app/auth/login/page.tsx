@@ -103,7 +103,9 @@ export default function Page() {
 						Forgot password
 					</Link>
 				</div>
-				<div>{error && <p className="text-red-600 font-bold">{error}</p>}</div>
+				<div>
+					{error ? <p className="text-red-600 font-bold">{error}</p> : null}
+				</div>
 			</div>
 		</div>
 	);

@@ -4,7 +4,7 @@ import { verifyToken } from "@/lib/token";
 import { NewBalance } from "@/lib/types";
 import Balance from "@/models/Balance";
 
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function put(request: NextRequest) {
 	try {
@@ -23,7 +23,7 @@ export async function put(request: NextRequest) {
 			comments: newBalance.comments || "",
 		});
 
-		return new Response("Success");
+		return NextResponse.json({ message: "Success" });
 	} catch (error) {
 		return errorHandler(error as Error);
 	}

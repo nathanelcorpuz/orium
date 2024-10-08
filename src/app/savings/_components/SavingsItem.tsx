@@ -14,8 +14,8 @@ export default function SavingsItem({
 	setSelectedSavings,
 }: SavingsItem) {
 	return (
-		<div className="flex py-2 px-4 bg-black bg-opacity-[0.05] relative rounded-full">
-			<div className="w-[16.65%]">
+		<div className="flex py-2 px-4 border-b-[1px] border-slate-200">
+			<div className="w-[22%]">
 				<p>{savings.name}</p>
 			</div>
 			<div className="w-[16.65%]">
@@ -33,10 +33,10 @@ export default function SavingsItem({
 			<div className="w-[16.65%]">
 				<p>{savings.comments}</p>
 			</div>
-			<div className="absolute right-[1%] flex justify-center items-center top-0 bottom-0">
+			<div className="ml-auto">
 				<div className="flex">
 					<button
-						className="p-1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsDeleteModalOpen(true);
 							setSelectedSavings(savings);

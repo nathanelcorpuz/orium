@@ -1,17 +1,23 @@
+import { errorHandler } from "@/lib/error";
 import { connectDB } from "@/lib/mongodb";
+import { verifyToken } from "@/lib/token";
 import Extra from "@/models/Extra";
 
 import { NextResponse } from "next/server";
 
 export async function get() {
-	await connectDB();
+	try {
+		await connectDB();
 
-	const userId = "";
-	
-	if (!userId)
-		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		const { userId } = await verifyToken();
 
-	const extras = await Extra.find({ userId });
+		if (!userId)
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-	return NextResponse.json(extras);
+		const extras = await Extra.find({ userId });
+
+		return NextResponse.json(extras);
+	} catch (error) {
+		return errorHandler(error as Error);
+	}
 }

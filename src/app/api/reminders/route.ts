@@ -62,6 +62,7 @@ export async function PUT(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
 	try {
+		await connectDB();
 		const { userId } = await verifyToken();
 
 		if (!userId)

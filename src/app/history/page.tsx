@@ -15,10 +15,10 @@ export default function Forecast() {
 	if (isError) return <div>Error: {error.message}</div>;
 
 	return (
-		<div className="flex flex-col gap-5">
-			<div>
-				<div className="flex font-bold py-2 px-4">
-					<div className="w-[20%]">
+		<div className="flex flex-col p-8 z-[-5]">
+			<div className="bg-white flex flex-col w-[1400px] p-5 rounded-lg h-[90vh]">
+				<div className="flex text-sm p-4 border-slate-200 text-gray-400">
+					<div className="w-[19%]">
 						<p>Name</p>
 					</div>
 					<div className="w-[20%]">

@@ -1,8 +1,8 @@
 "use client";
 
-import Check from "@/app/_components/_common/_icons/Check";
-import Close from "@/app/_components/_common/_icons/Close";
-import Pencil from "@/app/_components/_common/_icons/Pencil";
+import Check from "@/app/_components/_icons/Check";
+import Close from "@/app/_components/_icons/Close";
+import Pencil from "@/app/_components/_icons/Pencil";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";

@@ -1,7 +1,7 @@
 "use client";
 
-import Eye from "@/app/_components/_common/_icons/Eye";
-import EyeClosed from "@/app/_components/_common/_icons/EyeClosed";
+import Eye from "@/app/_components/_icons/Eye";
+import EyeClosed from "@/app/_components/_icons/EyeClosed";
 import { validatePassword } from "@/lib/password";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";

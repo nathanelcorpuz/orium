@@ -16,7 +16,7 @@ export default function ExtraItem({
 	setSelectedExtra,
 }: ExtraItem) {
 	return (
-		<div className="flex py-2 px-4 bg-black bg-opacity-[0.05] relative rounded-full">
+		<div className="flex py-2 px-4 border-b-[1px] border-slate-200">
 			<div className="w-[20%]">
 				<p>{extra.name}</p>
 			</div>
@@ -29,10 +29,10 @@ export default function ExtraItem({
 			<div className="w-[20%]">
 				<p>{extra.comments}</p>
 			</div>
-			<div className="absolute right-[20%] flex justify-center items-center top-0 bottom-0">
+			<div className="ml-auto">
 				<div className="flex">
 					<button
-						className="p1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsEditModalOpen(true);
 							setSelectedExtra(extra);
@@ -41,7 +41,7 @@ export default function ExtraItem({
 						Edit
 					</button>
 					<button
-						className="p-1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsDeleteModalOpen(true);
 							setSelectedExtra(extra);

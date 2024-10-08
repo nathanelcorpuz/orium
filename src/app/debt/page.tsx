@@ -54,7 +54,7 @@ export default function Debts() {
 							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 							onClick={() => setIsNewModalOpen(true)}
 						>
-							Add New Debt
+							Add Debt
 						</button>
 					</div>
 				</div>

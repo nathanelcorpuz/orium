@@ -15,7 +15,7 @@ export default function Balances() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedBalance, setSelectedBalance] = useState({} as Balance);
 
-	const { isPending, isError, data, error, isSuccess } = useQuery({
+	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["balances"],
 		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
 	});
@@ -23,56 +23,54 @@ export default function Balances() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
-	let balances: Balance[] | [] = [];
-
-	if (isSuccess) {
-		balances = data;
-	}
+	let balances: Balance[] = data;
 
 	let totalBalance = 0;
 
-	// balances.forEach((balance) => {
-	// 	totalBalance = totalBalance + balance.amount;
-	// });
+	balances.forEach((balance) => {
+		totalBalance = totalBalance + balance.amount;
+	});
 
 	return (
-		<div>
-			<div className="flex gap-[100px] items-center">
-				<div className="flex gap-2 text-xl">
-					<p>Total balance</p>
-					<p>₱{totalBalance}</p>
+		<div className="flex flex-col p-8 z-[-5]">
+			<div className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]">
+				<div className="flex gap-[100px] items-center justify-between">
+					<div className="flex flex-col py-2">
+						<p className="text-sm text-gray-400">Total Balance</p>
+						<p className="text-2xl font-bold">₱{totalBalance}</p>
+					</div>
+					<div>
+						<button
+							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+							onClick={() => setIsNewModalOpen(true)}
+						>
+							Add Balance
+						</button>
+					</div>
 				</div>
-				<div>
-					<button
-						className="px-8 py-2 border-[1px] border-black border-opacity-[0.1] rounded-lg hover:bg-black hover:text-white"
-						onClick={() => setIsNewModalOpen(true)}
-					>
-						Add New Balance
-					</button>
+				<div className="flex text-sm p-4 border-t-[1px] border-slate-200 text-gray-400">
+					<div className="w-[20%]">
+						<p>Name</p>
+					</div>
+					<div className="w-[20%]">
+						<p>Amount</p>
+					</div>
+					<div className="w-[20%]">
+						<p>Comments</p>
+					</div>
 				</div>
+				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
+					{data.map((balance: Balance) => (
+						<BalanceItem
+							key={balance._id}
+							balance={balance}
+							setIsDeleteModalOpen={setIsDeleteModalOpen}
+							setIsEditModalOpen={setIsEditModalOpen}
+							setSelectedBalance={setSelectedBalance}
+						/>
+					))}
+				</ul>
 			</div>
-			<div className="flex font-bold py-2 px-4">
-				<div className="w-[20%]">
-					<p>Name</p>
-				</div>
-				<div className="w-[20%]">
-					<p>Amount</p>
-				</div>
-				<div className="w-[20%]">
-					<p>Comments</p>
-				</div>
-			</div>
-			{/* <ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
-				{data.map((balance: Balance) => (
-					<BalanceItem
-						key={balance._id}
-						balance={balance}
-						setIsDeleteModalOpen={setIsDeleteModalOpen}
-						setIsEditModalOpen={setIsEditModalOpen}
-						setSelectedBalance={setSelectedBalance}
-					/>
-				))}
-			</ul> */}
 
 			{isDeleteModalOpen ? (
 				<DeleteModal

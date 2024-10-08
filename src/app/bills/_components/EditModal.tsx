@@ -61,7 +61,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 			<div className="w-[500px] bg-white flex flex-col p-8 gap-8 rounded-2xl z-[99]">
 				<div className="flex flex-col py-4 gap-4 ">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">Edit Bill</h1>
+						<h1 className="text-2xl">Edit Bill</h1>
 						<p className="text-sm text-slate-500">
 							This will edit all related transactions.
 						</p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Savings } from "@/lib/types";
+import { Savings, Transaction } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SavingsItem from "./_components/SavingsItem";
@@ -18,51 +18,75 @@ export default function Savingss() {
 		queryFn: () => fetch(`${url}/api/savings`).then((res) => res.json()),
 	});
 
+	const {
+		isPending: isTransactionsPending,
+		isError: isTransactionsError,
+		data: transactionsData,
+		error: transactionsError,
+	} = useQuery({
+		queryKey: ["transactions"],
+		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
+	});
+
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
+	let totalSavings = 0;
+
+	transactionsData.forEach((transaction: Transaction) => {
+		if (transaction.type === "savings") {
+			totalSavings = totalSavings + transaction.amount;
+		}
+	});
+
 	return (
-		<div>
-			<div className="flex gap-[100px] items-center">
-				<div>
-					<button
-						className="px-8 py-2 border-[1px] border-black border-opacity-[0.1] rounded-lg hover:bg-black hover:text-white"
-						onClick={() => setIsNewModalOpen(true)}
-					>
-						Add New Savings
-					</button>
+		<div className="flex flex-col p-8 z-[-5]">
+			<div className="bg-white flex flex-col w-[1400px] p-5 rounded-lg h-[90vh]">
+				<div className="flex gap-[100px] items-center justify-between">
+					<div className="flex flex-col py-2">
+						<p className="text-sm text-gray-400">Total Remaining Savings</p>
+						<p className="text-2xl font-bold">₱{totalSavings}</p>
+					</div>
+					<div>
+						<button
+							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+							onClick={() => setIsNewModalOpen(true)}
+						>
+							Add Savings
+						</button>
+					</div>
 				</div>
+				<div className="flex text-sm p-4 border-t-[1px] border-slate-200 text-gray-400">
+					<div className="w-[20%]">
+						<p>Name</p>
+					</div>
+					<div className="w-[15%]">
+						<p>Amount</p>
+					</div>
+					<div className="w-[15%]">
+						<p>Due Date</p>
+					</div>
+					<div className="w-[15%]">
+						<p>Start Date</p>
+					</div>
+					<div className="w-[15%]">
+						<p>End Date</p>
+					</div>
+					<div className="w-[20%]">
+						<p>Comments</p>
+					</div>
+				</div>
+				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
+					{data.map((savings: Savings) => (
+						<SavingsItem
+							key={savings._id}
+							savings={savings}
+							setIsDeleteModalOpen={setIsDeleteModalOpen}
+							setSelectedSavings={setSelectedSavings}
+						/>
+					))}
+				</ul>
 			</div>
-			<div className="flex font-bold py-2 px-4">
-				<div className="w-[16.65%]">
-					<p>Name</p>
-				</div>
-				<div className="w-[16.65%]">
-					<p>Amount</p>
-				</div>
-				<div className="w-[16.65%]">
-					<p>Due Date</p>
-				</div>
-				<div className="w-[16.65%]">
-					<p>Start Date</p>
-				</div>
-				<div className="w-[16.65%]">
-					<p>End Date</p>
-				</div>
-				<div className="w-[16.65%]">
-					<p>Comments</p>
-				</div>
-			</div>
-			<ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
-				{data.map((savings: Savings) => (
-					<SavingsItem
-						key={savings._id}
-						savings={savings}
-						setIsDeleteModalOpen={setIsDeleteModalOpen}
-						setSelectedSavings={setSelectedSavings}
-					/>
-				))}
-			</ul>
 
 			{isDeleteModalOpen ? (
 				<DeleteModal

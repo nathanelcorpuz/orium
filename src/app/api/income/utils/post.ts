@@ -9,7 +9,6 @@ import {
 	addMonths,
 	addWeeks,
 	differenceInCalendarMonths,
-	differenceInMonths,
 	getDate,
 	getDay,
 	getMonth,

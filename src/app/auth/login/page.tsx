@@ -33,8 +33,6 @@ export default function Page() {
 		onSuccess: () => router.push("/"),
 	});
 
-	console.log(mutation.isError);
-
 	return (
 		<div className="flex justify-center items-center w-[100%] h-[100%] bg-gray-50">
 			<div className="flex w-[500px] flex-col rounded-lg p-8 drop-shadow-xl bg-white gap-6">

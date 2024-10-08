@@ -58,7 +58,7 @@ export default function IncomePage() {
 						</button>
 					</div>
 				</div>
-				<div className="flex text-sm p-4 border-t-[1px] border-slate-300 text-gray-400">
+				<div className="flex text-sm p-4 border-t-[1px] border-slate-200 text-gray-400">
 					<div className="w-[19.5%]">
 						<p>Name</p>
 					</div>

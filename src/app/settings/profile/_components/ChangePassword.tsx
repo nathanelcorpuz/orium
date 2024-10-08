@@ -55,7 +55,7 @@ export default function ChangePassword() {
 				</button>
 			</div>
 			{isFormOpen && (
-				<div className="flex w-full flex-col rounded-lg p-8 border-[1px] border-slate-300 bg-white gap-6 mt-6">
+				<div className="flex w-full flex-col rounded-lg p-8 border-[1px] border-slate-200 bg-white gap-6 mt-6">
 					<div className="flex flex-col">
 						<label className="text-sm" htmlFor="password">
 							Current Password

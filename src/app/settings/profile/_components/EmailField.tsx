@@ -43,7 +43,7 @@ export default function EmailField({ email }: EmailField) {
 				<div className="flex items-center justify-between">
 					{isEmailFieldActive ? (
 						<input
-							className="border-[1px] border-slate-300 p-2 rounded-md w-[300px]"
+							className="border-[1px] border-slate-200 p-2 rounded-md w-[300px]"
 							name="name"
 							type="email"
 							value={newEmail}

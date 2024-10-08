@@ -43,7 +43,7 @@ export default function NameField({ name }: NameField) {
 				<div className="flex items-center justify-between">
 					{isNameFieldActive ? (
 						<input
-							className="border-[1px] border-slate-300 p-2 rounded-md w-[300px]"
+							className="border-[1px] border-slate-200 p-2 rounded-md w-[300px]"
 							name="name"
 							value={newName}
 							onChange={(e) => setNewName(e.currentTarget.value)}

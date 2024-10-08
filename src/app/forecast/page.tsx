@@ -75,7 +75,7 @@ export default function Forecast() {
 						<p className="text-sm text-gray-400">Total Balance</p>
 						<p className="text-2xl font-bold">₱{totalBalance}</p>
 					</div>
-					<div className="flex p-4 border-t-[1px] border-slate-300 text-gray-400">
+					<div className="flex p-4 border-t-[1px] border-slate-200 text-gray-400">
 						<div className="w-[30%]">
 							<p className="text-sm">Name</p>
 						</div>

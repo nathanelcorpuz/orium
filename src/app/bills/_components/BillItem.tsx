@@ -15,7 +15,7 @@ export default function BillItem({
 	setSelectedBill,
 }: BillItem) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-slate-300">
+		<div className="flex py-2 px-4 border-b-[1px] border-slate-200">
 			<div className="w-[20%]">
 				<p>{bill.name}</p>
 			</div>

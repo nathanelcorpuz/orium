@@ -1,6 +1,6 @@
 export default function generateCode() {
 	let digits = "";
-	let timestamp = new Date();
+	const timestamp = new Date();
 	for (let i = 0; i < 6; i++) {
 		digits += Math.floor(Math.random() * 10); // Generate a random number between 0 and 9
 	}

@@ -22,6 +22,6 @@ export const validatePassword = (password: string) => {
 
 	const validatedPassword = schema.validate(password, { details: true });
 
-	// @ts-ignore always an array
+	// @ts-expect-error always an array
 	return validatedPassword.map((validation) => validation.message);
 };

@@ -28,8 +28,9 @@ export default function Savingss() {
 		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
 	});
 
-	if (isPending) return <div>loading</div>;
+	if (isPending || isTransactionsPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
+	if (isTransactionsError) return <div>error: {transactionsError.message}</div>;
 
 	let totalSavings = 0;
 

@@ -2,6 +2,7 @@
 
 import Eye from "@/app/_components/_icons/Eye";
 import EyeClosed from "@/app/_components/_icons/EyeClosed";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -13,6 +14,8 @@ export default function Page() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const [error, setError] = useState("");
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -26,11 +29,7 @@ export default function Page() {
 			fetch(`${url}/api/auth/login`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
-		onSuccess: () => router.push("/"),
+			}).then((res) => res.json()),
 	});
 
 	return (
@@ -79,8 +78,16 @@ export default function Page() {
 						className="
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
-						onClick={() => {
-							mutation.mutate({ email, password });
+						onClick={async () => {
+							const result: APIResult = await mutation.mutateAsync({
+								email,
+								password,
+							});
+
+							console.log(result);
+
+							if (result.success) router.push("/");
+							if (!result.success) setError(result.message);
 						}}
 					>
 						Submit
@@ -102,9 +109,7 @@ export default function Page() {
 					</Link>
 				</div>
 				<div>
-					{mutation.isError ? (
-						<p className="text-red-600 font-bold">{mutation.error.message}</p>
-					) : null}
+					{error ? <p className="text-red-600 font-bold">{error}</p> : null}
 				</div>
 			</div>
 		</div>

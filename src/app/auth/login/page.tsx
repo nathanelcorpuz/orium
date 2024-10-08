@@ -28,8 +28,10 @@ export default function Page() {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
 				return res;
 			}),
+		onSuccess: () => router.push("/"),
 	});
 
 	return (
@@ -79,10 +81,7 @@ export default function Page() {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
-							const result = await mutation.mutateAsync({ email, password });
-							console.log(result);
-							if (!result.ok) setError(result.statusText);
-							if (result.ok) router.push("/");
+							mutation.mutateAsync({ email, password });
 						}}
 					>
 						Submit
@@ -104,7 +103,9 @@ export default function Page() {
 					</Link>
 				</div>
 				<div>
-					{error ? <p className="text-red-600 font-bold">{error}</p> : null}
+					{mutation.isError ? (
+						<p className="text-red-600 font-bold">{mutation.error.message}</p>
+					) : null}
 				</div>
 			</div>
 		</div>

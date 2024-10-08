@@ -30,7 +30,6 @@ export default function Page() {
 			}).then((res) => {
 				return res;
 			}),
-		onSuccess: () => router.push("/"),
 	});
 
 	return (
@@ -83,6 +82,7 @@ export default function Page() {
 							const result = await mutation.mutateAsync({ email, password });
 
 							if (!result.ok) setError(result.statusText);
+							if (result.ok) router.push("/");
 						}}
 					>
 						Submit

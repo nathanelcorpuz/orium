@@ -43,8 +43,10 @@ export default function DeleteModal({ bill, setIsModalOpen }: DeleteModal) {
 			<div className="w-[500px] bg-white flex flex-col p-8 gap-8 rounded-2xl z-[99]">
 				<div className="flex flex-col py-4 gap-4">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">Delete Bill</h1>
-						<p>This will delete all related transactions.</p>
+						<h1 className="text-2xl">Delete Bill</h1>
+						<p className="text-sm text-slate-400">
+							This will delete all related transactions.
+						</p>
 						<div className="border-b-[1px] border-slate-200"></div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Name</p>

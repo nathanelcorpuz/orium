@@ -35,7 +35,6 @@ export default function Page({ params }: { params: { email: string } }) {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then(async (res) => {
-				console.log(res);
 				if (!res.ok) throw new Error(res.statusText);
 				return res;
 			}),

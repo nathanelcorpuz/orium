@@ -15,7 +15,11 @@ export default function IncomePage() {
 
 	const { isPending, isError, data, error } = useQuery({
 		queryKey: ["income"],
-		queryFn: () => fetch(`${url}/api/income`).then((res) => res.json()),
+		queryFn: () =>
+			fetch(`${url}/api/income`).then((res) => {
+				if (!res.ok) throw new Error(res.statusText);
+				return res.json();
+			}),
 	});
 
 	if (isPending) return <div>loading</div>;
@@ -38,52 +42,56 @@ export default function IncomePage() {
 	});
 
 	return (
-		<div>
-			<div className="flex gap-[100px] items-center">
-				<div className="flex gap-2 text-xl">
-					<p>Total monthly income</p>
-					<p>₱{totalMonthlyIncome}</p>
+		<div className="flex flex-col p-8 z-[-5]">
+			<div className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]">
+				<div className="flex gap-[100px] items-center justify-between">
+					<div className="flex flex-col py-2">
+						<p className="text-sm text-gray-400">Total Monthly Income</p>
+						<p className="text-2xl font-bold">₱{totalMonthlyIncome}</p>
+					</div>
+					<div>
+						<button
+							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+							onClick={() => setIsNewModalOpen(true)}
+						>
+							Add Income
+						</button>
+					</div>
 				</div>
-				<div>
-					<button
-						className="px-8 py-2 border-[1px] border-black border-opacity-[0.1] rounded-lg hover:bg-black hover:text-white"
-						onClick={() => setIsNewModalOpen(true)}
-					>
-						Add New Income
-					</button>
+				<div className="flex text-sm p-4 border-t-[1px] border-slate-300 text-gray-400">
+					<div className="w-[19.5%]">
+						<p>Name</p>
+					</div>
+					<div className="w-[20.5%]">
+						<p>Amount</p>
+					</div>
+					<div className="w-[19.5%]">
+						<p>Frequency</p>
+					</div>
+					<div className="w-[19.5%]">
+						<p>Comments</p>
+					</div>
 				</div>
-			</div>
-			<div className="flex font-bold py-2 px-4">
-				<div className="w-[20%]">
-					<p>Name</p>
-				</div>
-				<div className="w-[20%]">
-					<p>Amount</p>
-				</div>
-				<div className="w-[20%]">
-					<p>Frequency</p>
-				</div>
-				<div className="w-[20%]">
-					<p>Comments</p>
-				</div>
-			</div>
-			<ul className="flex flex-col gap-2 h-[80vh] overflow-auto">
-				{data.map((income: Income) => (
-					<IncomeItem
-						key={income._id}
-						income={income}
-						setIsDeleteModalOpen={setIsDeleteModalOpen}
-						setSelectedIncome={setSelectedIncome}
+				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
+					{data.map((income: Income) => (
+						<IncomeItem
+							key={income._id}
+							income={income}
+							setIsDeleteModalOpen={setIsDeleteModalOpen}
+							setSelectedIncome={setSelectedIncome}
+						/>
+					))}
+				</ul>
+				{isNewModalOpen ? (
+					<NewModal setIsModalOpen={setIsNewModalOpen} />
+				) : null}
+				{isDeleteModalOpen ? (
+					<DeleteModal
+						income={selectedIncome}
+						setIsModalOpen={setIsDeleteModalOpen}
 					/>
-				))}
-			</ul>
-			{isNewModalOpen ? <NewModal setIsModalOpen={setIsNewModalOpen} /> : null}
-			{isDeleteModalOpen ? (
-				<DeleteModal
-					income={selectedIncome}
-					setIsModalOpen={setIsDeleteModalOpen}
-				/>
-			) : null}
+				) : null}
+			</div>
 		</div>
 	);
 }

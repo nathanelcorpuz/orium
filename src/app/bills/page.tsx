@@ -44,21 +44,21 @@ export default function Bills() {
 							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 							onClick={() => setIsNewModalOpen(true)}
 						>
-							Add New Bill
+							Add Bill
 						</button>
 					</div>
 				</div>
 				<div className="flex text-sm p-4 border-t-[1px] border-slate-300 text-gray-400">
-					<div className="w-[20%]">
+					<div className="w-[19.5%]">
 						<p>Name</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[19.5%]">
 						<p>Amount</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[19.5%]">
 						<p>Due Date</p>
 					</div>
-					<div className="w-[20%]">
+					<div className="w-[19.5%]">
 						<p>Comments</p>
 					</div>
 				</div>

@@ -45,22 +45,25 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 	};
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
-			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute z-[-2]"></div>
-			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
+			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
+			<div className="w-[500px] bg-white z-[99] flex flex-col p-8 gap-8 rounded-2xl">
 				<div className="flex flex-col py-4 gap-4">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">Delete Income?</h1>
-						<p>This will delete all related transactions.</p>
+						<h1 className="text-2xl">Delete Income</h1>
+						<p className="text-sm text-slate-400">
+							This will delete all related transactions.
+						</p>
+						<div className="border-b-[1px] border-slate-200"></div>
 						<div className="flex flex-col">
-							<p className="font-bold">Name</p>
+							<p className="text-sm text-slate-400">Name</p>
 							<p>{income.name}</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Amount</p>
+							<p className="text-sm text-slate-400">Amount</p>
 							<p>{income.amount}</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Frequency</p>
+							<p className="text-sm text-slate-400">Frequency</p>
 							<p>
 								{income.frequency === "monthly"
 									? `${income.day} of every month`
@@ -71,18 +74,18 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 							</p>
 						</div>
 						<div className="flex flex-col">
-							<p className="font-bold">Comments</p>
+							<p className="text-sm text-slate-400">Comments</p>
 							<p>{income.comments}</p>
 						</div>
 						<div className="flex mt-auto justify-between">
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickClose}
 							>
 								Close
 							</button>
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 								onClick={onClickSubmit}
 							>
 								Submit

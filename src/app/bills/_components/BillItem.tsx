@@ -15,7 +15,7 @@ export default function BillItem({
 	setSelectedBill,
 }: BillItem) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-slate-300 relative">
+		<div className="flex py-2 px-4 border-b-[1px] border-slate-300">
 			<div className="w-[20%]">
 				<p>{bill.name}</p>
 			</div>
@@ -31,7 +31,7 @@ export default function BillItem({
 			<div className="ml-auto">
 				<div className="flex">
 					<button
-						className="p1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsEditModalOpen(true);
 							setSelectedBill(bill);
@@ -40,7 +40,7 @@ export default function BillItem({
 						Edit
 					</button>
 					<button
-						className="p-1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsDeleteModalOpen(true);
 							setSelectedBill(bill);

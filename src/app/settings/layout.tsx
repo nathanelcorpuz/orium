@@ -8,7 +8,6 @@ export default function Layout({
 	children: React.ReactNode;
 }>) {
 	const pathname = usePathname();
-	console.log(pathname.includes("profile"));
 	return (
 		<div className="flex">
 			<ul className="bg-white border-l-[1px] border-slate-200 p-10 w-60 flex flex-col gap-8">

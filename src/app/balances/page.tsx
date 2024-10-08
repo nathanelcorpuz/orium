@@ -23,7 +23,6 @@ export default function Balances() {
 	if (isPending) return <div>loading</div>;
 	if (isError) return <div>error: {error.message}</div>;
 
-	console.log(data);
 	let balances: Balance[] | [] = [];
 
 	if (isSuccess) {

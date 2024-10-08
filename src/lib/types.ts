@@ -51,7 +51,7 @@ export interface NewIncome {
 	dayOfWeek: DayOfWeek;
 	startDate: Date;
 	day: number;
-	endDate: number;
+	endDate: Date;
 	comments?: string;
 }
 

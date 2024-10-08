@@ -7,16 +7,6 @@ interface IncomeItem {
 	setSelectedIncome: Dispatch<SetStateAction<Income>>;
 }
 
-/**
- * 
-  name: string;
-	amount: number;
-	frequency: "monthly" | "bi-weekly" | "weekly";
-	dayOfWeek: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun" | "none";
-	day: Number;
-	comments: string;
- */
-
 export default function IncomeItem({
 	income,
 	setIsDeleteModalOpen,
@@ -33,7 +23,7 @@ export default function IncomeItem({
 	if (income.dayOfWeek == 6) formattedDayOfWeek = "Saturday";
 
 	return (
-		<li className="flex py-2 px-4 bg-black bg-opacity-[0.05] relative rounded-full">
+		<li className="flex py-2 px-4 border-b-[1px] border-slate-300">
 			<div className="w-[20%]">
 				<p>{income.name}</p>
 			</div>
@@ -52,10 +42,10 @@ export default function IncomeItem({
 			<div className="w-[20%]">
 				<p>{income.comments}</p>
 			</div>
-			<div className="absolute right-[20%] flex justify-center items-center top-0 bottom-0">
+			<div className="ml-auto">
 				<div className="flex">
 					<button
-						className="p-1 px-4 hover:underline"
+						className="p-1 px-4 hover:underline text-sm text-slate-400"
 						onClick={() => {
 							setIsDeleteModalOpen(true);
 							setSelectedIncome(income);

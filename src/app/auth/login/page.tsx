@@ -31,6 +31,9 @@ export default function Page() {
 				return res;
 			}),
 	});
+
+	console.log(mutation.isError);
+
 	return (
 		<div className="flex justify-center items-center w-[100%] h-[100%] bg-gray-50">
 			<div className="flex w-[500px] flex-col rounded-lg p-8 drop-shadow-xl bg-white gap-6">
@@ -62,7 +65,7 @@ export default function Page() {
 						/>
 						<div
 							className="absolute top-0 right-[10px] bottom-0 flex items-center"
-							onClick={() => setIsPasswordVisible(val => !val)}
+							onClick={() => setIsPasswordVisible((val) => !val)}
 						>
 							{isPasswordVisible ? (
 								<Eye className="w-[30px] h-[30px] rounded-full hover:bg-slate-300 transition-all cursor-pointer p-1" />

@@ -30,6 +30,7 @@ export default function Page() {
 				if (!res.ok) throw new Error(res.statusText);
 				return res;
 			}),
+		onSuccess: () => router.push("/"),
 	});
 
 	console.log(mutation.isError);
@@ -81,8 +82,7 @@ export default function Page() {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
-							const result = await mutation.mutateAsync({ email, password });
-							if (result.ok) router.push("/");
+							mutation.mutate({ email, password });
 						}}
 					>
 						Submit

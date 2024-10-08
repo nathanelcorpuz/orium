@@ -79,7 +79,7 @@ export default function Page() {
 						className="
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
-						onClick={async () => {
+						onClick={() => {
 							mutation.mutate({ email, password });
 						}}
 					>

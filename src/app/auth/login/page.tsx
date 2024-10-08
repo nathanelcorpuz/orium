@@ -13,6 +13,7 @@ export default function Page() {
 
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
 
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
@@ -27,7 +28,6 @@ export default function Page() {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
 				return res;
 			}),
 		onSuccess: () => router.push("/"),
@@ -80,7 +80,9 @@ export default function Page() {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 						onClick={async () => {
-							mutation.mutate({ email, password });
+							const result = await mutation.mutateAsync({ email, password });
+
+							if (!result.ok) setError(result.statusText);
 						}}
 					>
 						Submit
@@ -101,11 +103,7 @@ export default function Page() {
 						Forgot password
 					</Link>
 				</div>
-				<div>
-					{mutation.isError && (
-						<p className="text-red-600 font-bold">{mutation.error.message}</p>
-					)}
-				</div>
+				<div>{error && <p className="text-red-600 font-bold">{error}</p>}</div>
 			</div>
 		</div>
 	);

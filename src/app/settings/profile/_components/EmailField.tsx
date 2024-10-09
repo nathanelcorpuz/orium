@@ -3,6 +3,7 @@
 import Check from "@/app/_components/_icons/Check";
 import Close from "@/app/_components/_icons/Close";
 import Pencil from "@/app/_components/_icons/Pencil";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -16,6 +17,7 @@ export default function EmailField({ email }: EmailField) {
 
 	const [isEmailFieldActive, setIsEmailFieldActive] = useState(false);
 	const [newEmail, setNewEmail] = useState(email);
+	const [error, setError] = useState("");
 
 	interface FormData {
 		email: string;
@@ -27,12 +29,10 @@ export default function EmailField({ email }: EmailField) {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
 				return res.json();
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
-			setIsEmailFieldActive(false);
 		},
 	});
 
@@ -55,8 +55,12 @@ export default function EmailField({ email }: EmailField) {
 					{isEmailFieldActive && (
 						<div>
 							<button
-								onClick={() => {
-									mutation.mutate({ email: newEmail });
+								onClick={async () => {
+									const res: APIResult = await mutation.mutateAsync({
+										email: newEmail,
+									});
+									if (!res.success) setError(res.message);
+									if (res.success) setIsEmailFieldActive(false);
 								}}
 							>
 								<Check className="w-[35px] h-[35px] rounded-full hover:cursor-pointer transition-all hover:bg-gray-400 p-2" />
@@ -76,9 +80,7 @@ export default function EmailField({ email }: EmailField) {
 						</button>
 					)}
 				</div>
-				{mutation.isError && (
-					<p className="text-red-600 font-bold">{mutation.error.message}</p>
-				)}
+				{error && <p className="text-red-600 font-bold">{error}</p>}
 			</div>
 		</div>
 	);

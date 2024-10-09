@@ -1,6 +1,6 @@
 "use client";
 
-import { Reminder } from "@/lib/types";
+import { APIResult, Reminder } from "@/lib/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import ReminderItem from "./ReminderItem";
@@ -13,10 +13,11 @@ export default function Reminders() {
 		queryKey: ["reminders"],
 		queryFn: () =>
 			fetch(`${url}/api/reminders`).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
 				return res.json();
 			}),
 	});
+
+	const [newError, setNewError] = useState("");
 
 	interface FormData {
 		content: string;
@@ -28,8 +29,7 @@ export default function Reminders() {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
@@ -78,15 +78,21 @@ export default function Reminders() {
 						</button>
 						<button
 							className="px-6 py-1 border-[1px] w-full"
-							onClick={() => {
-								newMutation.mutate({ content: newContent });
-								setIsNewFieldOpen(false);
-								setNewContent("");
+							onClick={async () => {
+								const res: APIResult = await newMutation.mutateAsync({
+									content: newContent,
+								});
+
+								if (res.success) {
+									setIsNewFieldOpen(false);
+									setNewContent("");
+								} else setNewError(res.message);
 							}}
 						>
 							Submit
 						</button>
 					</div>
+					{newError && <p className="text-red-500">{newError}</p>}
 				</div>
 			)}
 		</div>

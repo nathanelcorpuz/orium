@@ -1,4 +1,5 @@
-import { Extra } from "@/lib/types";
+"use client";
+import { APIResult, Extra } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -14,6 +15,7 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 	const [amount, setAmount] = useState(String(extra.amount));
 	const [date, setDate] = useState(format(extra.date, "yyyy-MM-dd"));
 	const [comments, setComments] = useState(extra.comments);
+	const [error, setError] = useState("");
 
 	const queryClient = useQueryClient();
 
@@ -31,8 +33,7 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["extras"] });
@@ -45,7 +46,7 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 	};
 
 	const onClickSubmit = async () => {
-		const res = await mutation.mutateAsync({
+		const res: APIResult = await mutation.mutateAsync({
 			_id: extra._id,
 			name,
 			amount: Number(amount),
@@ -53,7 +54,8 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 			comments: comments || "",
 		});
 
-		if (res.ok) setIsModalOpen(false);
+		if (!res.success) setError(error);
+		if (res.success) setIsModalOpen(false);
 	};
 
 	return (
@@ -129,9 +131,7 @@ export default function EditModal({ extra, setIsModalOpen }: EditModal) {
 								Submit
 							</button>
 						</div>
-						{mutation.isError && (
-							<p className="text-red-600">{mutation.error.message}</p>
-						)}
+						{error && <p className="text-red-600">{error}</p>}
 					</div>
 				</div>
 			</div>

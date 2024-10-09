@@ -1,7 +1,9 @@
-import { Balance } from "@/lib/types";
+"use client";
+
+import { APIResult, Balance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface DeleteModal {
 	balance: Balance;
@@ -10,6 +12,7 @@ interface DeleteModal {
 
 export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
+	const [error, setError] = useState("");
 
 	interface FormData {
 		_id: string;
@@ -20,10 +23,7 @@ export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 			fetch(`${url}/api/balances`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
-			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["balances"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -34,8 +34,9 @@ export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 		setIsModalOpen(false);
 	};
 	const onClickSubmit = async () => {
-		const res = await mutation.mutateAsync({ _id: balance._id });
-		if (res.ok) setIsModalOpen(false);
+		const res: APIResult = await mutation.mutateAsync({ _id: balance._id });
+		if (res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
@@ -71,9 +72,7 @@ export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 								Submit
 							</button>
 						</div>
-						{mutation.isError && (
-							<p className="text-red-600">{mutation.error.message}</p>
-						)}
+						{error && <p className="text-red-600">{error}</p>}
 					</div>
 				</div>
 			</div>

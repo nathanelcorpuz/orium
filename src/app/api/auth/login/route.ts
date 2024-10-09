@@ -29,7 +29,8 @@ export async function POST(request: NextRequest) {
 	if (userDoc.isLocked)
 		return NextResponse.json({
 			success: false,
-			message: "Account locked, please reach out to oriumsupport@gmail.com",
+			message:
+				"Account locked, please reach out to oriumsupport@gmail.com for assistance",
 		});
 
 	const isPasswordCorrect = await bcrypt.compare(password, userDoc.password);
@@ -47,13 +48,16 @@ export async function POST(request: NextRequest) {
 		{ expiresIn: "7d" }
 	);
 
-	return new NextResponse(JSON.stringify({ isSuccess: true }), {
-		status: 200,
-		headers: {
-			"Set-Cookie": `token=${token}; Expires=${addDays(
-				new Date(),
-				7
-			)}; Secure; HttpOnly; Path=/`,
-		},
-	});
+	return new NextResponse(
+		JSON.stringify({ success: true, message: "Log in success" }),
+		{
+			status: 200,
+			headers: {
+				"Set-Cookie": `token=${token}; Expires=${addDays(
+					new Date(),
+					7
+				)}; Secure; HttpOnly; Path=/`,
+			},
+		}
+	);
 }

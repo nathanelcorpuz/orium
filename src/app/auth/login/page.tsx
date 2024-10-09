@@ -84,8 +84,6 @@ export default function Page() {
 								password,
 							});
 
-							console.log(result);
-
 							if (result.success) router.push("/");
 							if (!result.success) setError(result.message);
 						}}

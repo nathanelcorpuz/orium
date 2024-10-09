@@ -1,7 +1,8 @@
-import { Income } from "@/lib/types";
+"use client";
+import { APIResult, Income } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface DeleteModal {
 	income: Income;
@@ -18,6 +19,8 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 	if (income.dayOfWeek == 5) formattedDayOfWeek = "Friday";
 	if (income.dayOfWeek == 6) formattedDayOfWeek = "Saturday";
 
+	const [error, setError] = useState("");
+
 	const queryClient = useQueryClient();
 
 	interface FormData {
@@ -29,7 +32,7 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 			fetch(`${url}/api/income`, {
 				method: "DELETE",
 				body: JSON.stringify(formData),
-			}),
+			}).then((res) => res.json()),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["income"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -39,9 +42,10 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 	const onClickClose = () => {
 		setIsModalOpen(false);
 	};
-	const onClickSubmit = () => {
-		mutation.mutate({ _id: income._id });
-		setIsModalOpen(false);
+	const onClickSubmit = async () => {
+		const res: APIResult = await mutation.mutateAsync({ _id: income._id });
+		if (!res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
@@ -91,6 +95,7 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 								Submit
 							</button>
 						</div>
+						{error && <p className="text-red-600">{error}</p>}
 					</div>
 				</div>
 			</div>

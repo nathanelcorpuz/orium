@@ -1,7 +1,9 @@
+"use client";
+
 import Check from "@/app/_components/_icons/Check";
 import Close from "@/app/_components/_icons/Close";
 import Pencil from "@/app/_components/_icons/Pencil";
-import { Reminder } from "@/lib/types";
+import { APIResult, Reminder } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -14,6 +16,9 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 	const [editContent, setEditContent] = useState(reminder.content);
 	const [isEditFieldOpen, setIsEditFieldOpen] = useState(false);
 	const [isDeleteFieldOpen, setIsDeleteFieldOpen] = useState(false);
+
+	const [editError, setEditError] = useState("");
+	const [deleteError, setDeleteError] = useState("");
 
 	const queryClient = useQueryClient();
 
@@ -28,8 +33,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
@@ -44,8 +48,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => queryClient.invalidateQueries({ queryKey: ["reminders"] }),
 	});
@@ -58,32 +61,36 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 					value={editContent}
 					onChange={(e) => setEditContent(e.currentTarget.value)}
 				/>
-				<div className="flex gap-1">
-					<button
-						className="flex justify-center items-center"
-						onClick={() => {
-							editMutation.mutate({
-								_id: reminder._id,
-								content: editContent,
-							});
-							setIsEditFieldOpen(false);
-						}}
-					>
-						<Check
-							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
-						/>
-					</button>
-					<button
-						className="flex justify-center items-center"
-						onClick={() => {
-							setEditContent(reminder.content);
-							setIsEditFieldOpen(false);
-						}}
-					>
-						<Close
-							className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
-						/>
-					</button>
+				<div className="flex-col">
+					<div className="flex gap-1">
+						<button
+							className="flex justify-center items-center"
+							onClick={async () => {
+								const res: APIResult = await editMutation.mutateAsync({
+									_id: reminder._id,
+									content: editContent,
+								});
+								if (!res.success) setEditError(res.message);
+								if (res.success) setIsEditFieldOpen(false);
+							}}
+						>
+							<Check
+								className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+							/>
+						</button>
+						<button
+							className="flex justify-center items-center"
+							onClick={() => {
+								setEditContent(reminder.content);
+								setIsEditFieldOpen(false);
+							}}
+						>
+							<Close
+								className={`w-[25px] h-[25px] transition-all hover:bg-slate-200 p-[5px] rounded-full`}
+							/>
+						</button>
+					</div>
+					{editError && <p className="text-red-600">{editError}</p>}
 				</div>
 			</div>
 		);
@@ -95,9 +102,12 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 					<div className="flex gap-1">
 						<button
 							className="flex justify-center items-center"
-							onClick={() => {
-								deleteMutation.mutate({ _id: reminder._id });
-								setIsDeleteFieldOpen(false);
+							onClick={async () => {
+								const res: APIResult = await deleteMutation.mutateAsync({
+									_id: reminder._id,
+								});
+								if (!res.success) setDeleteError(res.message);
+								if (res.success) setIsDeleteFieldOpen(false);
 							}}
 						>
 							<Check
@@ -113,7 +123,7 @@ export default function ReminderItem({ reminder }: ReminderItem) {
 							/>
 						</button>
 					</div>
-
+					{deleteError && <p className="text-xs text-red-600">{deleteError}</p>}
 					<p className="text-xs">Delete reminder?</p>
 				</div>
 			</div>

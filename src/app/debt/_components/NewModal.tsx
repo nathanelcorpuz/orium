@@ -1,5 +1,6 @@
 "use client";
 
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -17,6 +18,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	const [comments, setComments] = useState("");
+	const [error, setError] = useState("");
 
 	interface FormData {
 		name: string;
@@ -32,10 +34,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			fetch(`${url}/api/debts`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["debts"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -44,7 +43,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const onClickClose = () => setIsModalOpen(false);
 	const onClickSubmit = async () => {
-		const res = await mutation.mutateAsync({
+		const res: APIResult = await mutation.mutateAsync({
 			name,
 			amount: Number(amount) * -1,
 			day: Number(day),
@@ -53,7 +52,8 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			comments,
 		});
 
-		if (res.ok) setIsModalOpen(false);
+		if (!res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 
 	return (
@@ -149,9 +149,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 								Submit
 							</button>
 						</div>
-						{mutation.isError && (
-							<p className="text-red-500">{mutation.error.message}</p>
-						)}
+						{error && <p className="text-red-500">{error}</p>}
 					</div>
 				</div>
 			</div>

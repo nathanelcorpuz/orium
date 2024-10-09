@@ -18,6 +18,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	const [comments, setComments] = useState("");
+	const [error, setError] = useState("");
 
 	interface FormData {
 		name: string;
@@ -35,8 +36,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 				method: "POST",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["income"] });
@@ -46,7 +46,6 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 
 	const onClickClose = () => setIsModalOpen(false);
 	const onClickSubmit = async () => {
-	
 		const res = await mutation.mutateAsync({
 			name,
 			amount: Number(amount),
@@ -57,7 +56,8 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			comments,
 		});
 
-		if (res.ok) setIsModalOpen(false);
+		if (!res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 
 	return (
@@ -194,9 +194,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 								Submit
 							</button>
 						</div>
-						{mutation.isError && (
-							<p className="text-red-500">{mutation.error.message}</p>
-						)}
+						{error && <p className="text-red-500">{error}</p>}
 					</div>
 				</div>
 			</div>

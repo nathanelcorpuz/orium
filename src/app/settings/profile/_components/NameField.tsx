@@ -3,6 +3,7 @@
 import Check from "@/app/_components/_icons/Check";
 import Close from "@/app/_components/_icons/Close";
 import Pencil from "@/app/_components/_icons/Pencil";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -16,6 +17,7 @@ export default function NameField({ name }: NameField) {
 
 	const [isNameFieldActive, setIsNameFieldActive] = useState(false);
 	const [newName, setNewName] = useState(name);
+	const [error, setError] = useState("");
 
 	interface FormData {
 		name: string;
@@ -27,12 +29,10 @@ export default function NameField({ name }: NameField) {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
 				return res.json();
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["user"] });
-			setIsNameFieldActive(false);
 		},
 	});
 
@@ -54,8 +54,12 @@ export default function NameField({ name }: NameField) {
 					{isNameFieldActive && (
 						<div>
 							<button
-								onClick={() => {
-									mutation.mutate({ name: newName });
+								onClick={async () => {
+									const res: APIResult = await mutation.mutateAsync({
+										name: newName,
+									});
+									if (res.success) setIsNameFieldActive(false);
+									if (!res.success) setError(res.message);
 								}}
 							>
 								<Check className="w-[35px] h-[35px] rounded-full hover:cursor-pointer transition-all hover:bg-gray-400 p-2" />
@@ -75,9 +79,7 @@ export default function NameField({ name }: NameField) {
 						</button>
 					)}
 				</div>
-				{mutation.isError && (
-					<p className="text-red-600 font-bold">{mutation.error.message}</p>
-				)}
+				{error && <p className="text-red-600 font-bold">{error}</p>}
 			</div>
 		</div>
 	);

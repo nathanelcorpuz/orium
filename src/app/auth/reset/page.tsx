@@ -1,5 +1,6 @@
 "use client";
 
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import { useState } from "react";
 
 export default function Page() {
 	const [email, setEmail] = useState("");
+	const [error, setError] = useState("");
 	const router = useRouter();
 
 	interface FormData {
@@ -19,10 +21,7 @@ export default function Page() {
 			fetch(`${url}/api/auth/password/reset`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
-			}).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 	});
 
 	return (
@@ -42,10 +41,11 @@ export default function Page() {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 					onClick={async () => {
-						const result: Response = await submitMutation.mutateAsync({
+						const result: APIResult = await submitMutation.mutateAsync({
 							email,
 						});
-						if (result.ok) router.push(`/auth/reset/verify/${email}`);
+						if (result.success) router.push(`/auth/reset/verify/${email}`);
+						if (!result.success) setError(result.message);
 					}}
 				>
 					Submit
@@ -65,11 +65,7 @@ export default function Page() {
 						Sign in
 					</Link>
 				</div>
-				{submitMutation.isError ? (
-					<p className="font-bold text-red-600">
-						{submitMutation.error.message}
-					</p>
-				) : null}
+				{error ? <p className="font-bold text-red-600">{error}</p> : null}
 			</div>
 		</div>
 	);

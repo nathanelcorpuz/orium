@@ -1,4 +1,3 @@
-import { errorHandler } from "@/lib/error";
 import { connectDB } from "@/lib/mongodb";
 import { verifyToken } from "@/lib/token";
 import History from "@/models/History";
@@ -6,18 +5,12 @@ import History from "@/models/History";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-	try {
-		await connectDB();
+	await connectDB();
 
-		const { userId } = await verifyToken();
+	const auth = await verifyToken();
+	if (!auth.success) return NextResponse.json(auth);
 
-		if (!userId)
-			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	const history = await History.find({ userId: auth.userId });
 
-		const history = await History.find({ userId });
-
-		return NextResponse.json(history);
-	} catch (error) {
-		return errorHandler(error as Error);
-	}
+	return NextResponse.json(history);
 }

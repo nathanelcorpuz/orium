@@ -1,4 +1,4 @@
-import { Bill } from "@/lib/types";
+import { APIResult, Bill } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -13,6 +13,8 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 	const [amount, setAmount] = useState(String(bill.amount));
 	const [day, setDay] = useState(String(bill.day));
 	const [comments, setComments] = useState(bill.comments);
+
+	const [error, setError] = useState("");
 
 	const queryClient = useQueryClient();
 
@@ -29,10 +31,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 			fetch(`${url}/api/bills`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
-			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["bills"] });
 			queryClient.invalidateQueries({ queryKey: ["transactions"] });
@@ -44,7 +43,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 	};
 
 	const onClickSubmit = async () => {
-		const res = await mutation.mutateAsync({
+		const res: APIResult = await mutation.mutateAsync({
 			_id: bill._id,
 			name,
 			amount: Number(amount),
@@ -52,7 +51,8 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 			comments: comments || "",
 		});
 
-		if (res.ok) setIsModalOpen(false);
+		if (!res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 
 	return (
@@ -127,9 +127,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 								Submit
 							</button>
 						</div>
-						{mutation.isError && (
-							<p className="text-red-600">{mutation.error.message}</p>
-						)}
+						{error && <p className="text-red-600">{error}</p>}
 					</div>
 				</div>
 			</div>

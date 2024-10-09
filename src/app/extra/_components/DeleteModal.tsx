@@ -1,8 +1,10 @@
-import { Extra } from "@/lib/types";
+"use client";
+
+import { APIResult, Extra } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface DeleteModal {
 	extra: Extra;
@@ -11,6 +13,7 @@ interface DeleteModal {
 
 export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
+	const [error, setError] = useState("");
 
 	interface FormData {
 		_id: string;
@@ -22,8 +25,7 @@ export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 				method: "DELETE",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["extras"] });
@@ -35,9 +37,10 @@ export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 		setIsModalOpen(false);
 	};
 	const onClickSubmit = async () => {
-		const res = await mutation.mutateAsync({ _id: extra._id });
+		const res: APIResult = await mutation.mutateAsync({ _id: extra._id });
 
-		if (res.ok) setIsModalOpen(false);
+		if (!res.success) setError(res.message);
+		if (res.success) setIsModalOpen(false);
 	};
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
@@ -80,6 +83,7 @@ export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 								Submit
 							</button>
 						</div>
+						{error && <p className="text-red-600">{error}</p>}
 					</div>
 				</div>
 			</div>

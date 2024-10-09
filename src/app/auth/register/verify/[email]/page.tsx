@@ -1,5 +1,6 @@
 "use client";
 
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -7,6 +8,7 @@ import { useState } from "react";
 
 export default function Page({ params }: { params: { email: string } }) {
 	const [digits, setDigits] = useState("");
+	const [error, setError] = useState("");
 	const router = useRouter();
 
 	interface FormData {
@@ -19,10 +21,7 @@ export default function Page({ params }: { params: { email: string } }) {
 			fetch(`${url}/api/auth/register/verify`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 	});
 
 	interface ResendFormData {
@@ -34,10 +33,7 @@ export default function Page({ params }: { params: { email: string } }) {
 			fetch(`${url}/api/auth/register/code`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 	});
 
 	return (
@@ -56,33 +52,29 @@ export default function Page({ params }: { params: { email: string } }) {
           py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 					onClick={async () => {
-						const result: Response = await submitMutation.mutateAsync({
+						const result: APIResult = await submitMutation.mutateAsync({
 							email: params.email,
 							digits: Number(digits),
 						});
-						if (result.ok) router.push("/");
+						if (result.success) router.push("/");
+						if (!result.success) setError(result.message);
 					}}
 				>
 					Submit
 				</button>
 				<p
 					className="underline hover:cursor-pointer hover:text-gray-400 transition-all"
-					onClick={() => {
-						resendMutation.mutate({ email: params.email });
+					onClick={async () => {
+						const result: APIResult = await resendMutation.mutateAsync({
+							email: params.email,
+						});
+						if (!result.success) setError(result.message);
+						if (result.success) setError("");
 					}}
 				>
 					Resend code
 				</p>
-				{submitMutation.isError ? (
-					<p className="font-bold text-red-600">
-						{submitMutation.error.message}
-					</p>
-				) : null}
-				{resendMutation.isError ? (
-					<p className="font-bold text-red-600">
-						{resendMutation.error.message}
-					</p>
-				) : null}
+				{error ? <p className="font-bold text-red-600">{error}</p> : null}
 			</div>
 		</div>
 	);

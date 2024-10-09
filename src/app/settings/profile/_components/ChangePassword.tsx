@@ -3,6 +3,7 @@
 import Eye from "@/app/_components/_icons/Eye";
 import EyeClosed from "@/app/_components/_icons/EyeClosed";
 import { validatePassword } from "@/lib/password";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
@@ -19,6 +20,7 @@ export default function ChangePassword() {
 	const [confirmNewPassError, setConfirmNewPassError] = useState(false);
 
 	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [error, setError] = useState("");
 
 	interface FormData {
 		password: string;
@@ -31,8 +33,7 @@ export default function ChangePassword() {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 	});
 
@@ -166,12 +167,13 @@ export default function ChangePassword() {
 								)
 									return;
 
-								const result = await mutation.mutateAsync({
+								const result: APIResult = await mutation.mutateAsync({
 									password,
 									newPassword,
 								});
 
-								if (result.ok) clear();
+								if (!result.success) setError(result.message);
+								if (result.success) clear();
 							}}
 						>
 							Submit
@@ -187,9 +189,7 @@ export default function ChangePassword() {
 							Close
 						</button>
 					</div>
-					{mutation.isError && (
-						<p className="text-red-600 font-bold">{mutation.error.message}</p>
-					)}
+					{error && <p className="text-red-600 font-bold">{error}</p>}
 					{mutation.isSuccess && (
 						<p className="text-green-600 font-bold">Password changed</p>
 					)}

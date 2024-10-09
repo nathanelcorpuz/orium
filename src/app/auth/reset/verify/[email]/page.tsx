@@ -1,6 +1,7 @@
 "use client";
 
 import { validatePassword } from "@/lib/password";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -13,6 +14,8 @@ export default function Page({ params }: { params: { email: string } }) {
 	const [passwordValidation, setPasswordValidation] = useState([]);
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [confirmPassError, setConfirmPassError] = useState(false);
+	const [resendError, setResendError] = useState("");
+	const [submitError, setSubmitError] = useState("");
 	const router = useRouter();
 
 	interface FormData {
@@ -26,10 +29,7 @@ export default function Page({ params }: { params: { email: string } }) {
 			fetch(`${url}/api/auth/password/reset/verify`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
-			}).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 	});
 
 	interface ResendFormData {
@@ -41,10 +41,7 @@ export default function Page({ params }: { params: { email: string } }) {
 			fetch(`${url}/api/auth/password/reset`, {
 				method: "PUT",
 				body: JSON.stringify(formData),
-			}).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
-			}),
+			}).then((res) => res.json()),
 	});
 
 	return (
@@ -125,12 +122,13 @@ export default function Page({ params }: { params: { email: string } }) {
 						) {
 							return;
 						}
-						const result: Response = await submitMutation.mutateAsync({
+						const result: APIResult = await submitMutation.mutateAsync({
 							digits: Number(digits),
 							email: params.email,
 							newPassword: password,
 						});
-						if (result.ok) router.push("/");
+						if (result.success) router.push("/");
+						if (!result.success) setSubmitError(result.message);
 					}}
 				>
 					Submit
@@ -138,10 +136,16 @@ export default function Page({ params }: { params: { email: string } }) {
 				<div className="flex gap-8">
 					<p
 						className="hover:text-gray-500 underline transition-all text-sm hover:cursor-pointer"
-						onClick={() => resendMutation.mutate({ email: params.email })}
+						onClick={async () => {
+							const result: APIResult = await resendMutation.mutateAsync({
+								email: params.email,
+							});
+							if (!result.success) setResendError(result.message);
+							if (result.success) setResendError("");
+						}}
 					>
 						Resend code
-					</p>{" "}
+					</p>
 					<div className="h-[25px] w-[1px] border-gray-300 border-r-[1px]"></div>
 					<Link
 						href="/auth/register"
@@ -160,15 +164,11 @@ export default function Page({ params }: { params: { email: string } }) {
 				{resendMutation.isSuccess ? (
 					<p className="font-bold">Code re-sent</p>
 				) : null}
-				{submitMutation.isError ? (
-					<p className="font-bold text-red-600">
-						{submitMutation.error.message}
-					</p>
+				{submitError ? (
+					<p className="font-bold text-red-600">{submitError}</p>
 				) : null}
-				{resendMutation.isError && !resendMutation.isSuccess ? (
-					<p className="font-bold text-red-600">
-						{resendMutation.error.message}
-					</p>
+				{resendError ? (
+					<p className="font-bold text-red-600">{resendError}</p>
 				) : null}
 			</div>
 		</div>

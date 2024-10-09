@@ -1,6 +1,6 @@
 "use client";
 
-import { TransactionWithBalance } from "@/lib/types";
+import { APIResult, TransactionWithBalance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -30,6 +30,9 @@ export default function Modal({
 	);
 	const [newName, setNewName] = useState(selectedTransaction.name);
 
+	const [editError, setEditError] = useState("");
+	const [moveError, setMoveError] = useState("");
+
 	interface FormData {
 		transactionId: string;
 		newDate: string;
@@ -43,22 +46,22 @@ export default function Modal({
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: ["transactions"] }),
 	});
 
 	const onClickSubmit = async () => {
-		const result = await editMutation.mutateAsync({
+		const result: APIResult = await editMutation.mutateAsync({
 			transactionId: selectedTransaction._id,
 			newDate: actualDate,
 			newAmount: actualAmount,
 			newName: newName,
 		});
 
-		if (result.ok) setIsModalOpen(!isModalOpen);
+		if (!result.success) setEditError(result.message);
+		if (result.success) setIsModalOpen(false);
 	};
 
 	interface MoveFormData {
@@ -82,8 +85,7 @@ export default function Modal({
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res;
+				return res.json();
 			}),
 		onSuccess: () =>
 			queryClient.invalidateQueries({ queryKey: ["transactions"] }),
@@ -103,12 +105,13 @@ export default function Modal({
 				selectedTransaction.forecastedBalance + Number(actualAmount),
 		};
 
-		const result = await moveToHistoryMutation.mutateAsync({
+		const result: APIResult = await moveToHistoryMutation.mutateAsync({
 			transactionId: selectedTransaction._id,
 			newHistory,
 		});
 
-		if (result.ok) setIsModalOpen(!isModalOpen);
+		if (!result.success) setMoveError(result.message);
+		if (result.success) setIsModalOpen(false);
 	};
 
 	return (
@@ -209,12 +212,8 @@ export default function Modal({
 						Submit
 					</button>
 				</div>
-				{moveToHistoryMutation.isError && (
-					<p className="text-red-500">{moveToHistoryMutation.error.message}</p>
-				)}
-				{editMutation.isError && (
-					<p className="text-red-500">{editMutation.error.message}</p>
-				)}
+				{moveError && <p className="text-red-500">{moveError}</p>}
+				{editError && <p className="text-red-500">{editError}</p>}
 			</div>
 		</div>
 	);

@@ -3,6 +3,7 @@
 import Eye from "@/app/_components/_icons/Eye";
 import EyeClosed from "@/app/_components/_icons/EyeClosed";
 import { validatePassword } from "@/lib/password";
+import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
@@ -21,6 +22,7 @@ export default function RegisterPage() {
 	const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
 		useState(false);
 	const [confirmPassError, setConfirmPassError] = useState(false);
+	const [mutationError, setMutationError] = useState("");
 
 	interface FormData {
 		name: string;
@@ -33,7 +35,7 @@ export default function RegisterPage() {
 			fetch(`${url}/api/auth/register`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}),
+			}).then((res) => res.json()),
 	});
 
 	return (
@@ -148,13 +150,14 @@ export default function RegisterPage() {
 							)
 								return;
 
-							const result = await mutation.mutateAsync({
+							const result: APIResult = await mutation.mutateAsync({
 								name,
 								email,
 								password,
 							});
 
-							if (result.ok) router.push(`/auth/register/verify/${email}`);
+							if (result.success) router.push(`/auth/register/verify/${email}`);
+							if (!result.success) setMutationError(result.message);
 						}}
 					>
 						Submit
@@ -170,7 +173,7 @@ export default function RegisterPage() {
 						</Link>
 					</p>
 				</div>
-				<div>{mutation.isError && <p>{mutation.error.message}</p>}</div>
+				<div>{mutationError && <p>{mutationError}</p>}</div>
 			</div>
 		</div>
 	);

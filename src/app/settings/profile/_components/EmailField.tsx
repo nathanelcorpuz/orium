@@ -43,7 +43,7 @@ export default function EmailField({ email }: EmailField) {
 	return (
 		<div className="py-2 bg-white border-b-[1px] border-gray-300 w-[400px] flex items-center justify-between">
 			<div className="flex flex-col w-full">
-				<p className="text-sm font-bold">Email</p>
+				<p className="text-sm text-slate-400">Email</p>
 				<div className="flex items-center justify-between">
 					{isEmailFieldActive ? (
 						<input

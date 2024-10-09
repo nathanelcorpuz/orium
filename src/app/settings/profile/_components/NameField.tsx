@@ -39,7 +39,7 @@ export default function NameField({ name }: NameField) {
 	return (
 		<div className="py-2 bg-white border-b-[1px] border-gray-300 w-[400px] flex items-center justify-between">
 			<div className="flex flex-col w-full">
-				<p className="text-sm font-bold">Name</p>
+				<p className="text-sm text-slate-400">Name</p>
 				<div className="flex items-center justify-between">
 					{isNameFieldActive ? (
 						<input

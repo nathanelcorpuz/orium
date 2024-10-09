@@ -22,6 +22,7 @@ export async function GET() {
 	}
 
 	return NextResponse.json({
+		success: true,
 		email: userDoc.email,
 		name: userDoc.name,
 	});

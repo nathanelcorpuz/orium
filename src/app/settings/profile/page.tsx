@@ -9,8 +9,7 @@ export default function Page() {
 	const { data, isPending, isError, error } = useQuery({
 		queryKey: ["user"],
 		queryFn: () =>
-			fetch(`${url}/api/user`).then(async (res) => {
-				if (!res.ok) throw new Error(res.statusText);
+			fetch(`${url}/api/user`).then((res) => {
 				return res.json();
 			}),
 	});
@@ -20,7 +19,7 @@ export default function Page() {
 	return (
 		<div className="flex flex-col gap-6 p-10">
 			<div className="bg-white p-10 flex flex-col gap-4 rounded-lg drop-shadow-xl overflow-auto overflow-x-hidden">
-				<p className="text-2xl mb-2 font-bold">Profile</p>
+				<p className="text-2xl mb-2">Profile</p>
 				<NameField name={data?.name} />
 				<EmailField email={data?.email} />
 				<ChangePassword />

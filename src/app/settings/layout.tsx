@@ -21,15 +21,13 @@ export default function Layout({
 	const pathname = usePathname();
 	return (
 		<div className="flex border-l-[1px] border-slate-200">
-			<div className="flex flex-col gap-4 p-5 bg-white">
+			<div className="flex flex-col gap-2 p-5 bg-white w-[200px]">
 				{links.map((link) => (
 					<Link
 						key={link.href}
 						href={`/settings${link.href}`}
-						className={`w-40 px-10 py-3 rounded-full transition-all hover:bg-slate-100 ${
-							pathname.includes(link.href)
-								? "bg-slate-200 hover:bg-slate-200"
-								: ""
+						className={`w-max px-3 py-1 text-slate-500 rounded-full transition-all hover:bg-slate-100 ${
+							pathname.includes(link.href) && "font-bold text-slate-600"
 						}`}
 					>
 						{link.text}

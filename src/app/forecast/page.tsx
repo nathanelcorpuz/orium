@@ -73,7 +73,7 @@ export default function Forecast() {
 				<div className="p-5 bg-white rounded-lg h-[90vh]">
 					<div className="flex py-2 flex-col">
 						<p className="text-sm text-gray-400">Total Balance</p>
-						<p className="text-2xl font-bold">₱{totalBalance}</p>
+						<p className="text-2xl">₱{totalBalance}</p>
 					</div>
 					<div className="flex p-4 border-t-[1px] border-slate-200 text-gray-400">
 						<div className="w-[30%]">

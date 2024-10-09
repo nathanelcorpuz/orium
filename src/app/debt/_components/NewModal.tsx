@@ -62,7 +62,7 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 			<div className="w-[500px] bg-white z-10 flex flex-col p-8 gap-8 rounded-2xl">
 				<div className="flex flex-col py-4 gap-4">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">New Debt</h1>
+						<h1 className="text-2xl">New Debt</h1>
 						<div className="border-b-[1px] border-slate-200"></div>
 						<div className="flex flex-col">
 							<label className="text-sm text-gray-400" htmlFor="name">

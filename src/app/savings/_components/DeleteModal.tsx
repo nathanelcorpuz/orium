@@ -44,7 +44,7 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 			<div className="w-[500px] bg-white z-[99] flex flex-col p-8 gap-8 rounded-2xl">
 				<div className="flex flex-col py-4 gap-4">
 					<div className="flex flex-col gap-6">
-						<h1 className="text-2xl font-bold">Delete Savings</h1>
+						<h1 className="text-2xl">Delete Savings</h1>
 						<p className="text-sm text-slate-400">
 							This will delete all related transactions.
 						</p>

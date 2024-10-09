@@ -47,7 +47,7 @@ export default function Debts() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Remaining Debt</p>
-						<p className="text-2xl font-bold">₱{totalDebts * -1}</p>
+						<p className="text-2xl">₱{totalDebts * -1}</p>
 					</div>
 					<div>
 						<button

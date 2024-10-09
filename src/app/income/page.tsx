@@ -47,7 +47,7 @@ export default function IncomePage() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Monthly Income</p>
-						<p className="text-2xl font-bold">₱{totalMonthlyIncome}</p>
+						<p className="text-2xl">₱{totalMonthlyIncome}</p>
 					</div>
 					<div>
 						<button

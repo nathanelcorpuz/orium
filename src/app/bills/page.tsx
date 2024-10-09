@@ -37,7 +37,7 @@ export default function Bills() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Monthly Bills</p>
-						<p className="text-2xl font-bold">₱{totalIncome * -1}</p>
+						<p className="text-2xl">₱{totalIncome * -1}</p>
 					</div>
 					<div>
 						<button

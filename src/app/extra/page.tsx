@@ -52,7 +52,7 @@ export default function Extras() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Remaining Extras</p>
-						<p className="text-2xl font-bold">₱{totalExtras}</p>
+						<p className="text-2xl">₱{totalExtras}</p>
 					</div>
 					<div>
 						<button

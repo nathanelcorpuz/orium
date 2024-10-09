@@ -118,7 +118,7 @@ export default function Modal({
 		<div className="z-[2] absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
 			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
 			<div className="w-[500px] bg-white z-[2] flex flex-col p-8 gap-8 rounded-2xl">
-				<h1 className="text-2xl font-bold">Edit Transaction</h1>
+				<h1 className="text-2xl">Edit Transaction</h1>
 				<div className="border-b-[1px] border-slate-200"></div>
 				<div className="flex flex-col gap-4">
 					<div className="flex flex-col gap-4">

@@ -52,7 +52,7 @@ export default function SideNav() {
 	const pathname = usePathname();
 	const queryClient = useQueryClient();
 
-	const { data, isPending, isError, error, isSuccess } = useQuery({
+	const { data, isSuccess } = useQuery({
 		queryKey: ["user"],
 		queryFn: () =>
 			fetch(`${url}/api/user`).then((res) => {

@@ -39,6 +39,7 @@ export default function ChangePassword() {
 	});
 
 	const clear = () => {
+		setIsSuccess(true);
 		setConfirmNewPassError(false);
 		setPassword("");
 		setNewPassword("");

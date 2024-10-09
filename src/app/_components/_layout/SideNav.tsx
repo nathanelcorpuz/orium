@@ -4,7 +4,6 @@ import url from "@/lib/url";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 
 const mainLinks = [
 	{

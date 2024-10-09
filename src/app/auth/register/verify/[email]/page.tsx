@@ -2,7 +2,7 @@
 
 import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -10,6 +10,8 @@ export default function Page({ params }: { params: { email: string } }) {
 	const [digits, setDigits] = useState("");
 	const [error, setError] = useState("");
 	const router = useRouter();
+
+	const queryClient = useQueryClient();
 
 	interface FormData {
 		digits: number;
@@ -21,7 +23,13 @@ export default function Page({ params }: { params: { email: string } }) {
 			fetch(`${url}/api/auth/register/verify`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then((res) => res.json()),
+			}).then(async (res) => {
+				const result: APIResult = await res.json();
+				if (result.success) {
+					queryClient.invalidateQueries({ queryKey: ["user"] });
+				}
+				return result;
+			}),
 	});
 
 	interface ResendFormData {

@@ -2,6 +2,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const links = [
+	{
+		href: "/profile",
+		text: "Profile",
+	},
+	{
+		href: "/preferences",
+		text: "Preferences",
+	},
+];
+
 export default function Layout({
 	children,
 }: Readonly<{
@@ -9,18 +20,22 @@ export default function Layout({
 }>) {
 	const pathname = usePathname();
 	return (
-		<div className="flex">
-			<ul className="bg-white border-l-[1px] border-slate-200 p-10 w-60 flex flex-col gap-8">
-				<li>
+		<div className="flex border-l-[1px] border-slate-200">
+			<div className="flex flex-col gap-4 p-5 bg-white">
+				{links.map((link) => (
 					<Link
-						href="/settings/profile"
-						className={`${pathname.includes("profile") ? "font-bold" : ""}`}
+						key={link.href}
+						href={`/settings${link.href}`}
+						className={`w-40 px-10 py-3 rounded-full transition-all hover:bg-slate-100 ${
+							pathname.includes(link.href)
+								? "bg-slate-200 hover:bg-slate-200"
+								: ""
+						}`}
 					>
-						Profile
+						{link.text}
 					</Link>
-				</li>
-				<li>Preferences</li>
-			</ul>
+				))}
+			</div>
 			{children}
 		</div>
 	);

@@ -4,6 +4,7 @@ import { addDays, differenceInMinutes } from "date-fns";
 import { HydratedDocument } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
+import { sendSignUpSuccess } from "@/lib/emails";
 
 const { AUTH_TOKEN_SECRET } = process.env;
 
@@ -55,6 +56,8 @@ export async function POST(request: NextRequest) {
 	});
 
 	await userDoc.updateOne({ isVerified: true });
+
+	await sendSignUpSuccess({ userEmail: userDoc.email });
 
 	return new NextResponse(
 		JSON.stringify({ success: true, message: "Account verified" }),

@@ -53,6 +53,22 @@ export async function sendPasswordChangedConfirmation({
 	});
 }
 
+export async function sendSignUpSuccess({ userEmail }: { userEmail: string }) {
+	await transporter.sendMail({
+		from: fromEmail,
+		to: userEmail,
+		subject: "Welcome to Orium",
+		html: `
+    <p>
+    Thank you for signing up. You are a step closer to getting a clear view of your finances.
+    </p>
+    <p>
+    Need help? Visit the help center or contact us at support@oriumsoftware.com.
+    </p>
+    `,
+	});
+}
+
 export async function sendPasswordResetCode({
 	userEmail,
 }: {

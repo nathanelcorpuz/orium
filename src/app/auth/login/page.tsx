@@ -4,12 +4,13 @@ import Eye from "@/app/_components/_icons/Eye";
 import EyeClosed from "@/app/_components/_icons/EyeClosed";
 import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Page() {
+	const queryClient = useQueryClient();
 	const router = useRouter();
 
 	const [email, setEmail] = useState("");
@@ -29,7 +30,10 @@ export default function Page() {
 			fetch(`${url}/api/auth/login`, {
 				method: "POST",
 				body: JSON.stringify(formData),
-			}).then((res) => res.json()),
+			}).then((res) => {
+				queryClient.invalidateQueries({ queryKey: ["user"] });
+				return res.json();
+			}),
 	});
 
 	return (

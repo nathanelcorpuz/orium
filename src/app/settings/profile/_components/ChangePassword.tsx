@@ -39,7 +39,6 @@ export default function ChangePassword() {
 	});
 
 	const clear = () => {
-		setIsSuccess(true);
 		setConfirmNewPassError(false);
 		setPassword("");
 		setNewPassword("");
@@ -52,7 +51,10 @@ export default function ChangePassword() {
 			<div className="mt-6">
 				<button
 					className="text-sm underline cursor-pointer hover:text-gray-500 transition-all"
-					onClick={() => setIsFormOpen((isOpen) => !isOpen)}
+					onClick={() => {
+						setIsFormOpen((isOpen) => !isOpen);
+						clear();
+					}}
 				>
 					Change password
 				</button>
@@ -175,7 +177,10 @@ export default function ChangePassword() {
 								});
 
 								if (!result.success) setError(result.message);
-								if (result.success) clear();
+								if (result.success) {
+									setIsSuccess(true);
+									clear();
+								}
 							}}
 						>
 							Submit
@@ -184,8 +189,8 @@ export default function ChangePassword() {
 							className="py-3 bg-[#202020] text-white rounded-lg
           w-[100%] hover:bg-[#505050] transition-all"
 							onClick={() => {
-								setIsFormOpen(false);
 								clear();
+								setIsFormOpen(false);
 							}}
 						>
 							Close

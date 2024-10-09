@@ -21,6 +21,7 @@ export default function ChangePassword() {
 
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const [error, setError] = useState("");
+	const [isSuccess, setIsSuccess] = useState(false);
 
 	interface FormData {
 		password: string;
@@ -190,7 +191,7 @@ export default function ChangePassword() {
 						</button>
 					</div>
 					{error && <p className="text-red-600 font-bold">{error}</p>}
-					{mutation.isSuccess && (
+					{isSuccess && (
 						<p className="text-green-600 font-bold">Password changed</p>
 					)}
 				</div>

@@ -23,6 +23,10 @@ export default function EmailField({ email }: EmailField) {
 		email: string;
 	}
 
+	const clear = () => {
+		setError("");
+	};
+
 	const mutation = useMutation({
 		mutationFn: (formData: FormData) =>
 			fetch(`${url}/api/auth/email`, {
@@ -60,13 +64,17 @@ export default function EmailField({ email }: EmailField) {
 										email: newEmail,
 									});
 									if (!res.success) setError(res.message);
-									if (res.success) setIsEmailFieldActive(false);
+									if (res.success) {
+										setIsEmailFieldActive(false);
+										clear();
+									}
 								}}
 							>
 								<Check className="w-[35px] h-[35px] rounded-full hover:cursor-pointer transition-all hover:bg-gray-400 p-2" />
 							</button>
 							<button
 								onClick={() => {
+									clear();
 									setIsEmailFieldActive(false);
 								}}
 							>

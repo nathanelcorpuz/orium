@@ -58,7 +58,10 @@ export default function NameField({ name }: NameField) {
 									const res: APIResult = await mutation.mutateAsync({
 										name: newName,
 									});
-									if (res.success) setIsNameFieldActive(false);
+									if (res.success) {
+										setError("");
+										setIsNameFieldActive(false);
+									}
 									if (!res.success) setError(res.message);
 								}}
 							>
@@ -67,6 +70,7 @@ export default function NameField({ name }: NameField) {
 							<button
 								onClick={() => {
 									setIsNameFieldActive(false);
+									setError("");
 								}}
 							>
 								<Close className="w-[35px] h-[35px] rounded-full hover:cursor-pointer transition-all hover:bg-gray-400 p-2" />

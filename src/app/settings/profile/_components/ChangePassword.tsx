@@ -44,6 +44,8 @@ export default function ChangePassword() {
 		setNewPassword("");
 		setConfirmNewPassword("");
 		setNewPasswordValidation([]);
+		setError("");
+		setIsSuccess(false);
 	};
 
 	return (
@@ -179,7 +181,12 @@ export default function ChangePassword() {
 								if (!result.success) setError(result.message);
 								if (result.success) {
 									setIsSuccess(true);
-									clear();
+									setConfirmNewPassError(false);
+									setPassword("");
+									setNewPassword("");
+									setConfirmNewPassword("");
+									setNewPasswordValidation([]);
+									setError("");
 								}
 							}}
 						>

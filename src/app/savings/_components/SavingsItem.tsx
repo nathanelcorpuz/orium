@@ -14,7 +14,7 @@ export default function SavingsItem({
 	setSelectedSavings,
 }: SavingsItem) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-slate-200">
+		<div className="flex py-1 px-4 border-b-[1px] border-slate-200">
 			<div className="w-[22%]">
 				<p>{savings.name}</p>
 			</div>

@@ -23,7 +23,7 @@ export default function IncomeItem({
 	if (income.dayOfWeek == 6) formattedDayOfWeek = "Saturday";
 
 	return (
-		<li className="flex py-2 px-4 border-b-[1px] border-slate-200">
+		<li className="flex py-1 px-4 border-b-[1px] border-slate-200">
 			<div className="w-[20%]">
 				<p>{income.name}</p>
 			</div>

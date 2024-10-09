@@ -16,7 +16,7 @@ export default function ExtraItem({
 	setSelectedExtra,
 }: ExtraItem) {
 	return (
-		<div className="flex py-2 px-4 border-b-[1px] border-slate-200">
+		<div className="flex py-1 px-4 border-b-[1px] border-slate-200">
 			<div className="w-[20%]">
 				<p>{extra.name}</p>
 			</div>

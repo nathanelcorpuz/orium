@@ -1,5 +1,6 @@
 export default function loader() {
-	return new Promise((res, rej) => {
+	// @ts
+	return new Promise((res) => {
 		setTimeout(() => {
 			res("loaded");
 		}, 2000);

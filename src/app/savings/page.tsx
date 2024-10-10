@@ -1,46 +1,24 @@
 "use client";
 
-import { Savings, Transaction } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
+import { Savings as SavingsType } from "@/lib/types";
 import { useState } from "react";
 import SavingsItem from "./_components/SavingsItem";
 import DeleteModal from "./_components/DeleteModal";
 import NewModal from "./_components/NewModal";
-import url from "@/lib/url";
+import useSavingsQuery from "../_hooks/useSavingsQuery";
 
-export default function Savingss() {
+export default function Savings() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [selectedSavings, setSelectedSavings] = useState({} as Savings);
+	const [selectedSavings, setSelectedSavings] = useState({} as SavingsType);
 
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["savings"],
-		queryFn: () => fetch(`${url}/api/savings`).then((res) => res.json()),
-	});
+	const { totalSavings, savings, isSavingsPending } = useSavingsQuery();
 
-	const {
-		isPending: isTransactionsPending,
-		isError: isTransactionsError,
-		data: transactionsData,
-		error: transactionsError,
-	} = useQuery({
-		queryKey: ["transactions"],
-		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
-	});
-
-	if (isPending || isTransactionsPending) return <div>loading</div>;
-	if (isError) return <div>error: {error.message}</div>;
-	if (isTransactionsError) return <div>error: {transactionsError.message}</div>;
-
-	let totalSavings = 0;
-
-	transactionsData.forEach((transaction: Transaction) => {
-		if (transaction.type === "savings") {
-			totalSavings = totalSavings + transaction.amount;
-		}
-	});
-
-	return (
+	return isSavingsPending ? (
+		<div className="w-full h-full flex justify-center items-center">
+			<p className="text-lg text-slate-400">Loading savings...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1400px] p-5 rounded-lg h-[90vh]">
 				<div className="flex gap-[100px] items-center justify-between">
@@ -78,7 +56,7 @@ export default function Savingss() {
 					</div>
 				</div>
 				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
-					{data.map((savings: Savings) => (
+					{savings.map((savings: SavingsType) => (
 						<SavingsItem
 							key={savings._id}
 							savings={savings}

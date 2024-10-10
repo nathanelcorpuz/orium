@@ -35,12 +35,18 @@ export default function useDebtsQuery() {
 			}
 		});
 
+		const debtTransactions = transactionsData.filter(
+			(transaction: Transaction) => transaction.type === "debt"
+		);
+
 		const lastTransaction: Transaction =
-			transactionsData[transactionsData.length - 1];
+			debtTransactions[debtTransactions.length - 1];
 
-		debtFreeByDate = format(lastTransaction.dueDate, "MMM d, yyyy");
+		if (lastTransaction) {
+			debtFreeByDate = format(lastTransaction.dueDate, "MMM d, yyyy");
 
-		daysUntilDebtFree = differenceInDays(debtFreeByDate, new Date());
+			daysUntilDebtFree = differenceInDays(debtFreeByDate, new Date());
+		}
 	}
 
 	return {

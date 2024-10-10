@@ -4,6 +4,7 @@ import useBalancesQuery from "@/app/_hooks/useBalancesQuery";
 import useBillsQuery from "@/app/_hooks/useBillsQuery";
 import useDebtsQuery from "@/app/_hooks/useDebtsQuery";
 import useIncomeQuery from "@/app/_hooks/useIncomeQuery";
+import useSavingsQuery from "@/app/_hooks/useSavingsQuery";
 
 export default function Numbers() {
 	const { balances, balancePending, totalBalance } = useBalancesQuery();
@@ -11,6 +12,12 @@ export default function Numbers() {
 	const { totalMonthlyIncome, incomePending } = useIncomeQuery();
 	const { isDebtsPending, debtFreeByDate, daysUntilDebtFree, totalDebts } =
 		useDebtsQuery();
+	const {
+		isSavingsPending,
+		totalSavings,
+		finalSavingsDate,
+		daysUntilFinalSavingsDate,
+	} = useSavingsQuery();
 
 	return (
 		<div className="flex gap-10">
@@ -86,17 +93,29 @@ export default function Numbers() {
 				<div className="flex w-full h-full">
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Remaining Savings</p>
-						<p className="text-xl">430,332</p>
+						{isSavingsPending ? (
+							<p className="text-slate-300">Loading...</p>
+						) : (
+							<p className="text-lg">{totalSavings}</p>
+						)}
 					</div>
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Final Savings Date</p>
-						<p className="text-xl">Sep 23, 2028</p>
+						{isSavingsPending ? (
+							<p className="text-slate-300">Loading...</p>
+						) : (
+							<p className="text-lg">{finalSavingsDate}</p>
+						)}
 					</div>
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">
 							Days Until Final Savings Date
 						</p>
-						<p className="text-xl">703</p>
+						{isSavingsPending ? (
+							<p className="text-slate-300">Loading...</p>
+						) : (
+							<p className="text-lg">{daysUntilFinalSavingsDate}</p>
+						)}
 					</div>
 				</div>
 			</div>

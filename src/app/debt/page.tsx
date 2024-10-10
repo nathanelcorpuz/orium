@@ -12,9 +12,13 @@ export default function Debts() {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedDebt, setSelectedDebt] = useState({} as Debt);
 
-	const { debts, totalDebts } = useDebtsQuery();
+	const { debts, totalDebts, isDebtsPending } = useDebtsQuery();
 
-	return (
+	return isDebtsPending ? (
+		<div className="w-full h-full flex justify-center items-center">
+			<p className="text-lg text-slate-400">Loading debts...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1400px] p-5 rounded-lg h-[90vh]">
 				<div className="flex gap-[100px] items-center justify-between">

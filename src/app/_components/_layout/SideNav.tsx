@@ -138,14 +138,12 @@ export default function SideNav() {
 								Log out
 							</p>
 							<div className="p-3">
-								<div className="w-[40px] h-[40px] rounded-full bg-slate-300 flex items-center justify-center hover:bg-slate-200 transition-all cursor-pointer">
-									<Link
-										href="/settings/profile"
-										className="uppercase text-slate-500 hover:text-slate-400"
-									>
-										{data.name[0]}
-									</Link>
-								</div>
+								<Link
+									href="/settings/profile"
+									className="w-[40px] h-[40px] rounded-full bg-slate-300 flex items-center justify-center hover:bg-slate-200 transition-all cursor-pointer uppercase"
+								>
+									{data.name[0]}
+								</Link>
 							</div>
 						</div>
 					</div>

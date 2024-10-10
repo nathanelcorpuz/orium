@@ -69,7 +69,7 @@ export default function Numbers() {
 						{isDebtsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{totalDebts * -1}</p>
+							<p className="font-bold">{totalDebts * -1}</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
@@ -77,7 +77,7 @@ export default function Numbers() {
 						{isDebtsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{debtFreeByDate}</p>
+							<p className="text-sm">{debtFreeByDate}</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
@@ -85,7 +85,7 @@ export default function Numbers() {
 						{isDebtsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{daysUntilDebtFree}</p>
+							<p className="text-sm">{daysUntilDebtFree}</p>
 						)}
 					</div>
 				</div>
@@ -96,7 +96,7 @@ export default function Numbers() {
 						{isSavingsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{totalSavings}</p>
+							<p className="font-bold">{totalSavings}</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
@@ -104,7 +104,7 @@ export default function Numbers() {
 						{isSavingsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{finalSavingsDate}</p>
+							<p className="text-sm">{finalSavingsDate}</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
@@ -114,7 +114,7 @@ export default function Numbers() {
 						{isSavingsPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-lg">{daysUntilFinalSavingsDate}</p>
+							<p className="text-sm">{daysUntilFinalSavingsDate}</p>
 						)}
 					</div>
 				</div>

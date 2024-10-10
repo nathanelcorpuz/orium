@@ -1,45 +1,18 @@
 "use client";
 
-import { Debt, Transaction } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
+import { Debt } from "@/lib/types";
 import { useState } from "react";
 import DebtItem from "./_components/DebtItem";
 import DeleteModal from "./_components/DeleteModal";
 import NewModal from "./_components/NewModal";
-import url from "@/lib/url";
+import useDebtsQuery from "../_hooks/useDebtsQuery";
 
 export default function Debts() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedDebt, setSelectedDebt] = useState({} as Debt);
 
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["debts"],
-		queryFn: () => fetch(`${url}/api/debts`).then((res) => res.json()),
-	});
-
-	const {
-		isPending: isTransactionsPending,
-		isError: isTransactionsError,
-		data: transactionsData,
-		error: transactionsError,
-	} = useQuery({
-		queryKey: ["transactions"],
-		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
-	});
-
-	if (isPending || isTransactionsPending) return <div>loading</div>;
-	if (isError) return <div>error: {error?.message}</div>;
-	if (isTransactionsError)
-		return <div>error: {transactionsError?.message}</div>;
-
-	let totalDebts = 0;
-
-	transactionsData.forEach((transaction: Transaction) => {
-		if (transaction.type === "debt") {
-			totalDebts = totalDebts + transaction.amount;
-		}
-	});
+	const { debts, totalDebts } = useDebtsQuery();
 
 	return (
 		<div className="flex flex-col p-8 z-[-5]">
@@ -79,7 +52,7 @@ export default function Debts() {
 					</div>
 				</div>
 				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
-					{data.map((debt: Debt) => (
+					{debts.map((debt: Debt) => (
 						<DebtItem
 							key={debt._id}
 							debt={debt}

@@ -1,47 +1,24 @@
 "use client";
 
 import { Income } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import IncomeItem from "./_components/IncomeItem";
 import NewModal from "./_components/NewModal";
 import DeleteModal from "./_components/DeleteModal";
-import url from "@/lib/url";
+import useIncomeQuery from "../_hooks/useIncomeQuery";
 
 export default function IncomePage() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedIncome, setSelectedIncome] = useState({} as Income);
 
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["income"],
-		queryFn: () =>
-			fetch(`${url}/api/income`).then((res) => {
-				if (!res.ok) throw new Error(res.statusText);
-				return res.json();
-			}),
-	});
+	const { incomes, incomePending, totalMonthlyIncome } = useIncomeQuery();
 
-	if (isPending) return <div>loading</div>;
-	if (isError) return <div>error: {error.message}</div>;
-
-	const incomes: Income[] = data;
-
-	let totalMonthlyIncome = 0;
-
-	incomes.forEach((income) => {
-		if (income.frequency === "monthly") {
-			totalMonthlyIncome = totalMonthlyIncome + income.amount;
-		}
-		if (income.frequency === "bi-weekly" || income.frequency === "15-30") {
-			totalMonthlyIncome = totalMonthlyIncome + income.amount * 2;
-		}
-		if (income.frequency === "weekly") {
-			totalMonthlyIncome = totalMonthlyIncome + income.amount * 4;
-		}
-	});
-
-	return (
+	return incomePending ? (
+		<div className="w-full h-full flex justify-center items-center">
+			<p className="text-lg text-slate-400">Loading income...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]">
 				<div className="flex gap-[100px] items-center justify-between">
@@ -73,7 +50,7 @@ export default function IncomePage() {
 					</div>
 				</div>
 				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
-					{data.map((income: Income) => (
+					{incomes.map((income: Income) => (
 						<IncomeItem
 							key={income._id}
 							income={income}

@@ -1,13 +1,12 @@
 "use client";
 
-import { Bill, Income } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
+import { Bill } from "@/lib/types";
 import { useState } from "react";
 import NewModal from "./_components/NewModal";
 import BillItem from "./_components/BillItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
-import url from "@/lib/url";
+import useBillsQuery from "../_hooks/useBillsQuery";
 
 export default function Bills() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -15,29 +14,19 @@ export default function Bills() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedBill, setSelectedBill] = useState({} as Bill);
 
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["bills"],
-		queryFn: () => fetch(`${url}/api/bills`).then((res) => res.json()),
-	});
+	const { bills, totalBills, billsPending } = useBillsQuery();
 
-	if (isPending) return <div>loading</div>;
-	if (isError) return <div>error: {error.message}</div>;
-
-	let totalIncome = 0;
-
-	const incomes: Income[] = data;
-
-	incomes.forEach((income) => {
-		totalIncome = totalIncome + income.amount;
-	});
-
-	return (
+	return billsPending ? (
+		<div className="w-full h-full flex justify-center items-center">
+			<p className="text-lg text-slate-400">Loading bills...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]">
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Monthly Bills</p>
-						<p className="text-2xl">₱{totalIncome * -1}</p>
+						<p className="text-2xl">₱{totalBills}</p>
 					</div>
 					<div>
 						<button
@@ -63,7 +52,7 @@ export default function Bills() {
 					</div>
 				</div>
 				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
-					{data.map((bill: Bill) => (
+					{bills.map((bill: Bill) => (
 						<BillItem
 							key={bill._id}
 							bill={bill}

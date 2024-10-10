@@ -1,13 +1,12 @@
 "use client";
 
 import { Balance } from "@/lib/types";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import NewModal from "./_components/NewModal";
 import BalanceItem from "./_components/BalanceItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
-import url from "@/lib/url";
+import useBalancesQuery from "../_hooks/useBalancesQuery";
 
 export default function Balances() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -15,23 +14,13 @@ export default function Balances() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedBalance, setSelectedBalance] = useState({} as Balance);
 
-	const { isPending, isError, data, error } = useQuery({
-		queryKey: ["balances"],
-		queryFn: () => fetch(`${url}/api/balances`).then((res) => res.json()),
-	});
+	const { balances, balancePending, totalBalance } = useBalancesQuery();
 
-	if (isPending) return <div>loading</div>;
-	if (isError) return <div>error: {error.message}</div>;
-
-	const balances: Balance[] = data;
-
-	let totalBalance = 0;
-
-	balances.forEach((balance) => {
-		totalBalance = totalBalance + balance.amount;
-	});
-
-	return (
+	return balancePending ? (
+		<div className="w-full h-full flex justify-center items-center">
+			<p className="text-lg text-slate-400">Loading balances...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]">
 				<div className="flex gap-[100px] items-center justify-between">
@@ -60,7 +49,7 @@ export default function Balances() {
 					</div>
 				</div>
 				<ul className="flex flex-col gap-2 h-[80vh] overflow-auto border-[1px] border-slate-200 rounded-lg">
-					{data.map((balance: Balance) => (
+					{balances.map((balance: Balance) => (
 						<BalanceItem
 							key={balance._id}
 							balance={balance}

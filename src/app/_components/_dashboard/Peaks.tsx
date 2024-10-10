@@ -21,9 +21,9 @@ export default function Peaks() {
 	const { transactionsWithBalance, balancePending, isTransactionsPending } =
 		useBalancesQuery();
 
-	let years: string[] = [];
+	const years: string[] = [];
 
-	let monthYears: string[] = [];
+	const monthYears: string[] = [];
 
 	let peaksAndDrops: { monthYear: string; peak: number; drop: number }[] = [];
 

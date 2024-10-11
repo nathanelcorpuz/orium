@@ -1,6 +1,8 @@
 import useBalancesQuery from "@/app/_hooks/useBalancesQuery";
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { TransactionWithBalance } from "@/lib/types";
 import { format, getMonth, getYear } from "date-fns";
+import PeakItem from "./PeakItem";
 
 const placeholderPeaksAndDrops = [
 	{ month: "Jan" },
@@ -20,6 +22,8 @@ const placeholderPeaksAndDrops = [
 export default function Peaks() {
 	const { transactionsWithBalance, balancePending, isTransactionsPending } =
 		useBalancesQuery();
+
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
 
 	const years: string[] = [];
 
@@ -74,7 +78,7 @@ export default function Peaks() {
 	return (
 		<div className="w-[100%] flex h-[500px] flex-col gap-4 bg-white p-6 rounded-lg">
 			<p className="text-2xl">Upcoming Balance Peaks and Drops</p>
-			{isTransactionsPending || balancePending ? (
+			{isTransactionsPending || balancePending || isPreferencesPending ? (
 				<div className="w-full h-full flex items-center justify-center">
 					<p className="text-slate-400">Loading...</p>
 				</div>
@@ -99,32 +103,23 @@ export default function Peaks() {
 											}
 										});
 										return (
-											<div
-												className="flex p-2 min-w-[80px]"
+											<PeakItem
 												key={finalPeakAndDrop.monthYear}
-											>
-												<div className="flex flex-col gap-2">
-													<p className="text-xs text-gray-400">
-														{finalPeakAndDrop.monthYear}
-													</p>
-													<div>
-														<p className="text-sm">{finalPeakAndDrop.peak}</p>
-														<p className="text-sm">{finalPeakAndDrop.drop}</p>
-													</div>
-												</div>
-											</div>
+												monthYear={finalPeakAndDrop.monthYear}
+												peak={finalPeakAndDrop.peak}
+												drop={finalPeakAndDrop.drop}
+												preferences={preferences}
+											/>
 										);
 								  })
 								: peaksAndDrops.map(({ monthYear, peak, drop }) => (
-										<div className="flex p-2 min-w-[80px]" key={monthYear}>
-											<div className="flex flex-col gap-2">
-												<p className="text-xs text-gray-400">{monthYear}</p>
-												<div>
-													<p className="text-sm">{peak}</p>
-													<p className="text-sm">{drop}</p>
-												</div>
-											</div>
-										</div>
+										<PeakItem
+											key={monthYear}
+											monthYear={monthYear}
+											peak={peak}
+											drop={drop}
+											preferences={preferences}
+										/>
 								  ))}
 						</div>
 					))}

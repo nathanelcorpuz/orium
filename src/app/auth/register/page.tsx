@@ -136,9 +136,12 @@ export default function RegisterPage() {
 				</div>
 				<div>
 					<button
-						className="
+						disabled={mutation.isPending}
+						className={`
           py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all"
+          w-[100%] hover:bg-[#505050] transition-all
+					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 						onClick={async () => {
 							if (password !== confirmPassword) setConfirmPassError(true);
 

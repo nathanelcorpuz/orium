@@ -71,13 +71,23 @@ export default function DeleteModal({ extra, setIsModalOpen }: DeleteModal) {
 						</div>
 						<div className="flex mt-auto justify-between">
 							<button
-								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+								disabled={mutation.isPending}
+								className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 								onClick={onClickClose}
 							>
 								Close
 							</button>
 							<button
-								className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+								disabled={mutation.isPending}
+								className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 								onClick={onClickSubmit}
 							>
 								Submit

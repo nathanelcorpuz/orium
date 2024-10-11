@@ -56,9 +56,16 @@ export default function Page({ params }: { params: { email: string } }) {
 					onChange={(e) => setDigits(e.currentTarget.value)}
 				/>
 				<button
-					className="
+					disabled={resendMutation.isPending || submitMutation.isPending}
+					className={`
           py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all"
+          w-[100%] hover:bg-[#505050] transition-all
+					${
+						resendMutation.isPending || submitMutation.isPending
+							? "opacity-[0.5]"
+							: "opacity-100"
+					}
+					`}
 					onClick={async () => {
 						const result: APIResult = await submitMutation.mutateAsync({
 							email: params.email,
@@ -70,8 +77,17 @@ export default function Page({ params }: { params: { email: string } }) {
 				>
 					Submit
 				</button>
-				<p
-					className="underline hover:cursor-pointer hover:text-gray-400 transition-all"
+				<button
+					disabled={submitMutation.isPending || resendMutation.isPending}
+					className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${
+						submitMutation.isPending || resendMutation.isPending
+							? "opacity-[0.5]"
+							: "opacity-100"
+					}
+					`}
 					onClick={async () => {
 						const result: APIResult = await resendMutation.mutateAsync({
 							email: params.email,
@@ -81,7 +97,7 @@ export default function Page({ params }: { params: { email: string } }) {
 					}}
 				>
 					Resend code
-				</p>
+				</button>
 				{error ? <p className="font-bold text-red-600">{error}</p> : null}
 			</div>
 		</div>

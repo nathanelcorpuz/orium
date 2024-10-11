@@ -75,13 +75,23 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 						</div>
 						<div className="flex mt-auto justify-between">
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								disabled={mutation.isPending}
+								className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 								onClick={onClickClose}
 							>
 								Close
 							</button>
 							<button
-								className="py-2 px-8 text-xl font-bold border-2 rounded-lg hover:bg-black hover:text-white"
+								disabled={mutation.isPending}
+								className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 								onClick={onClickSubmit}
 							>
 								Submit

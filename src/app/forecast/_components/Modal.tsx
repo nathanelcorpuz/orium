@@ -195,18 +195,45 @@ export default function Modal({
 							setIsModalOpen(!isModalOpen);
 							setSelectedTransaction({} as TransactionWithBalance);
 						}}
-						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+						disabled={moveToHistoryMutation.isPending || editMutation.isPending}
+						className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${
+						moveToHistoryMutation.isPending || editMutation.isPending
+							? "opacity-[0.5]"
+							: "opacity-100"
+					}
+					`}
 					>
 						Close
 					</button>
 					<button
-						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+						disabled={moveToHistoryMutation.isPending || editMutation.isPending}
+						className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${
+						moveToHistoryMutation.isPending || editMutation.isPending
+							? "opacity-[0.5]"
+							: "opacity-100"
+					}
+					`}
 						onClick={onMoveToHistoryClick}
 					>
 						Move To History
 					</button>
 					<button
-						className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
+						disabled={moveToHistoryMutation.isPending || editMutation.isPending}
+						className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${
+						moveToHistoryMutation.isPending || editMutation.isPending
+							? "opacity-[0.5]"
+							: "opacity-100"
+					}
+					`}
 						onClick={onClickSubmit}
 					>
 						Submit

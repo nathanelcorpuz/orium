@@ -108,9 +108,12 @@ export default function Page({ params }: { params: { email: string } }) {
 					</div>
 				</div>
 				<button
-					className="
+					disabled={submitMutation.isPending}
+					className={`
           py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all"
+          w-[100%] hover:bg-[#505050] transition-all
+					${submitMutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 					onClick={async () => {
 						if (password !== confirmPassword) setConfirmPassError(true);
 
@@ -134,8 +137,13 @@ export default function Page({ params }: { params: { email: string } }) {
 					Submit
 				</button>
 				<div className="flex gap-8">
-					<p
-						className="hover:text-gray-500 underline transition-all text-sm hover:cursor-pointer"
+					<button
+						disabled={resendMutation.isPending}
+						className={`
+          py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all
+					${resendMutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+					`}
 						onClick={async () => {
 							const result: APIResult = await resendMutation.mutateAsync({
 								email: params.email,
@@ -145,7 +153,7 @@ export default function Page({ params }: { params: { email: string } }) {
 						}}
 					>
 						Resend code
-					</p>
+					</button>
 					<div className="h-[25px] w-[1px] border-gray-300 border-r-[1px]"></div>
 					<Link
 						href="/auth/register"

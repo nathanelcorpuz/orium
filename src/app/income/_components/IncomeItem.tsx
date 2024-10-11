@@ -24,13 +24,13 @@ export default function IncomeItem({
 
 	return (
 		<li className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
-			<div className="w-[20%]">
+			<div className="w-[20%] flex items-center">
 				<p>{income.name}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[20%] flex items-center">
 				<p>{income.amount}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[20%] flex items-center">
 				<p>
 					{income.frequency === "monthly"
 						? `${income.day} of every month`
@@ -39,7 +39,7 @@ export default function IncomeItem({
 						: `${formattedDayOfWeek} ${income.frequency}`}
 				</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="w-[20%] flex items-center">
 				<p>{income.comments}</p>
 			</div>
 			<div className="ml-auto">

@@ -15,22 +15,22 @@ export default function SavingsItem({
 }: SavingsItem) {
 	return (
 		<div className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
-			<div className="w-[22%]">
+			<div className="flex items-center w-[22%]">
 				<p>{savings.name}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{savings.amount}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{`${savings.day} of every month`}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{format(savings.startDate, "MMM d, yyyy")}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{format(savings.endDate, "MMM d, yyyy")}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{savings.comments}</p>
 			</div>
 			<div className="ml-auto">

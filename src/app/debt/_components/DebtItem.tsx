@@ -15,22 +15,22 @@ export default function DebtItem({
 }: DebtItem) {
 	return (
 		<div className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
-			<div className="w-[22%]">
+			<div className="flex items-center w-[22%]">
 				<p>{debt.name}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{debt.amount}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{`${debt.day} of every month`}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{format(debt.startDate, "MMM d, yyyy")}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{format(debt.endDate, "MMM d, yyyy")}</p>
 			</div>
-			<div className="w-[16.65%]">
+			<div className="flex items-center w-[16.65%]">
 				<p>{debt.comments}</p>
 			</div>
 			<div className="ml-auto">

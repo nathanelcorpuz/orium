@@ -54,18 +54,18 @@ export default function TransactionItem({
 				`}
 			onClick={onItemClick}
 		>
-			<div className="w-[38%]">
+			<div className="flex items-center w-[38%]">
 				<p>{transaction.name}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="flex items-center w-[20%]">
 				<p>{transaction.amount}</p>
 			</div>
-			<div className="w-[20%]">
+			<div className="flex items-center w-[20%]">
 				<p>{format(transaction.dueDate.toString(), "MMM d, y")}</p>
 			</div>
 			<div
 				className={`
-				w-[20%] font-bold
+				flex items-center w-[20%] font-bold
 				${type === "income" && incomeColor}
 				${type === "debt" && debtColor}
 				${type === "savings" && savingsColor}
@@ -73,7 +73,7 @@ export default function TransactionItem({
 			>
 				<p>{transaction.type}</p>
 			</div>
-			<div className="w-[20%] font-bold">
+			<div className="flex items-center w-[20%] font-bold">
 				<p>{transaction.forecastedBalance}</p>
 			</div>
 		</div>

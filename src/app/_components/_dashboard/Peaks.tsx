@@ -100,7 +100,7 @@ export default function Peaks() {
 										});
 										return (
 											<div
-												className="flex p-2"
+												className="flex p-2 min-w-[80px]"
 												key={finalPeakAndDrop.monthYear}
 											>
 												<div className="flex flex-col gap-2">
@@ -116,7 +116,7 @@ export default function Peaks() {
 										);
 								  })
 								: peaksAndDrops.map(({ monthYear, peak, drop }) => (
-										<div className="flex p-2" key={monthYear}>
+										<div className="flex p-2 min-w-[80px]" key={monthYear}>
 											<div className="flex flex-col gap-2">
 												<p className="text-xs text-gray-400">{monthYear}</p>
 												<div>

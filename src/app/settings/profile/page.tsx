@@ -18,7 +18,7 @@ export default function Page() {
 
 	return (
 		<div className="flex flex-col gap-6 p-10">
-			<div className="bg-white p-10 flex flex-col gap-4 rounded-lg drop-shadow-xl overflow-auto overflow-x-hidden">
+			<div className="bg-white p-10 flex flex-col gap-4 rounded-lg overflow-auto overflow-x-hidden">
 				<p className="text-2xl mb-2">Profile</p>
 				<NameField name={data?.name} />
 				<EmailField email={data?.email} />

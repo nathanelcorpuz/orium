@@ -1,26 +1,20 @@
-// import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 
-// export interface UserDocument {
-// 	_id: string;
-// 	userId: string;
-// 	password: string;
-// 	name: string;
-// 	createdAt: Date;
-// 	updatedAt: Date;
-// }
+export interface PreferencesDocument {
+	_id: string;
+	userId: string;
+	balanceRanges: number[];
+}
 
-// const UserSchema = new Schema<UserDocument>(
-// 	{
-// 		userId: { type: String, unique: true },
-// 		name: {
-// 			type: String,
-// 			required: [true, "Name is required"],
-// 		},
-// 	},
-// 	{
-// 		timestamps: true,
-// 	}
-// );
+const PreferencesSchema = new Schema<PreferencesDocument>({
+	userId: { type: String, unique: true },
+	balanceRanges: {
+		type: [Number],
+		default: [0, 50000, 100000, 150000, 200000],
+	},
+});
 
-// const User = mongoose.models?.User || model<UserDocument>("User", UserSchema);
-// export default User;
+const Preferences =
+	mongoose.models?.Preferences ||
+	model<PreferencesDocument>("Preferences", PreferencesSchema);
+export default Preferences;

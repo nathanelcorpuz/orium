@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendEmailVerificationCode } from "@/lib/emails";
 import { HydratedDocument } from "mongoose";
 import { connectDB } from "@/lib/mongodb";
+import Preferences from "@/models/Preferences";
 
 export async function POST(request: NextRequest) {
 	await connectDB();
@@ -24,6 +25,8 @@ export async function POST(request: NextRequest) {
 		password: await bcrypt.hash(password, Number(process.env.SALT)),
 		isVerified: false,
 	});
+
+	await Preferences.create({ userId: newAccountDoc._id });
 
 	await sendEmailVerificationCode({
 		userId: newAccountDoc._id,

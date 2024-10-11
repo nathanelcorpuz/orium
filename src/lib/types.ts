@@ -4,6 +4,11 @@ export type Frequency = "monthly" | "bi-weekly" | "weekly" | "15-30";
 
 export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
+export interface Preferences {
+	userId: string;
+	balanceRanges: number[];
+}
+
 export interface APIResult {
 	success: boolean;
 	message: string;

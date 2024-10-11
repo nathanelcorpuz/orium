@@ -26,8 +26,6 @@ export default function checkRanges(
 		setHigherError,
 	}: RangeErrorSetters
 ) {
-	let success = true;
-
 	if (danger === undefined) console.log("danger is undefined");
 
 	if (danger > low || danger > medium || danger > high) {
@@ -66,5 +64,5 @@ export default function checkRanges(
 		return { success: false };
 	} else setHigherError("");
 
-	return { success };
+	return { success: true };
 }

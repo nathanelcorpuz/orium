@@ -20,7 +20,7 @@ export default function useBalancesQuery() {
 			}),
 	});
 
-	const balances: Balance[] = data;
+	const balances: Balance[] = data || [];
 	let totalBalance = 0;
 
 	let transactionsWithBalance: TransactionWithBalance[] = [];

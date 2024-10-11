@@ -16,7 +16,7 @@ export default function Balances() {
 
 	const { balances, balancePending, totalBalance } = useBalancesQuery();
 
-	return balancePending && balances ? (
+	return balancePending || !balances ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading balances...</p>
 		</div>

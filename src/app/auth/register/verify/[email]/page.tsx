@@ -59,7 +59,6 @@ export default function Page({ params }: { params: { email: string } }) {
 					disabled={resendMutation.isPending || submitMutation.isPending}
 					className={`
           py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all
 					${
 						resendMutation.isPending || submitMutation.isPending
 							? "opacity-[0.5]"
@@ -80,8 +79,7 @@ export default function Page({ params }: { params: { email: string } }) {
 				<button
 					disabled={submitMutation.isPending || resendMutation.isPending}
 					className={`
-          py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all
+                    w-[100%] hover:bg-[#505050] transition-all
 					${
 						submitMutation.isPending || resendMutation.isPending
 							? "opacity-[0.5]"

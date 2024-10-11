@@ -117,8 +117,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 							<button
 								disabled={mutation.isPending}
 								className={`
-          py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all
+          h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400
 					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
 					`}
 								onClick={onClickClose}
@@ -128,8 +127,7 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 							<button
 								disabled={mutation.isPending}
 								className={`
-          py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all
+          h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400
 					${mutation.isPending ? "opacity-[0.5]" : "opacity-100"}
 					`}
 								onClick={onClickSubmit}

@@ -39,9 +39,10 @@ export default function Page() {
 				<button
 					disabled={submitMutation.isPending}
 					className={`
-          py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all
-					${submitMutation.isPending ? "opacity-[0.5]" : "opacity-100"}
+py-3 bg-[#202020] text-white rounded-lg
+          w-[100%] hover:bg-[#505050] transition-all					${
+						submitMutation.isPending ? "opacity-[0.5]" : "opacity-100"
+					}
 					`}
 					onClick={async () => {
 						const result: APIResult = await submitMutation.mutateAsync({

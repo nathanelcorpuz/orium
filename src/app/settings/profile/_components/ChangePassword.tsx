@@ -158,8 +158,7 @@ export default function ChangePassword() {
 					<div className="flex flex-col gap-2">
 						<button
 							className="
-          py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all"
+          h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 							onClick={async () => {
 								if (newPassword !== confirmNewPassword)
 									setConfirmNewPassError(true);
@@ -193,8 +192,7 @@ export default function ChangePassword() {
 							Submit
 						</button>
 						<button
-							className="py-3 bg-[#202020] text-white rounded-lg
-          w-[100%] hover:bg-[#505050] transition-all"
+							className="h-[45px] w-[150px] border-[1px] rounded-md transition-all bg-slate-500 text-white hover:bg-slate-400"
 							onClick={() => {
 								clear();
 								setIsFormOpen(false);

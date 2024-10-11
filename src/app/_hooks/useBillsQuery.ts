@@ -9,7 +9,7 @@ export default function useBillsQuery() {
 	const { isPending, data } = useQuery({
 		queryKey: ["bills"],
 		queryFn: async () => {
-			await loader();
+			
 			return fetch(`${url}/api/bills`).then((res) => res.json());
 		},
 	});

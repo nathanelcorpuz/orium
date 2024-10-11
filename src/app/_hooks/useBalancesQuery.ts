@@ -9,7 +9,7 @@ export default function useBalancesQuery() {
 	const { isPending: balancePending, data } = useQuery({
 		queryKey: ["balances"],
 		queryFn: async () => {
-			await loader();
+			
 			return fetch(`${url}/api/balances`).then((res) => res.json());
 		},
 	});

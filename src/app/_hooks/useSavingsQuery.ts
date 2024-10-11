@@ -16,7 +16,7 @@ export default function useSavingsQuery() {
 			queryKey: ["transactions"],
 			queryFn: () =>
 				fetch(`${url}/api/forecast`).then(async (res) => {
-					await loader();
+					
 					return res.json();
 				}),
 		}

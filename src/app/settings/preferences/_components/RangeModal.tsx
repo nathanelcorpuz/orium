@@ -37,7 +37,7 @@ export default function RangeModal({ setModalOpen, ranges }: RangeModal) {
 				method: "PUT",
 				body: JSON.stringify(formData),
 			}).then(async (res) => {
-				await loader();
+				
 				return res.json();
 			}),
 		onSuccess: () => {

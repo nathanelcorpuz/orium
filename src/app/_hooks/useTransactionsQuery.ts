@@ -10,7 +10,7 @@ export default function useTransactionsQuery() {
 			queryKey: ["transactions"],
 			queryFn: () =>
 				fetch(`${url}/api/forecast`).then(async (res) => {
-					await loader();
+					
 					return res.json();
 				}),
 		}

@@ -8,7 +8,7 @@ export default function useIncomeQuery() {
 		queryKey: ["income"],
 		queryFn: () =>
 			fetch(`${url}/api/income`).then(async (res) => {
-				await loader();
+				
 				return res.json();
 			}),
 	});

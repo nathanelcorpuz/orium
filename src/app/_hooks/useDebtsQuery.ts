@@ -16,7 +16,6 @@ export default function useDebtsQuery() {
 			queryKey: ["transactions"],
 			queryFn: () =>
 				fetch(`${url}/api/forecast`).then(async (res) => {
-					
 					return res.json();
 				}),
 		}
@@ -28,7 +27,7 @@ export default function useDebtsQuery() {
 
 	let daysUntilDebtFree = 0;
 
-	if (transactionsData) {
+	if (transactionsData && data) {
 		transactionsData.forEach((transaction: Transaction) => {
 			if (transaction.type === "debt") {
 				totalDebts = totalDebts + transaction.amount;

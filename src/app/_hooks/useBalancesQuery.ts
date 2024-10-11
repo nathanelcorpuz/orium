@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Balance, TransactionWithBalance } from "@/lib/types";
 import url from "@/lib/url";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +8,6 @@ export default function useBalancesQuery() {
 	const { isPending: balancePending, data } = useQuery({
 		queryKey: ["balances"],
 		queryFn: async () => {
-			
 			return fetch(`${url}/api/balances`).then((res) => res.json());
 		},
 	});
@@ -27,7 +25,7 @@ export default function useBalancesQuery() {
 
 	let transactionsWithBalance: TransactionWithBalance[] = [];
 
-	if (balances) {
+	if (balances && transactions) {
 		balances.forEach((bal) => {
 			totalBalance += Number(bal.amount);
 		});

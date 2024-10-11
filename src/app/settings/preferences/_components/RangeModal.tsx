@@ -188,7 +188,7 @@ export default function RangeModal({ setModalOpen, ranges }: RangeModal) {
 								<p className="text-xs">Highest</p>
 							</div>
 							<p className="text-xs text-slate-400">
-								Transaction balances greater than the "higher" amount
+								Transaction balances greater than the Higher amount
 							</p>
 						</div>
 					</div>

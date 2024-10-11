@@ -1,4 +1,4 @@
-import { Preferences, TransactionWithBalance } from "@/lib/types";
+import { TransactionWithBalance } from "@/lib/types";
 import { format } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
 

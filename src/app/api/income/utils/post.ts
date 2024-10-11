@@ -8,6 +8,7 @@ import {
 	addMonths,
 	addWeeks,
 	differenceInCalendarMonths,
+	differenceInWeeks,
 	getDate,
 	getDay,
 	getMonth,
@@ -76,10 +77,14 @@ export async function post(request: NextRequest) {
 		newIncome.frequency === "weekly"
 	) {
 		let currentDate = newIncome.startDate;
-		let newInstances = instances;
-
-		if (newIncome.frequency === "bi-weekly") newInstances = newInstances * 2;
-		if (newIncome.frequency === "weekly") newInstances = newInstances * 4;
+		let newInstances = differenceInWeeks(
+			newIncome.endDate,
+			newIncome.startDate
+		);
+		if (newIncome.frequency === "bi-weekly") {
+			newInstances =
+				differenceInWeeks(newIncome.endDate, newIncome.startDate) / 2;
+		}
 
 		for (let i = 0; i < newInstances; i++) {
 			const newTransaction: NewTransaction = {

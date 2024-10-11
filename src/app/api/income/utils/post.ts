@@ -81,7 +81,7 @@ export async function post(request: NextRequest) {
 		if (newIncome.frequency === "bi-weekly") newInstances = newInstances * 2;
 		if (newIncome.frequency === "weekly") newInstances = newInstances * 4;
 
-		for (let i = 0; i < instances; i++) {
+		for (let i = 0; i < newInstances; i++) {
 			const newTransaction: NewTransaction = {
 				userId: auth.userId,
 				name: newIncome.name,

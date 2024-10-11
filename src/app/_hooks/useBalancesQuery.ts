@@ -1,6 +1,6 @@
 "use client";
 
-import loader from "@/lib/loader";
+
 import { Balance, TransactionWithBalance } from "@/lib/types";
 import url from "@/lib/url";
 import { useQuery } from "@tanstack/react-query";

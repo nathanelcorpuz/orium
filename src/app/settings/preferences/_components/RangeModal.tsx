@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
 import checkRanges from "./_utils/rangeChecker";
 import { APIResult } from "@/lib/types";
-import loader from "@/lib/loader";
+
 
 interface RangeModal {
 	setModalOpen: Dispatch<SetStateAction<boolean>>;

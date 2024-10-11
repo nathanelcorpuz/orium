@@ -1,5 +1,5 @@
 "use client";
-import loader from "@/lib/loader";
+
 import { Transaction } from "@/lib/types";
 import url from "@/lib/url";
 import { useQuery } from "@tanstack/react-query";

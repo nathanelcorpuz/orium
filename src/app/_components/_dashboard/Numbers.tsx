@@ -52,13 +52,15 @@ export default function Numbers() {
 				<div className="flex gap-10 flex-wrap">
 					{balancePending ? (
 						<p className="text-slate-300">Loading...</p>
-					) : (
+					) : balances.length > 0 ? (
 						balances.map((balance) => (
 							<div key={balance._id}>
 								<p className="text-xs text-slate-400">{balance.name}</p>
 								<p>{balance.amount}</p>
 							</div>
 						))
+					) : (
+						<p className="p-4 text-sm text-slate-400">No balances yet...</p>
 					)}
 				</div>
 			</div>

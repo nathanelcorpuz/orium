@@ -24,7 +24,7 @@ export default function useDebtsQuery() {
 
 	let totalDebts = 0;
 
-	let debtFreeByDate = "";
+	let debtFreeByDate = "No debts";
 
 	let daysUntilDebtFree = 0;
 

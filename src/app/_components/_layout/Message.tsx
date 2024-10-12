@@ -41,7 +41,7 @@ export default function Message({ setModalOpen }: MessageType) {
 				</p>
 			</div>
 			<p className="text-slate-400 text-sm">
-				Send us a message and we'll get back to you within 1 business day.
+				Send us a message and we{"'"}ll get back to you within 1 business day.
 			</p>
 			<div className="flex flex-col justify-center gap-4">
 				<div className="flex flex-col">

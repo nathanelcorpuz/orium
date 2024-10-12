@@ -71,7 +71,7 @@ export default function TransactionItem({
 			</div>
 			<div
 				className={`
-				flex items-center w-[20%] font-bold
+				flex items-center w-[20%]
 				${type === "income" && incomeColor}
 				${type === "debt" && debtColor}
 				${type === "savings" && savingsColor}

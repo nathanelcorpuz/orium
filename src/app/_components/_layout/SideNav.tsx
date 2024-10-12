@@ -151,7 +151,7 @@ export default function SideNav() {
 										href="https://geode-celsius-614.notion.site/Orium-KB-11d39071160380f7ae19c67e29a9f0de"
 										target="_blank"
 									>
-										Click here
+										Visit our Help Center
 									</a>
 									.
 								</p>

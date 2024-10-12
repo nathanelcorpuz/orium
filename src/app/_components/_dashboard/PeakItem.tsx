@@ -30,7 +30,7 @@ export default function PeakItem({
 	const dropHighest = drop >= balanceRanges[4];
 
 	return (
-		<div className="flex p-2 min-w-[80px]" key={monthYear}>
+		<div className="flex p-2 min-w-[85px]" key={monthYear}>
 			<div className="flex flex-col gap-2">
 				<p className="text-xs text-gray-400">{monthYear}</p>
 				<div className="flex flex-col gap-1">

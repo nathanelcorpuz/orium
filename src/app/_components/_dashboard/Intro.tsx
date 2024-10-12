@@ -20,7 +20,15 @@ export default function Intro({ data }: IntroData) {
 				</div>
 				<div className="">
 					<p className="text-slate-400 text-sm">
-						Not sure what to do? Click <a className="underline">here</a> to visit our guide.
+						Not sure what to do? Click{" "}
+						<a
+							className="underline transition-all hover:text-slate-500"
+							href="https://geode-celsius-614.notion.site/Orium-KB-11d39071160380f7ae19c67e29a9f0de"
+							target="_blank"
+						>
+							here
+						</a>{" "}
+						to visit our guide.
 					</p>
 				</div>
 			</div>

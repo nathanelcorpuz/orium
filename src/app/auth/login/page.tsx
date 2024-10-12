@@ -39,7 +39,7 @@ export default function Page() {
 	return (
 		<div className="flex justify-center items-center w-[100%] h-[100%] bg-gray-50">
 			<div className="flex w-[500px] flex-col rounded-lg p-8 drop-shadow-xl bg-white gap-6">
-				<p className="text-2xl">Sign in</p>
+				<p className="text-2xl">Sign In</p>
 				<div className="border-b-[1px]"></div>
 				<div className="flex flex-col">
 					<label className="text-sm" htmlFor="email">

@@ -81,9 +81,7 @@ export default function SideNav() {
 						<div className="flex flex-col gap-6">
 							<div className="flex-col">
 								<p className="text-4xl uppercase px-3">Orium</p>
-								<p className="text-sm text-slate-400 px-3">
-									Finance Forecaster
-								</p>
+								<p className="text-sm text-slate-400 px-3">Finance Organizer</p>
 							</div>
 							<div className="flex flex-col gap-2">
 								{mainLinks.map((link) => (
@@ -144,6 +142,19 @@ export default function SideNav() {
 								>
 									{data.name[0]}
 								</Link>
+							</div>
+							<div className="p-3">
+								<p className="text-xs text-slate-400">
+									Need Support?{" "}
+									<a
+										className=" underline font-bold cursor-pointer"
+										href="https://geode-celsius-614.notion.site/Orium-KB-11d39071160380f7ae19c67e29a9f0de"
+										target="_blank"
+									>
+										Click here
+									</a>
+									.
+								</p>
 							</div>
 						</div>
 					</div>

@@ -13,9 +13,16 @@ export default function Intro({ data }: IntroData) {
 	const router = useRouter();
 	return (
 		<div className="flex justify-between">
-			<div className="flex flex-col gap-2">
-				<p className="text-2xl">Hello, {data.name}.</p>
-				<p className="text-sm text-slate-400">Welcome to your dashboard.</p>
+			<div className="flex gap-24 items-center w-full">
+				<div className="flex flex-col gap-2">
+					<p className="text-2xl">Hello, {data.name}.</p>
+					<p className="text-sm text-slate-400">Welcome to your dashboard.</p>
+				</div>
+				<div className="">
+					<p className="text-slate-400 text-sm">
+						Not sure what to do? Click <a className="underline">here</a> to visit our guide.
+					</p>
+				</div>
 			</div>
 			<div className="flex gap-2">
 				<button

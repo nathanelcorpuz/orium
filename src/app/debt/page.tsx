@@ -29,7 +29,7 @@ export default function Debts() {
 						<p className="text-sm text-gray-400">Total Remaining Debt</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalDebts * -1}
+							{(totalDebts * -1).toLocaleString()}
 						</p>
 					</div>
 					<div>

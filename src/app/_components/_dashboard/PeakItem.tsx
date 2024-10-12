@@ -48,7 +48,7 @@ export default function PeakItem({
             `}
 					>
 						{preferences.currency}
-						{peak}
+						{peak.toLocaleString()}
 					</p>
 					<p
 						className={`
@@ -64,7 +64,7 @@ export default function PeakItem({
             `}
 					>
 						{preferences.currency}
-						{drop}
+						{drop.toLocaleString()}
 					</p>
 				</div>
 			</div>

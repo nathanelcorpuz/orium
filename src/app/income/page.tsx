@@ -29,7 +29,7 @@ export default function IncomePage() {
 						<p className="text-sm text-gray-400">Total Monthly Income</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalMonthlyIncome}
+							{totalMonthlyIncome.toLocaleString()}
 						</p>
 					</div>
 					<div>

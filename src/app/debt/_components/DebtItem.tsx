@@ -25,7 +25,7 @@ export default function DebtItem({
 			<div className="flex items-center w-[16.65%]">
 				<p>
 					{preferences.currency}
-					{debt.amount}
+					{debt.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">

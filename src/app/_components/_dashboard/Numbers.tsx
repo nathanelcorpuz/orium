@@ -42,7 +42,7 @@ export default function Numbers() {
 						) : (
 							<p className="text-2xl font-bold">
 								{preferences.currency}
-								{totalBalance}
+								{totalBalance.toLocaleString()}
 							</p>
 						)}
 					</div>
@@ -53,7 +53,7 @@ export default function Numbers() {
 						) : (
 							<p className="text-2xl font-bold">
 								{preferences.currency}
-								{totalBills}
+								{totalBills.toLocaleString()}
 							</p>
 						)}
 					</div>
@@ -64,7 +64,7 @@ export default function Numbers() {
 						) : (
 							<p className="text-2xl font-bold">
 								{preferences.currency}
-								{totalMonthlyIncome}
+								{totalMonthlyIncome.toLocaleString()}
 							</p>
 						)}
 					</div>
@@ -79,7 +79,7 @@ export default function Numbers() {
 								<p className="text-xs text-slate-400">{balance.name}</p>
 								<p>
 									{preferences.currency}
-									{balance.amount}
+									{balance.amount.toLocaleString()}
 								</p>
 							</div>
 						))
@@ -97,7 +97,7 @@ export default function Numbers() {
 						) : (
 							<p className="font-bold">
 								{preferences.currency}
-								{totalDebts * -1}
+								{(totalDebts * -1).toLocaleString()}
 							</p>
 						)}
 					</div>
@@ -127,7 +127,7 @@ export default function Numbers() {
 						) : (
 							<p className="font-bold">
 								{preferences.currency}
-								{totalSavings}
+								{totalSavings.toLocaleString()}
 							</p>
 						)}
 					</div>

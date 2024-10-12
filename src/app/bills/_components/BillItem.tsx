@@ -25,7 +25,7 @@ export default function BillItem({
 			<div className="w-[20%] flex items-center">
 				<p>
 					{preferences.currency}
-					{bill.amount}
+					{bill.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="w-[20%] flex items-center">

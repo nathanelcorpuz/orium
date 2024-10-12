@@ -35,7 +35,7 @@ export default function IncomeItem({
 			<div className="w-[20%] flex items-center">
 				<p>
 					{preferences.currency}
-					{income.amount}
+					{income.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="w-[20%] flex items-center">

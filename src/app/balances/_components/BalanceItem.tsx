@@ -24,7 +24,7 @@ export default function BalanceItem({
 			<div className="w-[20%] flex items-center">
 				<p>
 					{preferences.currency}
-					{balance.amount}
+					{balance.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="w-[20%] flex items-center">

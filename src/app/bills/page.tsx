@@ -31,7 +31,7 @@ export default function Bills() {
 						<p className="text-sm text-gray-400">Total Monthly Bills</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalBills}
+							{totalBills.toLocaleString()}
 						</p>
 					</div>
 					<div>

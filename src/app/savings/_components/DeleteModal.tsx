@@ -63,7 +63,7 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 							<p className="text-sm text-slate-400">Amount</p>
 							<p>
 								{preferences.currency}
-								{savings.amount}
+								{savings.amount.toLocaleString()}
 							</p>
 						</div>
 						<div className="flex flex-col">

@@ -32,7 +32,7 @@ export default function Forecast() {
 						<p className="text-2xl">
 							{balancePending || isPreferencesPending
 								? "Loading..."
-								: `${preferences.currency}${totalBalance}`}
+								: `${preferences.currency}${totalBalance.toLocaleString()}`}
 						</p>
 					</div>
 					<div className="flex p-4 border-t-[1px] border-slate-200 text-gray-400">

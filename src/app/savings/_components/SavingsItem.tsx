@@ -26,7 +26,7 @@ export default function SavingsItem({
 			<div className="flex items-center w-[16.65%]">
 				<p>
 					{preferences.currency}
-					{savings.amount}
+					{savings.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">

@@ -27,7 +27,7 @@ export default function ExtraItem({
 			<div className="w-[20%] flex items-center">
 				<p>
 					{preferences.currency}
-					{extra.amount}
+					{extra.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="w-[20%] flex items-center">

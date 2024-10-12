@@ -31,7 +31,7 @@ export default function Balances() {
 						<p className="text-sm text-gray-400">Total Balance</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalBalance}
+							{totalBalance.toLocaleString()}
 						</p>
 					</div>
 					<div>

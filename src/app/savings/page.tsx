@@ -28,7 +28,7 @@ export default function Savings() {
 						<p className="text-sm text-gray-400">Total Remaining Savings</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalSavings}
+							{totalSavings.toLocaleString()}
 						</p>
 					</div>
 					<div>

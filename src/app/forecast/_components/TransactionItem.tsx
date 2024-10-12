@@ -63,7 +63,7 @@ export default function TransactionItem({
 			<div className="flex items-center w-[20%]">
 				<p>
 					{preferences.currency}
-					{transaction.amount}
+					{transaction.amount.toLocaleString()}
 				</p>
 			</div>
 			<div className="flex items-center w-[20%]">
@@ -82,7 +82,7 @@ export default function TransactionItem({
 			<div className="flex items-center w-[20%] font-bold">
 				<p>
 					{preferences.currency}
-					{transaction.forecastedBalance}
+					{transaction.forecastedBalance.toLocaleString()}
 				</p>
 			</div>
 		</div>

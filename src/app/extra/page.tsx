@@ -58,7 +58,7 @@ export default function Extras() {
 						<p className="text-sm text-gray-400">Total Remaining Extras</p>
 						<p className="text-2xl">
 							{preferences.currency}
-							{totalExtras}
+							{totalExtras.toLocaleString()}
 						</p>
 					</div>
 					<div>

@@ -136,7 +136,7 @@ export default function Modal({
 								<p className="text-sm text-slate-400 capitalize">Amount</p>
 								<p>
 									{preferences.currency}
-									{selectedTransaction.amount}
+									{selectedTransaction.amount.toLocaleString()}
 								</p>
 							</div>
 						</div>
@@ -151,7 +151,7 @@ export default function Modal({
 								<p className="text-sm text-slate-400 capitalize">
 									Forecasted Balance
 								</p>
-								<p>{selectedTransaction.forecastedBalance}</p>
+								<p>{selectedTransaction.forecastedBalance.toLocaleString()}</p>
 							</div>
 						</div>
 					</div>

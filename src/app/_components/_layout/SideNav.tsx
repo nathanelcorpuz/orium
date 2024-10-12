@@ -4,6 +4,9 @@ import url from "@/lib/url";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import Chat from "../_icons/Chat";
+import { useState } from "react";
+import Message from "./Message";
 
 const mainLinks = [
 	{
@@ -51,6 +54,8 @@ export default function SideNav() {
 	const router = useRouter();
 	const pathname = usePathname();
 	const queryClient = useQueryClient();
+
+	const [isMessageOpen, setIsMessageOpen] = useState(false);
 
 	interface UserAPIResult {
 		success: boolean;
@@ -158,6 +163,13 @@ export default function SideNav() {
 							</div>
 						</div>
 					</div>
+				</div>
+				{isMessageOpen && <Message setModalOpen={setIsMessageOpen} />}
+				<div
+					className="absolute right-[30px] bottom-[30px] w-[60px] h-[60px] bg-slate-600 z-[99] rounded-full flex items-center justify-center cursor-pointer hover:bg-slate-500 transition-all"
+					onClick={() => setIsMessageOpen((val) => !val)}
+				>
+					<Chat className="w-[25px] h-[25px]" />
 				</div>
 			</header>
 		)

@@ -69,6 +69,19 @@ export async function sendSignUpSuccess({ userEmail }: { userEmail: string }) {
 	});
 }
 
+export async function sendMessage({ message }: { message: string }) {
+	await transporter.sendMail({
+		from: fromEmail,
+		to: fromEmail,
+		subject: "Orium Feedback",
+		html: `
+    <p>
+			${message}
+		</p>
+    `,
+	});
+}
+
 export async function sendPasswordResetCode({
 	userEmail,
 }: {

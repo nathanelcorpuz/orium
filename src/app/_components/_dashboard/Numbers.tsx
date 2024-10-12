@@ -28,7 +28,8 @@ export default function Numbers() {
 		billsPending ||
 		incomePending ||
 		isDebtsPending ||
-		isPreferencesPending;
+		isPreferencesPending ||
+		isSavingsPending;
 
 	return (
 		<div className="flex gap-10">

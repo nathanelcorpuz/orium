@@ -1,3 +1,4 @@
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { Balance } from "@/lib/types";
 import { Dispatch, SetStateAction } from "react";
 
@@ -14,13 +15,17 @@ export default function BalanceItem({
 	setIsDeleteModalOpen,
 	setSelectedBalance,
 }: BalanceItem) {
+	const { preferences } = usePreferencesQuery();
 	return (
 		<div className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
 			<div className="w-[20%] flex items-center">
 				<p>{balance.name}</p>
 			</div>
 			<div className="w-[20%] flex items-center">
-				<p>{balance.amount}</p>
+				<p>
+					{preferences.currency}
+					{balance.amount}
+				</p>
 			</div>
 			<div className="w-[20%] flex items-center">
 				<p>{balance.comments}</p>

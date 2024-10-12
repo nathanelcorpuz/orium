@@ -30,7 +30,9 @@ export default function Forecast() {
 					<div className="flex py-2 flex-col">
 						<p className="text-sm text-gray-400">Total Balance</p>
 						<p className="text-2xl">
-							{balancePending ? "Loading..." : `₱${totalBalance}`}
+							{balancePending || isPreferencesPending
+								? "Loading..."
+								: `${preferences.currency}${totalBalance}`}
 						</p>
 					</div>
 					<div className="flex p-4 border-t-[1px] border-slate-200 text-gray-400">

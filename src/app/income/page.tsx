@@ -6,15 +6,18 @@ import IncomeItem from "./_components/IncomeItem";
 import NewModal from "./_components/NewModal";
 import DeleteModal from "./_components/DeleteModal";
 import useIncomeQuery from "../_hooks/useIncomeQuery";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function IncomePage() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedIncome, setSelectedIncome] = useState({} as Income);
 
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
+
 	const { incomes, incomePending, totalMonthlyIncome } = useIncomeQuery();
 
-	return incomePending ? (
+	return incomePending || isPreferencesPending ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading income...</p>
 		</div>
@@ -24,7 +27,10 @@ export default function IncomePage() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Monthly Income</p>
-						<p className="text-2xl">₱{totalMonthlyIncome}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalMonthlyIncome}
+						</p>
 					</div>
 					<div>
 						<button

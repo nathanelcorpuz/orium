@@ -1,4 +1,6 @@
 "use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Savings } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +15,8 @@ interface DeleteModal {
 export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
 	const [error, setError] = useState("");
+
+	const { preferences } = usePreferencesQuery();
 
 	interface FormData {
 		_id: string;
@@ -33,11 +37,13 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 	const onClickClose = () => {
 		setIsModalOpen(false);
 	};
+
 	const onClickSubmit = async () => {
 		const result: APIResult = await mutation.mutateAsync({ _id: savings._id });
 		if (!result.success) setError(result.message);
 		if (result.success) setIsModalOpen(false);
 	};
+
 	return (
 		<div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
 			<div className="bg-black opacity-25 w-[100%] h-[100%] absolute"></div>
@@ -55,7 +61,10 @@ export default function DeleteModal({ savings, setIsModalOpen }: DeleteModal) {
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Amount</p>
-							<p>{savings.amount}</p>
+							<p>
+								{preferences.currency}
+								{savings.amount}
+							</p>
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Day of Month</p>

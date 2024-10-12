@@ -7,6 +7,7 @@ import BalanceItem from "./_components/BalanceItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
 import useBalancesQuery from "../_hooks/useBalancesQuery";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Balances() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -16,9 +17,9 @@ export default function Balances() {
 
 	const { balances, balancePending, totalBalance } = useBalancesQuery();
 
-	console.log(balances);
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
 
-	return balancePending ? (
+	return balancePending || isPreferencesPending ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading balances...</p>
 		</div>
@@ -28,7 +29,10 @@ export default function Balances() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Balance</p>
-						<p className="text-2xl">₱{totalBalance}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalBalance}
+						</p>
 					</div>
 					<div>
 						<button

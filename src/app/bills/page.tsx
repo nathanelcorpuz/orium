@@ -7,6 +7,7 @@ import BillItem from "./_components/BillItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
 import useBillsQuery from "../_hooks/useBillsQuery";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Bills() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -16,7 +17,9 @@ export default function Bills() {
 
 	const { bills, totalBills, billsPending } = useBillsQuery();
 
-	return billsPending ? (
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
+
+	return billsPending || isPreferencesPending ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading bills...</p>
 		</div>
@@ -26,7 +29,10 @@ export default function Bills() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Monthly Bills</p>
-						<p className="text-2xl">₱{totalBills}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalBills}
+						</p>
 					</div>
 					<div>
 						<button

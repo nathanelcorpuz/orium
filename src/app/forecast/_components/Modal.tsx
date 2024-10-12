@@ -1,5 +1,6 @@
 "use client";
 
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, TransactionWithBalance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +21,8 @@ export default function Modal({
 	selectedTransaction,
 }: ModalInterface) {
 	const queryClient = useQueryClient();
+
+	const { preferences } = usePreferencesQuery();
 
 	const [actualAmount, setActualAmount] = useState(
 		String(selectedTransaction.amount)
@@ -131,7 +134,10 @@ export default function Modal({
 							</div>
 							<div className="w-full border-[1px] rounded-md p-3">
 								<p className="text-sm text-slate-400 capitalize">Amount</p>
-								<p>{selectedTransaction.amount}</p>
+								<p>
+									{preferences.currency}
+									{selectedTransaction.amount}
+								</p>
 							</div>
 						</div>
 						<div className="flex gap-4">
@@ -151,7 +157,9 @@ export default function Modal({
 					</div>
 					<div className="flex flex-col gap-1">
 						<label htmlFor="actualAmount" className="text-sm text-slate-400">
-							Actual Amount
+							Actual Amount {"("}
+							{preferences.currency}
+							{")"}
 						</label>
 						<input
 							id="actualAmount"

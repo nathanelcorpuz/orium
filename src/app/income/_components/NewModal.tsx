@@ -1,5 +1,6 @@
 "use client";
 
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -10,6 +11,8 @@ interface NewModal {
 
 export default function NewModal({ setIsModalOpen }: NewModal) {
 	const queryClient = useQueryClient();
+
+	const { preferences } = usePreferencesQuery();
 
 	const [name, setName] = useState("");
 	const [amount, setAmount] = useState("");
@@ -81,7 +84,9 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 						</div>
 						<div className="flex flex-col">
 							<label className="text-sm text-gray-400" htmlFor="amount">
-								Amount
+								Amount {"("}
+								{preferences.currency}
+								{")"}
 							</label>
 							<input
 								name="amount"

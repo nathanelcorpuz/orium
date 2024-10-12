@@ -7,6 +7,7 @@ export type DayOfWeek = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface Preferences {
 	userId: string;
 	balanceRanges: number[];
+	currency: string;
 }
 
 export interface APIResult {

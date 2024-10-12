@@ -45,6 +45,15 @@ export default function Intro({ data }: IntroData) {
 				>
 					History
 				</button>
+				<button
+					className="
+					h-[45px] w-[150px] border-[1px]
+					rounded-md transition-all bg-slate-500
+					text-white hover:bg-slate-400 text-lg"
+					onClick={() => router.push("/settings/preferences")}
+				>
+					Preferences
+				</button>
 			</div>
 		</div>
 	);

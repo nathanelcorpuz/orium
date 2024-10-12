@@ -4,6 +4,7 @@ import useBalancesQuery from "@/app/_hooks/useBalancesQuery";
 import useBillsQuery from "@/app/_hooks/useBillsQuery";
 import useDebtsQuery from "@/app/_hooks/useDebtsQuery";
 import useIncomeQuery from "@/app/_hooks/useIncomeQuery";
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import useSavingsQuery from "@/app/_hooks/useSavingsQuery";
 
 export default function Numbers() {
@@ -12,6 +13,7 @@ export default function Numbers() {
 	const { totalMonthlyIncome, incomePending } = useIncomeQuery();
 	const { isDebtsPending, debtFreeByDate, daysUntilDebtFree, totalDebts } =
 		useDebtsQuery();
+
 	const {
 		isSavingsPending,
 		totalSavings,
@@ -19,44 +21,65 @@ export default function Numbers() {
 		daysUntilFinalSavingsDate,
 	} = useSavingsQuery();
 
+	const { isPreferencesPending, preferences } = usePreferencesQuery();
+
+	const isPending =
+		balancePending ||
+		billsPending ||
+		incomePending ||
+		isDebtsPending ||
+		isPreferencesPending;
+
 	return (
 		<div className="flex gap-10">
 			<div className="w-[50%] flex flex-col gap-6 bg-white p-6 rounded-lg">
 				<div className="flex items-center gap-24">
 					<div className="flex flex-col">
 						<p className="text-xs text-slate-400">Total Balance</p>
-						{balancePending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-2xl font-bold">{totalBalance}</p>
+							<p className="text-2xl font-bold">
+								{preferences.currency}
+								{totalBalance}
+							</p>
 						)}
 					</div>
 					<div className="flex flex-col">
 						<p className="text-xs text-slate-400">Total Monthly Bills</p>
-						{billsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-2xl font-bold">{totalBills}</p>
+							<p className="text-2xl font-bold">
+								{preferences.currency}
+								{totalBills}
+							</p>
 						)}
 					</div>
 					<div className="flex flex-col">
 						<p className="text-xs text-slate-400">Total Monthly Income</p>
-						{incomePending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="text-2xl font-bold">{totalMonthlyIncome}</p>
+							<p className="text-2xl font-bold">
+								{preferences.currency}
+								{totalMonthlyIncome}
+							</p>
 						)}
 					</div>
 				</div>
 				<div className="border-b-[1px] border-slate-200"></div>
 				<div className="flex gap-10 flex-wrap">
-					{balancePending ? (
+					{isPending ? (
 						<p className="text-slate-300">Loading...</p>
 					) : balances.length > 0 ? (
 						balances.map((balance) => (
 							<div key={balance._id}>
 								<p className="text-xs text-slate-400">{balance.name}</p>
-								<p>{balance.amount}</p>
+								<p>
+									{preferences.currency}
+									{balance.amount}
+								</p>
 							</div>
 						))
 					) : (
@@ -68,15 +91,18 @@ export default function Numbers() {
 				<div className="flex w-full h-full">
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Remaining Debt</p>
-						{isDebtsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="font-bold">{totalDebts * -1}</p>
+							<p className="font-bold">
+								{preferences.currency}
+								{totalDebts * -1}
+							</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Debt-free By</p>
-						{isDebtsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
 							<p className="text-sm">{debtFreeByDate}</p>
@@ -84,7 +110,7 @@ export default function Numbers() {
 					</div>
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Days Until Debt-free</p>
-						{isDebtsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
 							<p className="text-sm">{daysUntilDebtFree}</p>
@@ -95,15 +121,18 @@ export default function Numbers() {
 				<div className="flex w-full h-full">
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Remaining Savings</p>
-						{isSavingsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
-							<p className="font-bold">{totalSavings}</p>
+							<p className="font-bold">
+								{preferences.currency}
+								{totalSavings}
+							</p>
 						)}
 					</div>
 					<div className="w-full flex flex-col">
 						<p className="text-xs text-slate-400">Final Savings Date</p>
-						{isSavingsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
 							<p className="text-sm">{finalSavingsDate}</p>
@@ -113,7 +142,7 @@ export default function Numbers() {
 						<p className="text-xs text-slate-400">
 							Days Until Final Savings Date
 						</p>
-						{isSavingsPending ? (
+						{isPending ? (
 							<p className="text-slate-300">Loading...</p>
 						) : (
 							<p className="text-sm">{daysUntilFinalSavingsDate}</p>

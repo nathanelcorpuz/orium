@@ -1,5 +1,6 @@
 "use client";
 
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +19,8 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 	const [endDate, setEndDate] = useState("");
 	const [comments, setComments] = useState("");
 	const [error, setError] = useState("");
+
+	const { preferences } = usePreferencesQuery();
 
 	interface FormData {
 		name: string;
@@ -74,7 +77,9 @@ export default function NewModal({ setIsModalOpen }: NewModal) {
 						</div>
 						<div className="flex flex-col">
 							<label className="text-sm text-gray-400" htmlFor="amount">
-								Amount
+								Amount {"("}
+								{preferences.currency}
+								{")"}
 							</label>
 							<input
 								name="amount"

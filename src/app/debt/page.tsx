@@ -6,6 +6,7 @@ import DebtItem from "./_components/DebtItem";
 import DeleteModal from "./_components/DeleteModal";
 import NewModal from "./_components/NewModal";
 import useDebtsQuery from "../_hooks/useDebtsQuery";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Debts() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -14,7 +15,9 @@ export default function Debts() {
 
 	const { debts, totalDebts, isDebtsPending } = useDebtsQuery();
 
-	return isDebtsPending ? (
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
+
+	return isDebtsPending || isPreferencesPending ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading debts...</p>
 		</div>
@@ -24,7 +27,10 @@ export default function Debts() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Remaining Debt</p>
-						<p className="text-2xl">₱{totalDebts * -1}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalDebts * -1}
+						</p>
 					</div>
 					<div>
 						<button

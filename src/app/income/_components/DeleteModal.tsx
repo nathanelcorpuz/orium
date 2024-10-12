@@ -1,4 +1,6 @@
 "use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Income } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +12,8 @@ interface DeleteModal {
 }
 
 export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
+	const { preferences } = usePreferencesQuery();
+
 	let formattedDayOfWeek;
 	if (income.dayOfWeek == 0) formattedDayOfWeek = "Sunday";
 	if (income.dayOfWeek == 1) formattedDayOfWeek = "Monday";
@@ -64,7 +68,10 @@ export default function DeleteModal({ income, setIsModalOpen }: DeleteModal) {
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Amount</p>
-							<p>{income.amount}</p>
+							<p>
+								{preferences.currency}
+								{income.amount}
+							</p>
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Frequency</p>

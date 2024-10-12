@@ -4,17 +4,23 @@ import { useQuery } from "@tanstack/react-query";
 import HistoryItem from "./_components/HistoryItem";
 import { History } from "@/lib/types";
 import url from "@/lib/url";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Forecast() {
-	const { isPending, isError, data, error } = useQuery({
+	const { isPending: isHistoryPending, data } = useQuery({
 		queryKey: ["history"],
 		queryFn: () => fetch(`${url}/api/history`).then((res) => res.json()),
 	});
 
-	if (isPending) return <div>Loading data</div>;
-	if (isError) return <div>Error: {error.message}</div>;
+	const { isPreferencesPending } = usePreferencesQuery();
 
-	return (
+	const isPending = isHistoryPending || isPreferencesPending;
+
+	return isPending ? (
+		<div className="w-full h-full flex items-center justify-center">
+			<p className="text-slate-400">Loading history...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div className="bg-white flex flex-col w-[1400px] p-5 rounded-lg h-[90vh]">
 				<div className="flex text-sm p-4 border-slate-200 text-gray-400">

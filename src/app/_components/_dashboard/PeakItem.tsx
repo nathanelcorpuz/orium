@@ -47,6 +47,7 @@ export default function PeakItem({
             ${peak === 0 ? "text-slate-50 bg-slate-50" : ""}
             `}
 					>
+						{preferences.currency}
 						{peak}
 					</p>
 					<p
@@ -62,6 +63,7 @@ export default function PeakItem({
             ${drop === 0 ? "text-slate-50 bg-slate-50" : ""}
             `}
 					>
+						{preferences.currency}
 						{drop}
 					</p>
 				</div>

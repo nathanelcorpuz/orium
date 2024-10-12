@@ -8,7 +8,7 @@ import Preferences from "@/models/Preferences";
 
 export async function POST(request: NextRequest) {
 	await connectDB();
-	const { name, email, password } = await request.json();
+	const { name, email, password, currency } = await request.json();
 
 	const emailExists = await User.exists({ email });
 
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
 		isVerified: false,
 	});
 
-	await Preferences.create({ userId: newAccountDoc._id });
+	await Preferences.create({ userId: newAccountDoc._id, currency });
 
 	await sendEmailVerificationCode({
 		userId: newAccountDoc._id,

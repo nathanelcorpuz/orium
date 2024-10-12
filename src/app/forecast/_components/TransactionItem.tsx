@@ -1,3 +1,4 @@
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { TransactionWithBalance } from "@/lib/types";
 import { format } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
@@ -21,6 +22,8 @@ export default function TransactionItem({
 		setIsModalOpen(!isModalOpen);
 		setSelectedTransaction(transaction);
 	};
+
+	const { preferences } = usePreferencesQuery();
 
 	const bal = transaction.forecastedBalance;
 
@@ -58,7 +61,10 @@ export default function TransactionItem({
 				<p>{transaction.name}</p>
 			</div>
 			<div className="flex items-center w-[20%]">
-				<p>{transaction.amount}</p>
+				<p>
+					{preferences.currency}
+					{transaction.amount}
+				</p>
 			</div>
 			<div className="flex items-center w-[20%]">
 				<p>{format(transaction.dueDate.toString(), "MMM d, y")}</p>
@@ -74,7 +80,10 @@ export default function TransactionItem({
 				<p>{transaction.type}</p>
 			</div>
 			<div className="flex items-center w-[20%] font-bold">
-				<p>{transaction.forecastedBalance}</p>
+				<p>
+					{preferences.currency}
+					{transaction.forecastedBalance}
+				</p>
 			</div>
 		</div>
 	);

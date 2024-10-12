@@ -1,3 +1,6 @@
+"use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { Income } from "@/lib/types";
 import { Dispatch, SetStateAction } from "react";
 
@@ -12,6 +15,8 @@ export default function IncomeItem({
 	setIsDeleteModalOpen,
 	setSelectedIncome,
 }: IncomeItem) {
+	const { preferences } = usePreferencesQuery();
+
 	let formattedDayOfWeek;
 
 	if (income.dayOfWeek == 0) formattedDayOfWeek = "Sunday";
@@ -28,7 +33,10 @@ export default function IncomeItem({
 				<p>{income.name}</p>
 			</div>
 			<div className="w-[20%] flex items-center">
-				<p>{income.amount}</p>
+				<p>
+					{preferences.currency}
+					{income.amount}
+				</p>
 			</div>
 			<div className="w-[20%] flex items-center">
 				<p>

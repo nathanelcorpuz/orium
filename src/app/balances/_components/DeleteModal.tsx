@@ -1,5 +1,6 @@
 "use client";
 
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Balance } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +14,8 @@ interface DeleteModal {
 export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 	const queryClient = useQueryClient();
 	const [error, setError] = useState("");
+
+	const { preferences } = usePreferencesQuery();
 
 	interface FormData {
 		_id: string;
@@ -52,7 +55,10 @@ export default function DeleteModal({ balance, setIsModalOpen }: DeleteModal) {
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Amount</p>
-							<p>{balance.amount}</p>
+							<p>
+								{preferences.currency}
+								{balance.amount}
+							</p>
 						</div>
 						<div className="flex flex-col">
 							<p className="text-sm text-slate-400">Comments</p>

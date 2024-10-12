@@ -21,7 +21,7 @@ export default function Layout({
 	const pathname = usePathname();
 	return (
 		<div className="flex border-l-[1px] border-slate-200">
-			<div className="flex flex-col gap-2 p-5 bg-white w-[200px]">
+			<div className="flex flex-col gap-2 p-5 bg-white w-[300px]">
 				{links.map((link) => (
 					<Link
 						key={link.href}

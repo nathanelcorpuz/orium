@@ -1,3 +1,6 @@
+"use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { Debt } from "@/lib/types";
 import { format } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
@@ -13,13 +16,17 @@ export default function DebtItem({
 	setIsDeleteModalOpen,
 	setSelectedDebt,
 }: DebtItem) {
+	const { preferences } = usePreferencesQuery();
 	return (
 		<div className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
 			<div className="flex items-center w-[22%]">
 				<p>{debt.name}</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">
-				<p>{debt.amount}</p>
+				<p>
+					{preferences.currency}
+					{debt.amount}
+				</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">
 				<p>{`${debt.day} of every month`}</p>

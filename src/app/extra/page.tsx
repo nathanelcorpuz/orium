@@ -8,6 +8,7 @@ import ExtraItem from "./_components/ExtraItem";
 import DeleteModal from "./_components/DeleteModal";
 import EditModal from "./_components/EditModal";
 import url from "@/lib/url";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Extras() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -15,35 +16,38 @@ export default function Extras() {
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [selectedExtra, setSelectedExtra] = useState({} as Extra);
 
-	const { isPending, isError, data, error } = useQuery({
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
+
+	const { isPending: isExtrasPending, data } = useQuery({
 		queryKey: ["extras"],
 		queryFn: () => fetch(`${url}/api/extras`).then((res) => res.json()),
 	});
 
-	const {
-		isPending: isTransactionsPending,
-		isError: isTransactionsError,
-		data: transactionsData,
-		error: transactionsError,
-	} = useQuery({
-		queryKey: ["transactions"],
-		queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
-	});
+	const { isPending: isTransactionsPending, data: transactionsData } = useQuery(
+		{
+			queryKey: ["transactions"],
+			queryFn: () => fetch(`${url}/api/forecast`).then((res) => res.json()),
+		}
+	);
 
-	if (isPending || isTransactionsPending) return <div>loading</div>;
-	if (isError) return <div>error: {error?.message}</div>;
-	if (isTransactionsError)
-		return <div>error: {transactionsError?.message}</div>;
+	const isPending =
+		isTransactionsPending || isExtrasPending || isPreferencesPending;
 
 	let totalExtras = 0;
 
-	transactionsData.forEach((transaction: Transaction) => {
-		if (transaction.type === "extra") {
-			totalExtras = totalExtras + transaction.amount;
-		}
-	});
+	if (!isPending) {
+		transactionsData.forEach((transaction: Transaction) => {
+			if (transaction.type === "extra") {
+				totalExtras = totalExtras + transaction.amount;
+			}
+		});
+	}
 
-	return (
+	return isPending ? (
+		<div className="w-full h-full flex items-center justify-center">
+			<p className="text-slate-400">Loading extras...</p>
+		</div>
+	) : (
 		<div className="flex flex-col p-8 z-[-5]">
 			<div
 				className="bg-white flex flex-col w-[1000px] p-5 rounded-lg h-[90vh]
@@ -52,7 +56,10 @@ export default function Extras() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Remaining Extras</p>
-						<p className="text-2xl">₱{totalExtras}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalExtras}
+						</p>
 					</div>
 					<div>
 						<button

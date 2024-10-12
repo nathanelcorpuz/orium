@@ -6,6 +6,7 @@ import SavingsItem from "./_components/SavingsItem";
 import DeleteModal from "./_components/DeleteModal";
 import NewModal from "./_components/NewModal";
 import useSavingsQuery from "../_hooks/useSavingsQuery";
+import usePreferencesQuery from "../_hooks/usePreferencesQuery";
 
 export default function Savings() {
 	const [isNewModalOpen, setIsNewModalOpen] = useState(false);
@@ -13,8 +14,9 @@ export default function Savings() {
 	const [selectedSavings, setSelectedSavings] = useState({} as SavingsType);
 
 	const { totalSavings, savings, isSavingsPending } = useSavingsQuery();
+	const { preferences, isPreferencesPending } = usePreferencesQuery();
 
-	return isSavingsPending ? (
+	return isSavingsPending || isPreferencesPending ? (
 		<div className="w-full h-full flex justify-center items-center">
 			<p className="text-lg text-slate-400">Loading savings...</p>
 		</div>
@@ -24,7 +26,10 @@ export default function Savings() {
 				<div className="flex gap-[100px] items-center justify-between">
 					<div className="flex flex-col py-2">
 						<p className="text-sm text-gray-400">Total Remaining Savings</p>
-						<p className="text-2xl">₱{totalSavings}</p>
+						<p className="text-2xl">
+							{preferences.currency}
+							{totalSavings}
+						</p>
 					</div>
 					<div>
 						<button

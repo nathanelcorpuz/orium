@@ -1,3 +1,6 @@
+"use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Bill } from "@/lib/types";
 import url from "@/lib/url";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +20,8 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 	const [error, setError] = useState("");
 
 	const queryClient = useQueryClient();
+
+	const { preferences } = usePreferencesQuery();
 
 	interface FormData {
 		_id: string;
@@ -79,7 +84,9 @@ export default function EditModal({ bill, setIsModalOpen }: EditModal) {
 						</div>
 						<div className="flex flex-col">
 							<label className="text-sm text-slate-400" htmlFor="amount">
-								Amount
+								Amount {"("}
+								{preferences.currency}
+								{")"}
 							</label>
 							<input
 								name="amount"

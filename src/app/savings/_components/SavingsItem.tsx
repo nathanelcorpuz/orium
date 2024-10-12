@@ -1,3 +1,6 @@
+"use client";
+
+import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { Savings } from "@/lib/types";
 import { format } from "date-fns";
 import { Dispatch, SetStateAction } from "react";
@@ -13,13 +16,18 @@ export default function SavingsItem({
 	setIsDeleteModalOpen,
 	setSelectedSavings,
 }: SavingsItem) {
+	const { preferences } = usePreferencesQuery();
+
 	return (
 		<div className="flex py-1 px-4 border-b-[1px] border-slate-200 text-sm">
 			<div className="flex items-center w-[22%]">
 				<p>{savings.name}</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">
-				<p>{savings.amount}</p>
+				<p>
+					{preferences.currency}
+					{savings.amount}
+				</p>
 			</div>
 			<div className="flex items-center w-[16.65%]">
 				<p>{`${savings.day} of every month`}</p>

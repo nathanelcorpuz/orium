@@ -79,7 +79,7 @@ export default function Page({ params }: { params: { email: string } }) {
 				<button
 					disabled={submitMutation.isPending || resendMutation.isPending}
 					className={`
-                    w-[100%] hover:bg-[#505050] transition-all
+                    hover:text-gray-500 underline transition-all text-sm
 					${
 						submitMutation.isPending || resendMutation.isPending
 							? "opacity-[0.5]"

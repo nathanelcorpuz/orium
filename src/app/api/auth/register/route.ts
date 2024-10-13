@@ -19,6 +19,41 @@ export async function POST(request: NextRequest) {
 		});
 	}
 
+	const exclusiveEmailList = [
+		"pradodeliojr@gmail.com",
+		"hrvysnts@yahoo.com",
+		"lopez.bobzorex@gmail.com",
+		"cezrabebasaca@gmail.com",
+		"melisa.hontiveros@gmail.com",
+		"poetaetoes15@gmail.com",
+		"lefthanded_73@yahoo.com",
+		"ralphsabando@gmail.com",
+		"tmcc.crisellelambo@gmail.com",
+		"frilynfparan@gmail.com",
+		"mikecuizon0131@gmail.com",
+		"arriane0503@gmail.com",
+		"daninediga@gmail.com",
+		"mvillahermosajr@gmail.com",
+		"patrickastoveza18@gmail.com",
+		"torresabigaild321@gmail.com",
+		"ser.nthnl@gmail.com",
+		"lerelyn.moraleda10@gmail.com",
+		"kpcfco017@gmail.com",
+		"julius.soriano.mnl@gmail.com",
+		"Verdeenmaenareslopes@gmail.com",
+		"rosemarie9.devera@gmail.com",
+		"Justinepaulinell@gmail.com",
+		"escarlandaisyc@gmail.com",
+	];
+
+	if (!exclusiveEmailList.includes(email)) {
+		return NextResponse.json({
+			success: false,
+			message:
+				"Beta access not found. Please double-check your email or reach out to nathanelcorpuz@gmail.com for more info",
+		});
+	}
+
 	const newAccountDoc: HydratedDocument<UserDocument> = await User.create({
 		name,
 		email,

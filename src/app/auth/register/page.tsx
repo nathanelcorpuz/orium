@@ -177,7 +177,7 @@ export default function RegisterPage() {
 						</Link>
 					</p>
 				</div>
-				<div>{mutationError && <p>{mutationError}</p>}</div>
+				<div>{mutationError && <p className="text-red-600">{mutationError}</p>}</div>
 			</div>
 		</div>
 	);

@@ -38,8 +38,8 @@ export default function Forecast() {
 					) : (
 						<div className="flex items-center gap-8 pb-4">
 							<div className="flex py-2 flex-col">
-								<p className="text-sm text-gray-400">Total Balance</p>
-								<p className="text-2xl">
+								<p className="text-sm text-gray-400 w-max">Total Balance</p>
+								<p className="text-2xl w-max">
 									{preferences.currency}
 									{totalBalance.toLocaleString()}
 								</p>

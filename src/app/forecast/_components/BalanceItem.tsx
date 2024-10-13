@@ -16,7 +16,7 @@ export default function BalanceItem({
 }: BalanceItem) {
 	return (
 		<div
-			className="flex flex-col p-2 rounded-lg hover:bg-slate-200 transition-all cursor-pointer"
+			className="min-w-[70px] flex flex-col p-2 rounded-lg hover:bg-slate-200 transition-all cursor-pointer"
 			onClick={() => {
 				setIsModalOpen(true);
 				setSelectedBalance(balance);

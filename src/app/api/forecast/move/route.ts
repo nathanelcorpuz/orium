@@ -3,7 +3,7 @@ import { verifyToken } from "@/lib/token";
 import { NewHistory } from "@/lib/types";
 import History from "@/models/History";
 import Transaction from "@/models/Transaction";
-import { isFuture, isToday } from "date-fns";
+import { isFuture } from "date-fns";
 
 import { NextRequest, NextResponse } from "next/server";
 

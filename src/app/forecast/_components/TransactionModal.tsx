@@ -14,7 +14,7 @@ interface ModalInterface {
 	selectedTransaction: TransactionWithBalance;
 }
 
-export default function Modal({
+export default function TransactionModal({
 	setIsModalOpen,
 	isModalOpen,
 	setSelectedTransaction,

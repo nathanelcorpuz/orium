@@ -1,24 +1,30 @@
 "use client";
 
 import TransactionItem from "./_components/TransactionItem";
-import { TransactionWithBalance } from "@/lib/types";
+import { Balance, TransactionWithBalance } from "@/lib/types";
 import { useState } from "react";
-import Modal from "./_components/Modal";
+import Modal from "./_components/TransactionModal";
 import Reminders from "./_components/Reminders";
 import useBalancesQuery from "../_hooks/useBalancesQuery";
 import usePreferencesQuery from "../_hooks/usePreferencesQuery";
+import BalanceItem from "./_components/BalanceItem";
+import BalanceModal from "./_components/BalanceModal";
 
 export default function Forecast() {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false);
 	const [selectedTransaction, setSelectedTransaction] = useState(
 		{} as TransactionWithBalance
 	);
+
+	const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
+	const [selectedBalance, setSelectedBalance] = useState({} as Balance);
 
 	const {
 		totalBalance,
 		balancePending,
 		transactionsWithBalance,
 		isTransactionsPending,
+		balances,
 	} = useBalancesQuery();
 
 	const { preferences, isPreferencesPending } = usePreferencesQuery();
@@ -27,14 +33,37 @@ export default function Forecast() {
 		<div className="flex gap-8 p-8">
 			<div className="flex flex-col flex-1 w-[1000px]">
 				<div className="p-5 bg-white rounded-lg h-[90vh]">
-					<div className="flex py-2 flex-col">
-						<p className="text-sm text-gray-400">Total Balance</p>
-						<p className="text-2xl">
-							{balancePending || isPreferencesPending
-								? "Loading..."
-								: `${preferences.currency}${totalBalance.toLocaleString()}`}
-						</p>
-					</div>
+					{balancePending || isPreferencesPending ? (
+						<p className="text-slate-400 font-light p-2">Loading...</p>
+					) : (
+						<div className="flex items-center gap-8 pb-4">
+							<div className="flex py-2 flex-col">
+								<p className="text-sm text-gray-400">Total Balance</p>
+								<p className="text-2xl">
+									{preferences.currency}
+									{totalBalance.toLocaleString()}
+								</p>
+							</div>
+							<div className="flex w-full overflow-auto items-center p-2 px-4 border-[1px] border-slate-200 rounded-lg gap-8">
+								{balances.map((balance) => (
+									<BalanceItem
+										key={balance._id}
+										currency={preferences.currency}
+										balance={balance}
+										setIsModalOpen={setIsBalanceModalOpen}
+										setSelectedBalance={setSelectedBalance}
+									/>
+								))}
+								{isBalanceModalOpen ? (
+									<BalanceModal
+										balance={selectedBalance}
+										currency={preferences.currency}
+										setIsModalOpen={setIsBalanceModalOpen}
+									/>
+								) : null}
+							</div>
+						</div>
+					)}
 					<div className="flex p-4 border-t-[1px] border-slate-200 text-gray-400">
 						<div className="w-[30%]">
 							<p className="text-sm">Name</p>
@@ -60,8 +89,8 @@ export default function Forecast() {
 								(transaction: TransactionWithBalance) => (
 									<TransactionItem
 										key={transaction._id}
-										isModalOpen={isModalOpen}
-										setIsModalOpen={setIsModalOpen}
+										isModalOpen={isTransactionModalOpen}
+										setIsModalOpen={setIsTransactionModalOpen}
 										setSelectedTransaction={setSelectedTransaction}
 										transaction={transaction}
 										balanceRanges={preferences.balanceRanges}
@@ -69,10 +98,10 @@ export default function Forecast() {
 								)
 							)
 						)}
-						{isModalOpen ? (
+						{isTransactionModalOpen ? (
 							<Modal
-								isModalOpen={isModalOpen}
-								setIsModalOpen={setIsModalOpen}
+								isModalOpen={isTransactionModalOpen}
+								setIsModalOpen={setIsTransactionModalOpen}
 								setSelectedTransaction={setSelectedTransaction}
 								selectedTransaction={selectedTransaction}
 							/>

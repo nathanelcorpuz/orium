@@ -1,3 +1,4 @@
+import useBalanceEditMutation from "@/app/_hooks/useBalanceEditMutation";
 import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Balance } from "@/lib/types";
 import url from "@/lib/url";
@@ -19,24 +20,7 @@ export default function EditModal({ balance, setIsModalOpen }: EditModal) {
 
 	const queryClient = useQueryClient();
 
-	interface FormData {
-		_id: string;
-		name: string;
-		amount: number;
-		comments?: string;
-	}
-
-	const mutation = useMutation({
-		mutationFn: (formData: FormData) =>
-			fetch(`${url}/api/balances`, {
-				method: "PUT",
-				body: JSON.stringify(formData),
-			}).then((res) => res.json()),
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["balances"] });
-			queryClient.invalidateQueries({ queryKey: ["transactions"] });
-		},
-	});
+	const mutation = useBalanceEditMutation();
 
 	const onClickClose = () => {
 		setIsModalOpen(false);

@@ -84,7 +84,7 @@ export default function SideNav() {
 				<div className="flex flex-col">
 					<div className="flex flex-col justify-between h-[100%]">
 						<div className="flex flex-col gap-6">
-							<div className="flex-col">
+							<div className="flex-col cursor-pointer" onClick={() => router.push("/")}>
 								<p className="text-4xl uppercase px-3">Orium</p>
 								<p className="text-sm text-slate-400 px-3">Finance Organizer</p>
 							</div>

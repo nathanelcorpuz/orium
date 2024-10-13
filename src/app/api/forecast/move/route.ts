@@ -21,10 +21,10 @@ export async function PUT(request: NextRequest) {
 
 	const newHistory: NewHistory = body.newHistory;
 
-	if (isToday(newHistory.actualDate) || isFuture(newHistory.actualDate)) {
+	if (isFuture(newHistory.actualDate)) {
 		return NextResponse.json({
 			success: false,
-			message: "Date is in future, submit edit instead",
+			message: "Date is in the future, submit edit instead",
 		});
 	}
 

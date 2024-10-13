@@ -47,7 +47,7 @@ export async function sendPasswordChangedConfirmation({
     Your password was just changed.
     </p>
     <p>
-    If you did not do this, please reach out to oriumsupport@gmail.com to secure your account.
+    If you did not do this, please reach out to nathanelcorpuz@gmail.com to secure your account.
     </p>
     `,
 	});
@@ -60,10 +60,13 @@ export async function sendSignUpSuccess({ userEmail }: { userEmail: string }) {
 		subject: "Welcome to Orium",
 		html: `
     <p>
-    Thank you for signing up. You are a step closer to getting a clear view of your finances.
+    Thank you for signing up. You are one step closer to getting a clear view of your finances.
     </p>
     <p>
-    Need help? Visit the help center or contact us at support@oriumsoftware.com.
+		Visit the <a href="https://geode-celsius-614.notion.site/Orium-KB-11d39071160380f7ae19c67e29a9f0de" target="_blank">help center</a> to know what to do as a new user.
+    </p>
+    <p>
+		Contact us at nathanelcorpuz@gmail.com for any questions.
     </p>
     `,
 	});

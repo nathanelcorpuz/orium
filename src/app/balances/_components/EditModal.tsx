@@ -1,8 +1,6 @@
 import useBalanceEditMutation from "@/app/_hooks/useBalanceEditMutation";
 import usePreferencesQuery from "@/app/_hooks/usePreferencesQuery";
 import { APIResult, Balance } from "@/lib/types";
-import url from "@/lib/url";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface EditModal {
@@ -17,8 +15,6 @@ export default function EditModal({ balance, setIsModalOpen }: EditModal) {
 	const [error, setError] = useState("");
 
 	const { preferences } = usePreferencesQuery();
-
-	const queryClient = useQueryClient();
 
 	const mutation = useBalanceEditMutation();
 

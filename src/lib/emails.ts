@@ -57,16 +57,28 @@ export async function sendSignUpSuccess({ userEmail }: { userEmail: string }) {
 	await transporter.sendMail({
 		from: fromEmail,
 		to: userEmail,
-		subject: "Welcome to Orium",
+		subject: "Welcome to Orium!",
 		html: `
     <p>
-    Thank you for signing up. You are one step closer to getting a clear view of your finances.
+    Thank you for signing up to the beta access of Orium.
+    </p>
+		<p>
+		The app will only be available on the <a href="https://orium.vercel.app" target="_blank">website</a>, and nowhere else. We will start developing apps for mobile and desktop soon after launch.
+    </p>
+		<p>
+		If you find any bugs or have suggestions to improve the app, you can send me an email (nathanelcorpuz@gmail.com) or you can use the message button on the lower-right portion of the web app.
+    </p>
+    <p>
+	  If you wish to invite another person to this beta access, please send an email to nathanelcorpuz@gmail.com with their email address so we can add them.
     </p>
     <p>
 		Visit the <a href="https://geode-celsius-614.notion.site/Orium-KB-11d39071160380f7ae19c67e29a9f0de" target="_blank">help center</a> to know what to do as a new user.
     </p>
     <p>
 		Contact us at nathanelcorpuz@gmail.com for any questions.
+    </p>
+    <p>
+		Thanks again and we hope you find the app helpful!
     </p>
     `,
 	});

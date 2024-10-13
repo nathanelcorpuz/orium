@@ -81,7 +81,7 @@ export default function Forecast() {
 							<p className="text-sm">Balance</p>
 						</div>
 					</div>
-					<div className="flex flex-col overflow-auto h-[70vh] rounded-lg border-[1px] border-slate-200">
+					<div className="flex flex-col overflow-auto h-[68vh] rounded-lg border-[1px] border-slate-200">
 						{isTransactionsPending || isPreferencesPending ? (
 							<p className="text-sm text-slate-400 p-2">Loading...</p>
 						) : (

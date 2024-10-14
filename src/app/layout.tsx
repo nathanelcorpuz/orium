@@ -1,5 +1,6 @@
 // comment for redeployment 3
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default function RootLayout({
 					<SideNav />
 					<main className="w-full h-full bg-slate-200 z-[1] flex">
 						{children}
+						<Analytics />
 					</main>
 				</body>
 			</Provider>

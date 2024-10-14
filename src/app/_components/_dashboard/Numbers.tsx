@@ -53,7 +53,7 @@ export default function Numbers() {
 						) : (
 							<p className="text-2xl font-bold">
 								{preferences.currency}
-								{totalBills.toLocaleString()}
+								{(totalBills * -1).toLocaleString()}
 							</p>
 						)}
 					</div>

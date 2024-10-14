@@ -3,7 +3,8 @@ import { verifyToken } from "@/lib/token";
 import { NewHistory } from "@/lib/types";
 import History from "@/models/History";
 import Transaction from "@/models/Transaction";
-import { isFuture } from "date-fns";
+import { getDate, isFuture } from "date-fns";
+import { toZonedTime } from "date-fns-tz";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,7 +22,11 @@ export async function PUT(request: NextRequest) {
 
 	const newHistory: NewHistory = body.newHistory;
 
-	if (isFuture(newHistory.actualDate)) {
+	if (
+		isFuture(newHistory.actualDate) &&
+		getDate(newHistory.actualDate) !==
+			getDate(toZonedTime(new Date(), "Asia/Manila"))
+	) {
 		return NextResponse.json({
 			success: false,
 			message: "Date is in the future, submit edit instead",

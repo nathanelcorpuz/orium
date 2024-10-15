@@ -24,7 +24,6 @@ export default function HistoryItem({ history }: HistoryItemType) {
 				</p>
 			</div>
 			<div className="w-[20%] items-center flex gap-4">
-				<p>{format(history.forecastedDate, "MMM d, y")}</p>
 				<p>{format(history.actualDate, "MMM d, y")}</p>
 			</div>
 			<div className="w-[20%] items-center flex gap-4">

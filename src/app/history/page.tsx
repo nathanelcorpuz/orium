@@ -34,7 +34,7 @@ export default function Forecast() {
 						<p>Forecasted vs Actual Date</p>
 					</div>
 					<div className="w-[20%]">
-						<p>Forecasted vs Actual Balance</p>
+						<p>Forecasted Balance</p>
 					</div>
 					<div className="w-[20%]">
 						<p>Type</p>

@@ -18,6 +18,10 @@ export default function HistoryItem({ history }: HistoryItemType) {
 					{preferences.currency}
 					{history.forecastedAmount.toLocaleString()}
 				</p>
+				<p>
+					{preferences.currency}
+					{history.actualAmount.toLocaleString()}
+				</p>
 			</div>
 			<div className="w-[20%] items-center flex gap-4">
 				<p>{format(history.forecastedDate, "MMM d, y")}</p>
@@ -27,10 +31,6 @@ export default function HistoryItem({ history }: HistoryItemType) {
 				<p>
 					{preferences.currency}
 					{history.forecastedBalance.toLocaleString()}
-				</p>
-				<p>
-					{preferences.currency}
-					{history.actualBalance.toLocaleString()}
 				</p>
 			</div>
 			<div className="w-[20%] items-center">

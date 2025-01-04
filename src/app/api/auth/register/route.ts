@@ -44,6 +44,7 @@ export async function POST(request: NextRequest) {
 		"rosemarie9.devera@gmail.com",
 		"Justinepaulinell@gmail.com",
 		"escarlandaisyc@gmail.com",
+		"nathaneljohncorpuz@gmail.com"
 	];
 
 	if (!exclusiveEmailList.includes(email)) {
